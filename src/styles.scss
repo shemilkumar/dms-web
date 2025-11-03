@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@import './assets/scss/main.scss';
+@import './assets/scss/base/variables';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    height: 100%;
+    // background-color: #F9F9F9;
+    background-color: #FAFAFA;
+    font-family: "Manrope", sans-serif;
+}
+
+
+::ng-deep .my-custom-tooltip {
+    white-space: pre-line;
+    max-width: 300px;
+    line-height: 1.4;
+}
