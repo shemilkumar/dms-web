@@ -1,0 +1,8 @@
+<div class="search">
+    <div class="search__box">
+        <input type="text" id="searchInputBox" class="" (input)="searchInput($event)" placeholder="Search"
+            [(ngModel)]="searchText">
+        <img src="assets/icons/search.svg" alt="icon" class="icon__medium search-icon">
+    </div>
+    <span *ngIf="searchText" (click)="clearSearch()" class="clear-button">Clear</span>
+</div>

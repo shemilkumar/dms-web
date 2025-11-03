@@ -1,0 +1,242 @@
+.mdc-switch {
+  width: 45px !important;
+
+  .mdc-switch__track {
+    height: 23px !important;
+    border-radius: 12px !important;
+  }
+
+  &--selected &__handle-track {
+    transform: translateX(92%) !important;
+  }
+
+  &--selected:enabled,
+  &__handle::after {
+    background: transparent !important;
+  }
+
+  &:enabled .mdc-switch__track::after {
+    background: $primary-color !important;
+  }
+
+  &__ripple {
+    display: none !important;
+  }
+
+  &__handle-track {
+    transform: translateX(8%) !important;
+  }
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  // border-radius: 12px !important;
+  background-color: white !important
+}
+
+.mdc-dialog .mdc-dialog__content {
+  padding: 0 !important;
+  color: $neutral-color !important
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background {
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+  color: white !important;
+}
+
+
+
+// Material Snackbar Design
+.mdc-snackbar {
+  &__label {
+    padding: 0 !important;
+  }
+
+  &__surface {
+    padding: 0 !important;
+  }
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  border-radius: 6px !important;
+}
+
+// Material Tab (mat-tab) Design
+.mat-mdc-tab {
+  &.mdc-tab {
+    border-bottom: 1px solid #ccc;
+  }
+
+  &-label-container {
+    border-bottom: 1px solid #eee;
+  }
+
+  .mdc-tab-indicator__content--underline {
+    border-color: $primary-color !important;
+  }
+
+  // Material Menu (mat-menu) Design
+}
+
+.mat-mdc-menu-panel {
+  min-width: 180px !important;
+}
+
+.mat-mdc-menu {
+  &-panel {
+    max-width: 400px !important;
+    border-radius: 10px !important;
+  }
+
+  &-content {
+    padding: 0 !important;
+  }
+}
+
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: #045B5B !important;
+}
+
+.mdc-linear-progress__bar-inner {
+  border-color: $primary-color !important;
+}
+
+// Material Radio Button
+
+.mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__background::before {
+  background-color: transparent !important;
+}
+
+.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled {
+
+  &:checked+.mdc-radio__background .mdc-radio__outer-circle,
+  &+.mdc-radio__background .mdc-radio__inner-circle {
+    border-color: #ffffff !important;
+  }
+
+  // Material Select
+}
+
+.mat-mdc-select {
+  background-color: white !important;
+  outline: 1px solid $neutral-70 !important;
+  border: none !important;
+  border-right: 16px solid transparent !important;
+  padding: 0.15rem 0 !important;
+  border-radius: 4px;
+  padding-left: 1rem !important;
+  width: 100% !important;
+  min-width: 200px !important;
+
+  &.small-select {
+    height: 25px !important;
+    min-width: 120px !important;
+    max-width: 170px !important;
+    padding: 0 !important;
+    border-right: 4px solid transparent !important;
+    padding-left: 4px !important;
+
+    .mat-mdc-select-value-text {
+      font-size: 12px !important;
+    }
+
+    .mat-mdc-option {
+      font-size: 10px !important;
+    }
+  }
+
+  &.placeholder {
+    color: $neutral-50 !important;
+    font-size: 14px !important;
+  }
+}
+
+.mat-mdc-option {
+  font-size: 14px !important;
+}
+
+.small-option {
+  &.mat-mdc-option {
+    font-size: 12px !important;
+  }
+}
+
+// .mat-mdc-select-panel {
+//   min-width: 160px !important;
+// }
+
+// .narrow-select-page .mat-mdc-select-panel {
+//   min-width: 70px !important;
+// }
+
+// :host ::ng-deep .mat-mdc-select-panel {
+//   min-width: 70px !important;
+// }
+
+// Disable Mat
+.mat-mdc-select-disabled {
+  background-color: $neutral-80 !important;
+  color: rgba(0, 0, 0, 0.38) !important;
+  cursor: not-allowed;
+
+  .mat-mdc-select-placeholder {
+    color: $neutral-60 !important; // Ensures placeholder uses neutral-60 when disabled
+  }
+}
+
+.mat-mdc-select-disabled .mat-select-arrow {
+  color: rgba(0, 0, 0, 0.38) !important;
+}
+
+.mat-mdc-select-placeholder {
+  color: $neutral-50 !important;
+  font-size: 14px !important;
+
+
+}
+
+.mat-mdc-select-value-text {
+  font-size: 14px !important;
+}
+
+.mat-mdc-select-arrow svg {
+  color: #aaa !important;
+}
+
+.mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: $primary-color !important;
+}
+
+
+.mat-date-range-input {
+  display: flex !important;
+  align-items: center;
+}
+
+.mat-date-range-input-separator-hidden {
+  opacity: 1 !important;
+}
+
+.mat-date-range-input-container {
+  width: 100%;
+}
+
+.mat-mdc-form-field-disabled .mat-date-range-input-separator-hidden {
+  opacity: 0.5 !important; // Example: Reduce opacity for a disabled effect
+  pointer-events: none; // Prevent interaction
+  color: $neutral-60 !important;
+}
+
+
+.mat-datepicker-toggle {
+  margin-left: 5px;
+}
+
+.mat-date-range-input-container {
+  @include flex-content(center, center)
+}
+
+.mat-date-range-input-separator {
+  color: $neutral-50 !important;
+}

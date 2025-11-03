@@ -1,0 +1,102 @@
+<div class="mat-paginator-outer-container">
+    <div class="mat-paginator-container" *ngIf="length > 0">
+
+        <div class="mat-paginator-page-size" *ngIf="!hidePageSize">
+            <div class="mat-paginator-page-size-label" *ngIf="pageLength > 0">
+                Showing {{getDataIndex()}} of {{length}}
+            </div>
+        </div>
+
+        <div class="ms-md-2 mat-paginator-range-actions ">
+            <!-- <div class="mat-paginator-range-label">
+                {{_intl.getRangeLabel(pageIndex, pageSize, length)}}
+            </div> -->
+
+            <!-- <button mat-icon-button type="button"
+                class="mat-paginator-navigation-first"
+                (click)="firstPage()"
+                [attr.aria-label]="_intl.firstPageLabel"
+                [matTooltip]="_intl.firstPageLabel"
+                [matTooltipDisabled]="_previousButtonsDisabled()"
+                [matTooltipPosition]="'above'"
+                [disabled]="_previousButtonsDisabled()"
+                *ngIf="showFirstLastButtons">
+          <svg class="mat-paginator-icon" viewBox="0 0 24 24" focusable="false">
+            <path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"/>
+          </svg>
+        </button> -->
+
+            <button mat-icon-button type="button" class="mat-paginator-navigation-previous" (click)="previousPage()"
+                [attr.aria-label]="_intl.previousPageLabel" [matTooltip]="_intl.previousPageLabel"
+                [matTooltipDisabled]="_previousButtonsDisabled()" [matTooltipPosition]="'above'"
+                [disabled]="_previousButtonsDisabled()">
+                <!-- <svg class="mat-paginator-icon" viewBox="0 0 24 24" focusable="false">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                </svg> -->
+                <div class="nav-button">
+                    <svg class="mat-paginator-icon" focusable="false" width="10" height="15" viewBox="0 0 8 12"
+                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M5.89237 11.0077L1.09237 6.27694C0.95391 6.13848 0.95391 5.90771 1.09237 5.76925L5.89237 1.03848C6.03083 0.900016 6.2616 0.900016 6.40006 1.03848L6.90775 1.54617C7.04622 1.68463 7.04622 1.9154 6.90775 2.05386L3.10006 5.76925C2.9616 5.90771 2.9616 6.13848 3.10006 6.27694L6.8616 9.99232C7.00006 10.1308 7.00006 10.3616 6.8616 10.5L6.35391 11.0077C6.23852 11.1231 6.03083 11.1231 5.89237 11.0077Z"
+                            fill="" />
+                    </svg>
+                    <span class="text-sm "> Previous </span>
+                </div>
+
+            </button>
+
+            <div *ngIf="showFirstLastIndex() && this.pageIndex > 1" type="button" class="mat-paginator-page"
+                [class.active]="pageIndex === 1" (click)="toPage(0)">
+                1
+            </div>
+            <div class="mat-paginator-page" *ngIf="showFirstLastIndex() && this.pageIndex > 2">
+                ...
+            </div>
+            <div type="button" class="mat-paginator-page" [class.active]="index === pageIndex" (click)="toPage(index)"
+                *ngFor="let index of getPageOptions()">
+                {{index + 1}}
+            </div>
+            <div class="mat-paginator-page" *ngIf="showFirstLastIndex()&& ((this.pageIndex + 3) < this.lastIndex)">
+                ...
+            </div>
+            <div *ngIf="showFirstLastIndex() && ((this.pageIndex + 2) < this.lastIndex)" type="button"
+                class="mat-paginator-page" [class.active]="lastIndex === pageIndex" (click)="toPage(lastIndex-1)">
+                {{lastIndex}}
+            </div>
+            <!--            <span class="mx-4">Next</span>-->
+            <button mat-icon-button type="button" class="mat-paginator-navigation-next" (click)="nextPage()"
+                [attr.aria-label]="_intl.nextPageLabel" [matTooltip]="_intl.nextPageLabel"
+                [matTooltipDisabled]="_nextButtonsDisabled()" [matTooltipPosition]="'above'"
+                [disabled]="_nextButtonsDisabled()">
+                <!-- <svg >
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                </svg> -->
+                <div class="nav-button">
+                    <span class="text-sm ">
+                        Next
+                    </span>
+                    <svg class="mat-paginator-icon" focusable="false" width="10" height="15" viewBox="0 0 7 12"
+                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M1.13071 1.01537L5.90763 5.74614C6.04609 5.8846 6.04609 6.11537 5.90763 6.25383L1.13071 10.9846C0.992244 11.1231 0.761475 11.1231 0.623013 10.9846L0.115321 10.4769C-0.0231408 10.3384 -0.0231408 10.1077 0.115321 9.96922L3.87686 6.25383C4.01532 6.11537 4.01532 5.8846 3.87686 5.74614L0.138398 2.03076C-6.38552e-05 1.89229 -6.38552e-05 1.66153 0.138398 1.52306L0.64609 1.01537C0.784552 0.899987 0.992244 0.899987 1.13071 1.01537Z"
+                            fill="" />
+                    </svg>
+                </div>
+
+            </button>
+            <!-- <button mat-icon-button type="button"
+                class="mat-paginator-navigation-last"
+                (click)="lastPage()"
+                [attr.aria-label]="_intl.lastPageLabel"
+                [matTooltip]="_intl.lastPageLabel"
+                [matTooltipDisabled]="_nextButtonsDisabled()"
+                [matTooltipPosition]="'above'"
+                [disabled]="_nextButtonsDisabled()"
+                *ngIf="showFirstLastButtons">
+          <svg class="mat-paginator-icon" viewBox="0 0 24 24" focusable="false">
+            <path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"/>
+          </svg>
+        </button> -->
+        </div>
+    </div>
+</div>

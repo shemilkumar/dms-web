@@ -1,0 +1,18 @@
+@mixin flex-content($justify-content, $align-content, $gap: 0) {
+    display: flex;
+    justify-content: $justify-content !important;
+    align-items: $align-content !important;
+    gap: $gap;
+}
+
+@mixin flex-col-content($justify-content, $align-content, $gap: 0) {
+    display: flex;
+    flex-direction: column;
+    justify-content: $justify-content !important;
+    align-items: $align-content !important;
+    gap: $gap;
+}
+
+@mixin page-x-padding {
+    padding: 0 2rem;
+}

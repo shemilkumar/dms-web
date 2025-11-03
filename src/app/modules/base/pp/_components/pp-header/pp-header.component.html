@@ -1,0 +1,46 @@
+<div>
+  <div class="flex gap-3">
+    <img
+      *ngIf="canGoBack"
+      (click)="goBack()"
+      src="../../../assets/svg/back-button.svg"
+      alt=""
+    />
+    <ng-content select="[header]"></ng-content>
+  </div>
+  <div class="action-section" *ngIf="searchAndFilter">
+    <div class="flex justify-between gap-5 items-center">
+      <span class="action-search">
+        <input
+          type="text"
+          class="p-1 pl-3 rounded-sm outline outline-2 outline-[#A0A5AC] text-sm"
+          placeholder="Search"
+        />
+        <mat-icon class="absolute top-1 right-2 text-[#A0A5AC]"
+          >search</mat-icon
+        >
+      </span>
+      <div class="flex gap-4 justify-center items-center">
+        <div>Filter</div>
+        <div class="flex flex-col mb-5">
+          <label for="status" class="mb-1 text-xs">Status</label>
+          <div
+            class="p-1 pl-3 rounded-sm outline outline-2 outline-[#A0A5AC] text-sm w-44 items-center"
+          >
+            <mat-select
+              placeholder="All"
+              class="rounded-sm outline outline-2 outline-[#A0A5AC] text-sm"
+              name="Filter"
+              id="Filter"
+            >
+              <mat-option [value]="'all'"> all </mat-option
+              ><mat-option [value]="'all'"> all </mat-option
+              ><mat-option [value]="'all'"> all </mat-option>
+            </mat-select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-content select="[button]"></ng-content>
+  </div>
+</div>

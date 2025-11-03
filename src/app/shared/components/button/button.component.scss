@@ -1,0 +1,122 @@
+@import 'src/assets/scss/base/_variables';
+@import 'src/assets/scss/mixins/mixins';
+
+@mixin outline-btn($color) {
+    background-color: transparent;
+    border: 1px solid $color;
+    color: $color;
+}
+
+@mixin outline-icon-btn($color) {
+    border: 1px solid $color;
+    padding: 0.3rem !important;
+    color: $color;
+}
+
+@mixin outline-with-icon-btn($color) {
+    border: 1px solid $color;
+    padding: 0.25rem 1rem !important;
+    color: $color;
+    background-color: white;
+}
+
+.btn {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: $button-padding;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: background-color 0.3s;
+    @include flex-content(center, center, 0.5rem);
+}
+
+// Primary Button Styles
+.btn-primary {
+    background-color: $primary-color;
+    color: #fff !important;
+}
+
+.btn-error {
+    background-color: $error-color;
+    color: #fff !important;
+}
+
+.btn-success {
+    background-color: $success-color;
+    color: #fff !important;
+}
+
+.btn-primary:hover {
+    background-color: darken($primary-color, 5%);
+}
+
+// Outline Button Styles
+.btn-outline {
+    @include outline-btn($primary-color);
+}
+
+// Icon button with primary color
+.btn-outline-icon {
+    @include outline-icon-btn($primary-color);
+}
+
+// Icon button with error color
+.btn-outline-icon-error {
+    @include outline-icon-btn($error-color);
+}
+
+// Icon button with neutral color
+.btn-outline-icon-neutral {
+    @include outline-icon-btn($neutral-color);
+}
+
+// Icon button with success color
+.btn-outline-icon-success {
+    @include outline-icon-btn($success-color);
+}
+
+// Icon button with error color
+.btn-outline-with-icon-error {
+    @include outline-with-icon-btn($error-color);
+}
+
+// Icon button with neutral color
+.btn-outline-with-icon-neutral {
+    @include outline-with-icon-btn($neutral-color);
+}
+
+// Icon button with success color
+.btn-outline-with-icon-success {
+    @include outline-with-icon-btn($success-color);
+}
+
+.btn-full-success {
+    @include outline-icon-btn($success-color);
+    background-color: green;
+}
+
+// .btn-outline:hover
+//     background-color: $primary-color
+//     color: #fff
+
+// Size Variants
+.btn-small {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.btn-large {
+    font-size: 20px;
+    padding: 15px 30px;
+}
+
+// Disabled Button Styles
+.btn:disabled {
+    background-color: transparent !important;
+    border: 1px solid;
+    border-color: #ccc !important;
+    color: #ccc !important;
+    opacity: 0.5;
+    cursor: not-allowed;
+}

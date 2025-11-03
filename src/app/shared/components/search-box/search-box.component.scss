@@ -1,0 +1,40 @@
+@import 'src/assets/scss/base/_variables';
+@import 'src/assets/scss/mixins/mixins';
+
+.search {
+    position: relative;
+    @include flex-content(space-between, center, 1rem);
+    width: 100%;
+   
+}
+
+.search__box {
+    @include flex-content(space-between, center);
+    width: 100%;
+    position: relative;
+
+    input {
+        padding: 0.25rem 0.75rem;
+        padding-right: 2rem;
+        font-size: 0.75rem;
+        background-color: #ffffff;
+        border: 1px solid transparent;
+    }
+}
+
+.search-icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.clear-button {
+    color: $neutral-color;
+    cursor: pointer;
+
+    &:hover {
+        color: $primary-color;
+    }
+}

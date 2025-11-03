@@ -1,0 +1,5 @@
+<main class="header">
+    <img *ngIf="showBackButton" src="assets/icons/chevronleft.svg" alt="back-icon" class="icon__small"
+        (click)="location.back()" id="backButton">
+    <h1 class="header__title">{{ title }}</h1>
+</main>

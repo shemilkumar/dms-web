@@ -1,0 +1,8 @@
+<div class="tab-header">
+    <nav class="tab-header__tabs">
+        <span *ngFor="let route of routes" [routerLink]="route.path" class="tab-header__link"
+            routerLinkActive="tab-header__link--active" [id]="route.title">
+            <a>{{ route.title }}</a>
+        </span>
+    </nav>
+</div>

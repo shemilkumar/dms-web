@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="size-4">
+  <!-- Circle border -->
+  <circle cx="8" cy="8" r="7" stroke="red" stroke-width="0.5" fill="none" />
+  
+  <!-- Tick mark -->
+  <path d="M5 8.5l2 2 4-5" fill="none" stroke="red" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

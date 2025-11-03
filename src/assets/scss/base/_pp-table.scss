@@ -1,0 +1,15 @@
+.pp-action-buttons {
+    @include flex-content(flex-end, center, 1rem);
+
+    >span {
+        @include flex-content(center, center, 1rem);
+        cursor: pointer;
+        font-weight: 600;
+        color: $primary-color;
+        // padding: 0.5rem 0;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

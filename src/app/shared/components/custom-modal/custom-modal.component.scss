@@ -1,0 +1,52 @@
+@import 'src/assets/scss/mixins/mixins';
+@import 'src/assets/scss/base/variables';
+
+.dialog {
+    // padding: 2rem;
+    height: 100%;
+    background-color: #02505c;
+    @include flex-col-content(space-between, flex-start, 1.5rem);
+
+    &__header {
+        width: 100%;
+        background-color: $primary-color;
+        padding: 1rem 2rem 1rem 2rem;
+        @include flex-content(space-between, center);
+
+        &__button {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+    &__title {
+        font-size: 1.5rem !important;
+        font-weight: 550 !important;
+        color: #ffffff;
+        width: 20rem !important;
+    }
+
+    &__content {
+        padding: 0rem 2rem;
+        width: 100%;
+
+    }
+
+    &__footer {
+        width: 100%;
+        padding: 1rem 2rem;
+        @include flex-content(flex-end, center, 1rem);
+
+        &--buttons {
+            @include flex-content(flex-end, center, 1rem);
+        }
+
+        &--cancel {
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    }
+}

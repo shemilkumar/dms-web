@@ -1,0 +1,25 @@
+@import 'src/assets/scss/mixins/mixins';
+@import 'src/assets/scss/base/variables';
+
+.toast {
+    @include flex-content(space-around, center, 1rem);
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    height: 50px;
+    font-size: 1rem;
+}
+
+.success {
+    background-color: $success-color;
+}
+
+.error {
+    background-color: $error-color;
+}
+
+.warning {
+    background-color: $warning-color;
+    color: #121212;
+}

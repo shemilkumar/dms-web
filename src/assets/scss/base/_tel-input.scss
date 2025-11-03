@@ -1,0 +1,126 @@
+.tel-input {
+    position: static !important;
+    display: block;
+    background-color: white;
+    border-radius: 0.25rem 0.25rem 0 0;
+    height: 52px;
+
+    input {
+        border: none;
+
+        &:focus {
+            outline: none !important;
+        }
+    }
+
+    input.ng-invalid.ng-touched {
+        border: 1px solid red !important;
+    }
+
+
+    .mat-form-field-infix {
+        width: 100%;
+        border: none;
+    }
+
+    .mat-form-field-flex {
+        align-items: center;
+        background-color: white;
+        border-radius: 4px 4px 0 0;
+        padding: 9px 0px 4px 0px;
+    }
+
+    input {
+        color: black;
+        letter-spacing: 0.15px;
+        font-size: 16px;
+        padding: 0px 0px 0px 8px;
+
+        &::placeholder {
+            color: rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    .mat-form-field-underline {
+        bottom: 0px;
+
+        &:before {
+            background-color: red;
+            height: 2px;
+            bottom: 0px;
+        }
+
+        .mat-form-field-ripple {
+            background-color: green;
+            bottom: 0px;
+            // @include transition(all 0.8s ease 0s);
+        }
+    }
+
+    .country-selector {
+        color: black;
+    }
+}
+
+.iti-phone-2 input[type="tel"] {
+    border-radius: 5px 5px 0 0;
+}
+
+.mat-mdc-button.mat-mdc-button-base,
+.mat-mdc-raised-button.mat-mdc-button-base,
+.mat-mdc-unelevated-button.mat-mdc-button-base,
+.mat-mdc-outlined-button.mat-mdc-button-base {
+    height: 28px !important;
+}
+
+.mat-mdc-button .mat-mdc-button-touch-target,
+.mat-mdc-unelevated-button .mat-mdc-button-touch-target,
+.mat-mdc-raised-button .mat-mdc-button-touch-target,
+.mat-mdc-outlined-button .mat-mdc-button-touch-target {
+    height: 28px !important;
+}
+
+.mat-menu-after.mat-mdc-menu-panel {
+    max-height: 250px !important;
+    max-width: 280px !important;
+    background-color: white;
+    margin-top: 7px;
+
+    .country-list-button {
+        height: 30px !important;
+        line-height: 30px !important;
+
+        .label-wrapper {
+            font-size: 14px;
+        }
+    }
+
+}
+
+.mat-mdc-text-field-wrapper {
+    height: 35px !important;
+}
+
+.mat-mdc-menu-content {
+    padding: 5px 10px !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+    position: absolute !important;
+    width: 0 !important;
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+    padding-top: 4px !important;
+    font-size: 14px !important;
+}
+
+.country-selector-code {
+    font-size: 12px !important;
+    color: $neutral-40 !important
+}
+
+.mat-mdc-input-element input.ng-touched {
+    border: 1px solid red !important;
+    border-radius: 5px;
+}

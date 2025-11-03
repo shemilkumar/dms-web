@@ -1,0 +1,85 @@
+$table-border-radius: 5px;
+
+.mat-mdc-table {
+  background-color: transparent !important;
+
+  tfoot {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.mat-mdc-header-row {
+  position: sticky;
+  top: 0;
+  background-color: #025f66;
+  z-index: 999;
+
+  .mat-mdc-header-cell {
+    color: #ffffff;
+    font-weight: 600;
+    border: none !important;
+    box-shadow: none;
+    // border-bottom: 8px solid #f7f9fa !important;
+  }
+}
+
+.mat-mdc-row {
+
+  &:nth-child(odd) {
+    // background-color: #ffffff; // White for even rows
+  }
+
+  &:nth-child(even) {
+    // background-color: #021a30; // Light gray for odd rows
+  }
+
+  &:last-child {
+    .mat-mdc-cell {
+      border: none !important;
+
+    }
+  }
+
+  .mat-mdc-cell {
+    color: #ffffff;
+    // border: none !important;
+     border-bottom: 1px solid #5a5858 !important;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+  }
+}
+
+.mat-mdc-row.highlight {
+  .mat-mdc-cell {
+    background-color: #00a775;
+  }
+}
+
+.sticky-paginator {
+  position: sticky;
+  bottom: 0;
+}
+
+.selected-row {
+  background-color: #F6DFF7;
+}
+
+.table {
+  &-no-data {
+    text-align: center;
+    margin: 1rem 0.5rem;
+    color: white;
+  }
+
+  &-error {
+    text-align: center;
+    color: red;
+    font-weight: 400;
+    margin: 1rem 0.5rem;
+  }
+}
+
+.paginator-container {
+  padding: 0 1rem 0.5rem 0;
+}

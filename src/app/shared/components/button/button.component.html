@@ -1,0 +1,21 @@
+<button [ngClass]="['btn', 'btn-' + variant]" [ngStyle]="fullWidth ? { 'width': '100%' } : {}" [disabled]="disabled || loading"
+    (click)="handleClick()">
+    <ng-container *ngIf="type === 'normal'">
+        {{ label}}
+    </ng-container>
+    <ng-container *ngIf="type === 'add'">
+        <img [src]="disabled ? 'assets/icons/add-disabled.svg' : 'assets/icons/add.svg'" alt="icon" class="icon__small">
+        {{ label}}
+    </ng-container>
+    <ng-container *ngIf="type === 'with-icon'">
+        <img [src]="iconSrc" alt="icon" class="icon__small" />
+        {{ label}}
+    </ng-container>
+    <ng-container *ngIf="type === 'icon'">
+        <img [src]="iconSrc" alt="icon" class="icon__small" />
+    </ng-container>
+    <!-- <ng-content></ng-content> -->
+    <div *ngIf="loading">
+        <mat-spinner diameter="20" class="spinner" color="secondary" />
+    </div>
+</button>

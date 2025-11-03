@@ -1,0 +1,19 @@
+<div>
+    <div class="toast success" *ngIf="toastType === 'success'">
+        <img src="assets/icons/check-circle.svg" alt="success-icon" class="icon__medium">
+        <span class="successToastMessage">{{ toastMessage }}</span>
+        <img src="assets/icons/close.svg" alt="close-icon" class="icon__medium" (click)="close()">
+    </div>
+
+    <div class="toast error" *ngIf="toastType === 'error'">
+        <img src="assets/icons/not-allowed.svg" alt="error-icon" class="icon__medium">
+        <span class="errorToastMessage">{{ toastMessage }}</span>
+        <img src="assets/icons/close.svg" alt="close-icon" class="icon__medium" (click)="close()">
+    </div>
+
+    <div class="toast warning" *ngIf="toastType === 'warning'">
+        <img src="assets/icons/warning.svg" alt="warning-icon" class="icon__medium">
+        <span class="warningToastMessage">{{ toastMessage }}</span>
+        <img src="assets/icons/close-black.svg" alt="close-icon" class="icon__medium" (click)="close()">
+    </div>
+</div>

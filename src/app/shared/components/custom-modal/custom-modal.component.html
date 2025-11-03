@@ -1,0 +1,43 @@
+<div class="dialog">
+    <div class="dialog__header">
+        <h1 class="dialog__title">{{data.title}}</h1>
+        <div *ngIf="data.headerButton" class="dialog__header__button">
+            <app-button [label]="data.headerButton.label" [variant]="data.headerButton.variant"
+                [type]="data.headerButton.type" [iconSrc]="data.headerButton.iconSrc"
+                (onClick)="data.headerButton.onClick()" />
+        </div>
+        <div *ngIf="!noButton" class="dialog__header__button">
+            <app-button type="icon" variant="outline-icon" iconSrc="assets/icons/close.svg" (onClick)="close()" />
+        </div>
+    </div>
+
+    <div mat-dialog-content class="dialog__content">
+        <ng-content></ng-content>
+    </div>
+
+    <div mat-dialog-actions class="dialog__footer" *ngIf="noButton">
+        <!-- <app-button mat-button [label]="data.closeButtonOnly ? 'Close': 'Cancel'" variant="outline"
+            (onClick)="cancel()" /> -->
+
+        <div *ngIf="!data.caution" class="dialog__footer--buttons">
+            <span (click)="cancel()" mat-button class="dialog__footer--cancel" id="cancelCautionButton">
+                {{data.closeButtonOnly ? 'Close': 'Cancel'}}
+            </span>
+            <app-button *ngIf="!data.closeButtonOnly" mat-button [label]=" data.confirmButtonText || 'Submit'"
+                (onClick)="submit()" [disabled]="!isFormValid" [loading]="loading" id="submitCautionButton" />
+        </div>
+
+        <div *ngIf="data.caution" class="dialog__footer--buttons">
+            <app-button *ngIf="!data.closeButtonOnly" mat-button [label]=" data.confirmButtonText || 'Submit'"
+                (onClick)="submit()" [disabled]="!isFormValid" [loading]="loading" variant="error" id="submitButton" />
+
+            <span (click)="cancel()" mat-button class="dialog__footer--cancel" id="cancelButton">
+                {{data.closeButtonOnly ? 'Close': 'Cancel'}}
+            </span>
+        </div>
+    </div>
+
+    <div mat-dialog-actions class="dialog__footer" *ngIf="!noButton">
+    </div>
+
+</div>

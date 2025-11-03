@@ -1,0 +1,132 @@
+// @use "@angular/cdk";
+// @import "src/assets/scss/modules/variables";
+
+.mat-paginator-page {
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #ffffff;
+    background-color: transparent;
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+    padding: 3px 10px 3px;
+    cursor: pointer;
+    //padding-bottom: 0.4rem;
+
+    &.active {
+        background-color: #045B5B;
+        border-radius: 3px;
+        color: #ffff;
+    }
+}
+
+// $padding: 0 8px;
+// $page-size-margin-right: 8px;
+
+// $items-per-page-label-margin: 0 4px;
+// $selector-margin: 6px 4px 0 4px;
+// $selector-trigger-width: 56px;
+// $selector-trigger-outline-width: 64px;
+// $selector-trigger-fill-width: 64px;
+
+// $range-label-margin: 0 32px 0 24px;
+// $button-icon-size: 28px;
+
+// .pp-paginator {
+//   display: block;
+// }
+
+// // Note: this wrapper element is only used to get the flexbox vertical centering to work
+// // with the `min-height` on IE11. It can be removed if we drop support for IE.
+// .mat-paginator-outer-container {
+//   display: flex;
+// }
+
+.mat-paginator-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap-reverse;
+    gap: 1rem;
+    width: 100%;
+}
+
+.mat-paginator-page-size {
+    display: flex;
+    align-items: baseline;
+    margin-right: 8px;
+    color: #ffffff;
+
+    [dir="rtl"] & {
+        margin-right: 0;
+        margin-left: 8px;
+    }
+}
+
+// .mat-paginator-page-size-label {
+//   margin: $items-per-page-label-margin;
+// }
+
+// .mat-paginator-page-size-select {
+//   margin: $selector-margin;
+//   width: $selector-trigger-width;
+
+//   &.mat-form-field-appearance-outline {
+//     width: $selector-trigger-outline-width;
+//   }
+
+//   &.mat-form-field-appearance-fill {
+//     width: $selector-trigger-fill-width;
+//   }
+// }
+
+// .mat-paginator-range-label {
+//   margin: $range-label-margin;
+// }
+
+.mat-paginator-range-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: end;
+}
+
+// .mat-paginator-icon {
+//   display: inline-block;
+//   width: $button-icon-size;
+//   fill: currentColor;
+
+//   [dir="rtl"] & {
+//     transform: rotate(180deg);
+//   }
+
+//   @include cdk.high-contrast(active, off) {
+//     // On Chromium browsers the `currentColor` blends in with the
+//     // background for SVGs so we have to fall back to `CanvasText`.
+//     fill: CanvasText;
+//   }
+// }
+
+.nav-button {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: #ffffff;
+
+    svg {
+        fill: currentColor;
+    }
+
+}
+
+/* Target the `.nav-button` inside the disabled button */
+button:disabled .nav-button {
+    color: #A0A5AC !important;
+    cursor: not-allowed !important;
+}
+
+/* Target the SVG inside the disabled button */
+button:disabled .nav-button svg {
+    fill: #A0A5AC !important;
+}

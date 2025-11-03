@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import 'src/assets/scss/base/variables';
+@import 'src/assets/scss/mixins/mixins';
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: $font-family !important;
+}
+
+body {
+    background-color: #FAFAFA;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 !important;
+}
+
+.icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: $neutral-color;
+
+    &__large {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    &__medium {
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+
+    &__small {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    &__extra-small {
+        width: 0.75rem;
+        height: 0.75rem;
+    }
+}
+
+.active {
+    color: $success-color;
+    font-weight: 600;
+}
+
+.inactive {
+    color: $error-color;
+    font-weight: 600;
+}
+
+.filter {
+    &__container {
+        @include flex-content(space-between, center);
+        padding-top: 1rem
+    }
+
+    &__actions {
+        @include flex-content(center, flex-start, 1.0rem);
+    }
+
+    &__action {
+        @include flex-col-content(center, flex-start, 0.5rem);
+
+        input {
+            // padding: 0.25rem 0.5rem;
+            // padding-right: 2.25rem;
+            // padding-left: 1rem;
+            font-size: 14px;
+            border: 1px solid $neutral-60;
+            border-radius: 4px;
+            width: 100%;
+            color: $neutral-color;
+
+            &:focus {
+                outline: none;
+            }
+
+            &:disabled {
+                background: $neutral-80;
+                color: $neutral-60 !important;
+                border: 1px solid $neutral-70;
+            }
+        }
+    }
+
+    &__close {
+        @include flex-content(center, center, 0.5rem);
+        align-self: flex-end;
+        justify-self: flex-end;
+        padding-bottom: 5px;
+        cursor: pointer;
+
+
+        &--icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        &--clear {
+            color: $neutral-60;
+            cursor: not-allowed;
+        }
+
+        &--clear-primary {
+            color: $primary-color;
+            cursor: pointer;
+        }
+    }
+}
+
+.filter__with-search-icon {
+    position: relative;
+    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    width: 240px;
+    padding: 4px 40px 4px 4px;
+    border: 1px solid $neutral-60;
+    border-radius: 5px;
+    outline: none;
+    gap: 1rem;
+
+    &:disabled {
+        background: $neutral-80;
+        color: $neutral-60;
+        border: 1px solid $neutral-70;
+    }
+}
+
+.filter--icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.filters-container {
+    align-self: flex-end;
+    justify-self: flex-end;
+    padding-bottom: 5px;
+}
+
+.date-picker-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    border-radius: 4px;
+    // padding-top: 15px;
+    // padding-bottom: 15px;
+    width: 200px;
+    height: 30px;
+    position: relative;
+    cursor: pointer !important;
+    // color: white;
+    background-color: white;
+}
+
+.disabled-date-container {
+    // background-color: $neutral-80;
+    // border: 1px solid $neutral-70;
+     background-color: white;
+    border: 1px solid white;
+}
+
+.date-icon {
+    position: absolute;
+    right: 10px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    color: white;
+    // background-color: white;
+}
+
+.custom-date-range {
+    display: flex;
+    border: none !important;
+}
+
+.custom-date-range input {
+    border: none !important;
+    outline: none !important;
+    // padding: 5px;
+    // width: 100px;
+}
+
+
+.menu__buttons {
+    @include flex-content(flex-start, center, 1rem);
+
+    span{
+        font-size: 0.85rem;
+    }
+}
