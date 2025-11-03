@@ -1,3 +1,12 @@
-<h1 class="text-3xl font-bold">
-    Hello world!
-</h1>
+<div class="m-4">
+  <div class="flex items-center justify-between">
+    <span class="text-5xl">Projects</span>
+    <app-button label="Projects" type="add" (onClick)="createProject()" />
+  </div>
+
+  <div class="mt-4 grid w-full grid-cols-1 items-center justify-center gap-4 px-48 md:grid-cols-2 lg:grid-cols-3">
+    <div class="project-card w-80" *ngFor="let project of projects">
+      <span>{{ project.name }}</span>
+    </div>
+  </div>
+</div>

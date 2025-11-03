@@ -1,0 +1,15 @@
+# Angular build output
+dist/
+coverage/
+.angular/
+
+# Node modules
+node_modules/
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Environment files
+.env
+.env.*

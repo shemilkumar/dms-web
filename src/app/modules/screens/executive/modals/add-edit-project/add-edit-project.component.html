@@ -1,0 +1,10 @@
+<app-custom-modal [data]="modalData" (onCancel)="dialogRef.close()" (onSubmit)="submit()" [loading]="isLoading">
+  <form class="form">
+    <div class="form__grid form__grid--single-col">
+      <div class="form__input">
+        <label for="project" class="form__label"> Project<span class="form__label--required">*</span></label>
+        <input type="text" id="project" [(ngModel)]="project" name="project" />
+      </div>
+    </div>
+  </form>
+</app-custom-modal>
