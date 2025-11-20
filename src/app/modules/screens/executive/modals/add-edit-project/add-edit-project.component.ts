@@ -6,8 +6,9 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './add-edit-project.component.html',
   styleUrls: ['./add-edit-project.component.scss'],
 })
+
 export class AddEditProjectComponent {
-  constructor(public dialogRef: MatDialogRef<AddEditProjectComponent>) {}
+  constructor(public dialogRef: MatDialogRef<AddEditProjectComponent>) { }
 
   modalData = {
     title: 'Create Project',

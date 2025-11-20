@@ -12,4 +12,4 @@ import { FormsModule } from '@angular/forms';
   declarations: [ProjectsComponent, AddEditProjectComponent],
   imports: [CommonModule, ExecutiveRoutingModule, SharedModule, MatDialogModule, FormsModule],
 })
-export class ExecutiveModule {}
+export class ExecutiveModule { }
