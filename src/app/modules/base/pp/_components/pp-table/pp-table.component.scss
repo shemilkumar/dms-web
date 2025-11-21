@@ -12,11 +12,11 @@ $table-border-radius: 5px;
 .mat-mdc-header-row {
   position: sticky;
   top: 0;
-  background-color: #025f66;
+  background-color: rgb(238, 238, 238);
   z-index: 999;
 
   .mat-mdc-header-cell {
-    color: #ffffff;
+    color: #000;
     font-weight: 600;
     border: none !important;
     box-shadow: none;
@@ -42,9 +42,10 @@ $table-border-radius: 5px;
   }
 
   .mat-mdc-cell {
-    color: #ffffff;
+    color: #646464;
+    font-weight: 600;
     // border: none !important;
-     border-bottom: 1px solid #5a5858 !important;
+    border-bottom: 1px solid #e0e0e0 !important;
     padding-top: 0.55rem;
     padding-bottom: 0.55rem;
   }
@@ -62,7 +63,7 @@ $table-border-radius: 5px;
 }
 
 .selected-row {
-  background-color: #F6DFF7;
+  background-color: #caf5ca;
 }
 
 .table {

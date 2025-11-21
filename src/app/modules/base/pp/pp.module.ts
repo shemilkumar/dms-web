@@ -39,4 +39,4 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     PpHeaderComponent,
   ]
 })
-export class ProbeplusModule { }
+export class PpModule { }

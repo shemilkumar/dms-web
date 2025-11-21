@@ -4,7 +4,7 @@
 .mat-paginator-page {
     border-radius: 4px;
     font-size: 1rem;
-    color: #ffffff;
+    color: #d3d2d2;
     background-color: transparent;
     margin-left: 0.3rem;
     margin-right: 0.3rem;
@@ -13,7 +13,7 @@
     //padding-bottom: 0.4rem;
 
     &.active {
-        background-color: #045B5B;
+        background-color: #008000;
         border-radius: 3px;
         color: #ffff;
     }
@@ -54,7 +54,7 @@
     display: flex;
     align-items: baseline;
     margin-right: 8px;
-    color: #ffffff;
+    color: #9e9e9e;
 
     [dir="rtl"] & {
         margin-right: 0;
@@ -112,7 +112,7 @@
     align-items: center;
     cursor: pointer;
     transition: background-color 0.3s;
-    color: #ffffff;
+    color: #bebebe;
 
     svg {
         fill: currentColor;

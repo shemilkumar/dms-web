@@ -12,6 +12,7 @@ import { ToastComponent } from './components/toast/toast.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ShrinkMessagePipe } from './pipes/shrink-message.pipe';
+import { EpochConverterPipe } from './pipes/epoch-converter.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ShrinkMessagePipe } from './pipes/shrink-message.pipe';
     ShrinkMessagePipe,
     SearchBoxComponent,
     ToastComponent,
-    HeaderComponent
+    HeaderComponent,
+    EpochConverterPipe
   ],
   imports: [
     CommonModule,
@@ -40,6 +42,7 @@ import { ShrinkMessagePipe } from './pipes/shrink-message.pipe';
     SearchBoxComponent,
     ToastComponent,
     HeaderComponent,
+    EpochConverterPipe
   ],
 })
 export class SharedModule { }
