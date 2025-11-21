@@ -1,0 +1,106 @@
+import { Location } from '@angular/common';
+import { Component } from '@angular/core';
+
+interface Box {
+  id?: string;
+  name: string;
+  description?: string;
+  created?: Date;
+  itemsCount?: number;
+}
+
+@Component({
+  selector: 'app-box',
+  templateUrl: './box.component.html',
+  styleUrls: ['./box.component.scss']
+})
+export class BoxComponent {
+
+  constructor(public location: Location) { }
+
+
+  logout() {
+
+  }
+
+  createBox() { }
+
+
+  boxes: Box[] = []; // load from API
+  filtered: Box[] = [];
+  pagedBoxes: Box[] = [];
+  query = '';
+  sortBy = 'createdDesc';
+  page = 0;
+  pageSize = 12;
+  editing: Box | null = null;
+
+  get start() { return this.page * this.pageSize; }
+  get end() { return Math.min((this.page + 1) * this.pageSize, this.filtered.length); }
+
+  ngOnInit() {
+    // demo seed, replace with API call
+    this.boxes = Array.from({ length: 10 }).map((_, i) => ({
+      id: String(i + 1),
+      name: `Box ${i + 1}`,
+      description: i % 2 ? `Description ${i + 1}` : '',
+      created: new Date(Date.now() - i * 86400000),
+      itemsCount: Math.floor(Math.random() * 10)
+    }));
+    this.filter();
+
+    console.log(this.boxes);
+
+  }
+
+  filter() {
+    const q = this.query.trim().toLowerCase();
+    this.filtered = this.boxes
+      .filter(b => !q || b.name.toLowerCase().includes(q) || (b.description || '').toLowerCase().includes(q))
+      .sort(this.getSorter());
+    this.page = 0;
+    this.updatePaged();
+  }
+
+  getSorter() {
+    switch (this.sortBy) {
+      case 'createdAsc': return (a: Box, b: Box) => +(a.created! > b.created!) - 0.5;
+      case 'nameAsc': return (a: Box, b: Box) => a.name.localeCompare(b.name);
+      default: // createdDesc
+        return (a: Box, b: Box) => +(b.created! > a.created!) - 0.5;
+    }
+  }
+
+  updatePaged() {
+    this.pagedBoxes = this.filtered.slice(this.start, this.end);
+  }
+
+  prevPage() { if (this.page > 0) { this.page--; this.updatePaged(); } }
+  nextPage() { if (this.end < this.filtered.length) { this.page++; this.updatePaged(); } }
+
+  openCreate() { this.editing = { name: '', description: '', created: new Date(), itemsCount: 0 }; }
+  openEdit(b: Box) { this.editing = { ...b }; }
+  closeEdit() { this.editing = null; }
+
+  save() {
+    if (!this.editing) return;
+    if (this.editing.id) {
+      // update
+      const idx = this.boxes.findIndex(x => x.id === this.editing!.id);
+      if (idx >= 0) this.boxes[idx] = { ...this.editing };
+    } else {
+      // create
+      this.editing.id = Date.now().toString();
+      this.boxes.unshift({ ...this.editing });
+    }
+    this.closeEdit();
+    this.filter();
+  }
+
+  confirmDelete(b: Box) {
+    if (!confirm(`Delete "${b.name}"?`)) return;
+    this.boxes = this.boxes.filter(x => x.id !== b.id);
+    this.filter();
+  }
+}
+

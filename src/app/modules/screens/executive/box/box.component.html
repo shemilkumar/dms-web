@@ -1,0 +1,97 @@
+<!-- Sidebar + Home layout (responsive, Tailwind) -->
+<div class="min-h-screen flex ">
+    <!-- Sidebar (hidden on small screens) -->
+    <aside class="hidden md:flex md:flex-col w-64 p-4">
+        <div class="flex items-center gap-2 px-2 py-3 mb-6">
+            <div class="text-2xl font-bold">Logo</div>
+        </div>
+
+        <nav class="flex-1 space-y-2 px-1 font-semibold text-gray-500 text-lg">
+            <a routerLink="/executive/home" class="block px-3 py-2 rounded hover:bg-gray-100">BOM</a>
+            <a routerLink="/executive/projects" class="block px-3 py-2 rounded hover:bg-gray-100 active">BOX</a>
+            <a routerLink="/executive/settings" class="block px-3 py-2 rounded hover:bg-gray-100">Settings</a>
+        </nav>
+
+        <div class="mt-4 text-xs text-gray-500 px-2">v1.0</div>
+    </aside>
+
+    <!-- Main content -->
+    <div class="flex-1 p-4">
+        <header class="flex items-center justify-between mb-6">
+
+            <div class="flex gap-4 items-center">
+                <img src="assets/icons/chevron-left.svg" alt="back-icon" class="icon icon__medium cursor-pointer"
+                    (click)="location.back()">
+                <span class="text-4xl font-medium">Project Name</span>
+            </div>
+
+            <div class="navbar__icons">
+                <img src="assets/icons/profile.svg" alt="profile-icon" class="icon" mat-button
+                    [matMenuTriggerFor]="profileMenu">
+            </div>
+
+            <mat-menu #profileMenu="matMenu" xPosition="before">
+                <button mat-menu-item routerLink="/profile">Profile</button>
+                <button mat-menu-item (click)="logout()">Logout</button>
+            </mat-menu>
+        </header>
+
+        <main class="p-6 bg-white rounded-xl shadow h-[87.5vh]">
+
+            <div class="flex justify-between items-center mb-4 gap-4">
+
+                <app-search-box placeholder="Search boxes..." [(ngModel)]="query" (ngModelChange)="filter()" />
+
+
+                <div class="flex justify-end items-center gap-4">
+                    <app-button type="add" label="Box" (onClick)="createBox()" />
+                </div>
+
+            </div>
+
+
+            <div class="">
+
+                <!-- grid -->
+                <div *ngIf="filtered.length; else emptyState"
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <article *ngFor="let b of pagedBoxes"
+                        class="bg-green-50 cursor-pointer border rounded-lg shadow-xl hover:bg-white hover:shadow-md hover:border hover:border-green-500 transition p-4 flex flex-col">
+                        <div class="flex items-start justify-between gap-3">
+
+                            <div>
+                                <span class="text-lg font-medium text-gray-800">{{ b.name }}</span>
+                                <!-- <p class="text-sm text-gray-500 mt-1">{{ b.description || 'No description' }}</p> -->
+                            </div>
+
+                            <div class="flex-shrink-0 flex items-center gap-2">
+                                <img src="assets/icons/edit.svg" alt="" class="icon icon__small">
+                                <img src="assets/icons/delete.svg" alt="" class="icon icon__small">
+                            </div>
+                        </div>
+
+                        <div class="mt-14 flex items-center justify-between text-sm text-gray-500">
+                            <div class="italic font-semibold text-xs text-amber-500">{{ b.created |
+                                date:'mediumDate'
+                                }}</div>
+                            <div class="text-xs px-2 py-1 bg-green-100 rounded text-gray-500 font-semibold">{{
+                                b.itemsCount ?? 0 }}
+                                items</div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- empty state -->
+                <ng-template #emptyState>
+                    <div
+                        class="border-dashed flex justify-center items-center flex-col border-2 border-gray-200 rounded-lg p-8 text-center text-gray-500">
+                        <div class="text-2xl mb-2">No boxes yet</div>
+                        <p class="mb-4">Create your first box — it will appear here as a card.</p>
+                        <app-button type="normal" label="Create Box" (onClick)="createBox()" />
+                    </div>
+                </ng-template>
+            </div>
+
+        </main>
+    </div>
+</div>

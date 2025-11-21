@@ -1,0 +1,625 @@
+import { Location } from '@angular/common';
+import { Component } from '@angular/core';
+import { of } from 'rxjs';
+import { PageEvent } from 'src/app/modules/base/pp/_components/pp-paginator/pp-paginator.component';
+import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
+
+@Component({
+  selector: 'app-box-products',
+  templateUrl: './box-products.component.html',
+  styleUrls: ['./box-products.component.scss']
+})
+export class BoxProductsComponent {
+
+  constructor(public location: Location) { }
+
+  config: PPTableConfig = {
+    id: 'site-management-table',
+    rowSelectEnabled: false,
+    actions: {
+      header: {
+        class: ['flex', 'items-center', 'justify-end'],
+      },
+      show: true,
+      headerLabel: 'gg',
+      class: ['flex', 'items-center', 'justify-end'],
+    },
+    page: {
+      pageSize: 10,
+      pageIndex: 0,
+      length: 20,
+    },
+    paginator: {
+      hide: true,
+      offline: false,
+    },
+    sort: {
+      active: 'name',
+      direction: 'asc',
+    },
+    translateKey: 'site-management-table',
+    translate: true,
+    tableState: TableState.DEFAULT,
+  };
+
+  columns = [
+    {
+      id: 'description',
+      label: 'Description',
+      headerClass: ['text-start'],
+      sortable: false,
+      cellClass: [],
+      // style: "max-width: 450px; width: 450px;",
+    },
+    {
+      id: 'specification',
+      label: 'Specification',
+      headerClass: ['text-start'],
+      sortable: false,
+      cellClass: [],
+    },
+
+    {
+      id: 'moc',
+      label: 'MOC',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
+      id: 'etching_mark',
+      label: 'Etching Mark',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
+      id: 'page_no',
+      label: 'Page No',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
+      id: 'remarks',
+      label: 'Remarks',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
+      id: 'createdOn',
+      label: 'Created On',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    // {
+    //   id: 'action-buttons',
+    //   label: '',
+    //   headerClass: ['text-start'],
+    //   sortable: false,
+    //   cellClass: ['fw-bold', 'font-size-16'],
+    //   // style: "width: 25%",
+    // },
+  ];
+
+  ngOnInit(): void {
+    console.log("jii");
+  }
+
+
+  products$ = of([
+    {
+      sno: 1,
+      description: "Straight pipe",
+      specification: "Ø80_1250H_0.8thk",
+      moc: "GI",
+      qty: 2,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 2000,
+      l_in_meter: 1.6,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 2,
+      description: "Straight pipe",
+      specification: "Ø120_1250H_0.8thk",
+      moc: "GI",
+      qty: 75,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 75000,
+      l_in_meter: 60,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 3,
+      description: "Straight pipe",
+      specification: "Ø120_1250H_0.8thk",
+      moc: "GI",
+      qty: 12,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 12000,
+      l_in_meter: 9.6,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 4,
+      description: "Straight pipe",
+      specification: "Ø125_1250H_0.8thk",
+      moc: "GI",
+      qty: 25,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 25000,
+      l_in_meter: 20,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 5,
+      description: "Straight pipe",
+      specification: "Ø140_1250H_0.8thk",
+      moc: "GI",
+      qty: 35,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 35000,
+      l_in_meter: 28,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 6,
+      description: "Straight pipe",
+      specification: "Ø180_1250H_1.0thk",
+      moc: "GI",
+      qty: 20,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 20000,
+      l_in_meter: 16,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 7,
+      description: "Straight pipe",
+      specification: "Ø200_1250H_1.0thk",
+      moc: "GI",
+      qty: 10,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 10000,
+      l_in_meter: 8,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 8,
+      description: "Straight pipe",
+      specification: "Ø250_1250H_1.0thk",
+      moc: "GI",
+      qty: 10,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 10000,
+      l_in_meter: 8,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 9,
+      description: "Straight pipe",
+      specification: "Ø300_1250H_1.2thk",
+      moc: "GI",
+      qty: 15,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 15000,
+      l_in_meter: 12,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 10,
+      description: "Straight pipe",
+      specification: "Ø80_1250H_0.8thk",
+      moc: "GI",
+      qty: 2,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 2000,
+      l_in_meter: 1.6,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 11,
+      description: "Straight pipe",
+      specification: "Ø100_1250H_0.8thk",
+      moc: "GI",
+      qty: 8,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 8000,
+      l_in_meter: 6.4,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 12,
+      description: "Straight pipe",
+      specification: "Ø110_1250H_0.8thk",
+      moc: "GI",
+      qty: 5,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 5000,
+      l_in_meter: 4,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 13,
+      description: "Straight pipe",
+      specification: "Ø180_1250H_1.0thk",
+      moc: "GI",
+      qty: 20,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 20000,
+      l_in_meter: 16,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 14,
+      description: "Straight pipe",
+      specification: "Ø200_1250H_1.0thk",
+      moc: "GI",
+      qty: 10,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 10000,
+      l_in_meter: 8,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 15,
+      description: "Straight pipe",
+      specification: "Ø220_1250H_1.0thk",
+      moc: "GI",
+      qty: 4,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 4000,
+      l_in_meter: 3.2,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 16,
+      description: "Straight pipe",
+      specification: "Ø250_1250H_1.0thk",
+      moc: "GI",
+      qty: 6,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 6000,
+      l_in_meter: 4.8,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 17,
+      description: "Straight pipe",
+      specification: "Ø300_1250H_1.2thk",
+      moc: "GI",
+      qty: 12,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 12000,
+      l_in_meter: 9.6,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 18,
+      description: "Straight pipe",
+      specification: "Ø315_1250H_1.2thk",
+      moc: "GI",
+      qty: 10,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 10000,
+      l_in_meter: 8,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 19,
+      description: "Straight pipe",
+      specification: "Ø350_1250H_1.2thk",
+      moc: "GI",
+      qty: 8,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 8000,
+      l_in_meter: 6.4,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 20,
+      description: "Straight pipe",
+      specification: "Ø400_1250H_1.2thk",
+      moc: "GI",
+      qty: 5,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 5000,
+      l_in_meter: 4,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 21,
+      description: "Straight pipe",
+      specification: "Ø450_1250H_1.2thk",
+      moc: "GI",
+      qty: 3,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 3000,
+      l_in_meter: 2.4,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 22,
+      description: "Straight pipe",
+      specification: "Ø500_1250H_1.2thk",
+      moc: "GI",
+      qty: 4,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 4000,
+      l_in_meter: 3.2,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 23,
+      description: "Straight pipe",
+      specification: "Ø560_1250H_1.2thk",
+      moc: "GI",
+      qty: 2,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 2000,
+      l_in_meter: 1.6,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 24,
+      description: "Straight pipe",
+      specification: "Ø600_1250H_1.2thk",
+      moc: "GI",
+      qty: 3,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 3000,
+      l_in_meter: 2.4,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 25,
+      description: "Straight pipe",
+      specification: "Ø650_1250H_1.2thk",
+      moc: "GI",
+      qty: 2,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 2000,
+      l_in_meter: 1.6,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 26,
+      description: "Straight pipe",
+      specification: "Ø700_1250H_1.2thk",
+      moc: "GI",
+      qty: 1,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M4",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 1000,
+      total_length: 1000,
+      l_in_meter: 0.8,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 27,
+      description: "Bend 90°",
+      specification: "Ø120_0.8thk",
+      moc: "GI",
+      qty: 6,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M5",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 0,
+      total_length: 0,
+      l_in_meter: 0,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 28,
+      description: "Bend 90°",
+      specification: "Ø125_0.8thk",
+      moc: "GI",
+      qty: 8,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M5",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 0,
+      total_length: 0,
+      l_in_meter: 0,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 29,
+      description: "Bend 90°",
+      specification: "Ø140_0.8thk",
+      moc: "GI",
+      qty: 10,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M5",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 0,
+      total_length: 0,
+      l_in_meter: 0,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    },
+    {
+      sno: 30,
+      description: "Bend 90°",
+      specification: "Ø160_0.8thk",
+      moc: "GI",
+      qty: 12,
+      uom: "NOS",
+      etching_mark: "33T",
+      page_no: "M5",
+      remarks: "Screwed Quick Release Tension Ring With Rubber Gasket",
+      length_mm: 0,
+      total_length: 0,
+      l_in_meter: 0,
+      createdBy: "System",
+      createdOn: "2024-01-01"
+    }
+  ]);
+
+  updateProduct(product: any) {
+
+  }
+
+  deleteProduct(product: any) {
+
+  }
+
+  createProduct() {
+
+  }
+
+  importProducts() {
+
+  }
+
+  logout() {
+
+  }
+
+  onPageChange(event: PageEvent) {
+    this.config = {
+      ...this.config,
+      page: {
+        ...this.config.page,
+        pageIndex: event.pageIndex,
+        pageSize: event.pageSize
+      }
+    }
+  }
+}
