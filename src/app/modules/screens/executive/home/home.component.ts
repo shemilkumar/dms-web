@@ -87,19 +87,26 @@ export class HomeComponent {
       cellClass: ['fw-bold', 'font-size-16'],
     },
     {
+      id: 'remaining_quantity',
+      label: 'Remaining Quantity',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
       id: 'remarks',
       label: 'Remarks',
       headerClass: ['text-start'],
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],
     },
-    {
-      id: 'createdOn',
-      label: 'Created On',
-      headerClass: ['text-start'],
-      sortable: true,
-      cellClass: ['fw-bold', 'font-size-16'],
-    },
+    // {
+    //   id: 'createdOn',
+    //   label: 'Created On',
+    //   headerClass: ['text-start'],
+    //   sortable: true,
+    //   cellClass: ['fw-bold', 'font-size-16'],
+    // },
     {
       id: 'action-buttons',
       label: '',
@@ -122,6 +129,7 @@ export class HomeComponent {
       specification: "Ø80_1250H_0.8thk",
       moc: "GI",
       qty: 2,
+      remainingQty: 1,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -138,6 +146,7 @@ export class HomeComponent {
       specification: "Ø120_1250H_0.8thk",
       moc: "GI",
       qty: 75,
+      remainingQty: 32,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -154,6 +163,7 @@ export class HomeComponent {
       specification: "Ø120_1250H_0.8thk",
       moc: "GI",
       qty: 12,
+      remainingQty: 4,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -170,6 +180,7 @@ export class HomeComponent {
       specification: "Ø125_1250H_0.8thk",
       moc: "GI",
       qty: 25,
+      remainingQty: 11,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -186,6 +197,7 @@ export class HomeComponent {
       specification: "Ø140_1250H_0.8thk",
       moc: "GI",
       qty: 35,
+      remainingQty: 22,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -202,6 +214,7 @@ export class HomeComponent {
       specification: "Ø180_1250H_1.0thk",
       moc: "GI",
       qty: 20,
+      remainingQty: 7,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -218,6 +231,7 @@ export class HomeComponent {
       specification: "Ø200_1250H_1.0thk",
       moc: "GI",
       qty: 10,
+      remainingQty: 8,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -234,6 +248,7 @@ export class HomeComponent {
       specification: "Ø250_1250H_1.0thk",
       moc: "GI",
       qty: 10,
+      remainingQty: 3,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -250,6 +265,7 @@ export class HomeComponent {
       specification: "Ø300_1250H_1.2thk",
       moc: "GI",
       qty: 15,
+      remainingQty: 6,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -266,6 +282,7 @@ export class HomeComponent {
       specification: "Ø80_1250H_0.8thk",
       moc: "GI",
       qty: 2,
+      remainingQty: 2,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -282,6 +299,7 @@ export class HomeComponent {
       specification: "Ø100_1250H_0.8thk",
       moc: "GI",
       qty: 8,
+      remainingQty: 1,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -298,6 +316,7 @@ export class HomeComponent {
       specification: "Ø110_1250H_0.8thk",
       moc: "GI",
       qty: 5,
+      remainingQty: 3,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -308,12 +327,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 13,
       description: "Straight pipe",
       specification: "Ø180_1250H_1.0thk",
       moc: "GI",
       qty: 20,
+      remainingQty: 15,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -324,12 +345,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 14,
       description: "Straight pipe",
       specification: "Ø200_1250H_1.0thk",
       moc: "GI",
       qty: 10,
+      remainingQty: 4,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -340,12 +363,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 15,
       description: "Straight pipe",
       specification: "Ø220_1250H_1.0thk",
       moc: "GI",
       qty: 4,
+      remainingQty: 1,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -356,12 +381,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 16,
       description: "Straight pipe",
       specification: "Ø250_1250H_1.0thk",
       moc: "GI",
       qty: 6,
+      remainingQty: 2,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -372,12 +399,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 17,
       description: "Straight pipe",
       specification: "Ø300_1250H_1.2thk",
       moc: "GI",
       qty: 12,
+      remainingQty: 3,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -388,12 +417,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 18,
       description: "Straight pipe",
       specification: "Ø315_1250H_1.2thk",
       moc: "GI",
       qty: 10,
+      remainingQty: 6,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -404,12 +435,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 19,
       description: "Straight pipe",
       specification: "Ø350_1250H_1.2thk",
       moc: "GI",
       qty: 8,
+      remainingQty: 3,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -420,12 +453,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 20,
       description: "Straight pipe",
       specification: "Ø400_1250H_1.2thk",
       moc: "GI",
       qty: 5,
+      remainingQty: 2,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -436,12 +471,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 21,
       description: "Straight pipe",
       specification: "Ø450_1250H_1.2thk",
       moc: "GI",
       qty: 3,
+      remainingQty: 1,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -452,12 +489,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 22,
       description: "Straight pipe",
       specification: "Ø500_1250H_1.2thk",
       moc: "GI",
       qty: 4,
+      remainingQty: 0,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -468,12 +507,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 23,
       description: "Straight pipe",
       specification: "Ø560_1250H_1.2thk",
       moc: "GI",
       qty: 2,
+      remainingQty: 2,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -484,12 +525,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 24,
       description: "Straight pipe",
       specification: "Ø600_1250H_1.2thk",
       moc: "GI",
       qty: 3,
+      remainingQty: 0,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -500,12 +543,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 25,
       description: "Straight pipe",
       specification: "Ø650_1250H_1.2thk",
       moc: "GI",
       qty: 2,
+      remainingQty: 1,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -516,12 +561,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 26,
       description: "Straight pipe",
       specification: "Ø700_1250H_1.2thk",
       moc: "GI",
       qty: 1,
+      remainingQty: 1,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M4",
@@ -532,12 +579,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 27,
       description: "Bend 90°",
       specification: "Ø120_0.8thk",
       moc: "GI",
       qty: 6,
+      remainingQty: 3,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M5",
@@ -548,12 +597,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 28,
       description: "Bend 90°",
       specification: "Ø125_0.8thk",
       moc: "GI",
       qty: 8,
+      remainingQty: 6,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M5",
@@ -564,12 +615,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 29,
       description: "Bend 90°",
       specification: "Ø140_0.8thk",
       moc: "GI",
       qty: 10,
+      remainingQty: 5,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M5",
@@ -580,12 +633,14 @@ export class HomeComponent {
       createdBy: "System",
       createdOn: "2024-01-01"
     },
+
     {
       sno: 30,
       description: "Bend 90°",
       specification: "Ø160_0.8thk",
       moc: "GI",
       qty: 12,
+      remainingQty: 8,
       uom: "NOS",
       etching_mark: "33T",
       page_no: "M5",
@@ -597,6 +652,7 @@ export class HomeComponent {
       createdOn: "2024-01-01"
     }
   ]);
+
 
   updateProduct(product: any) {
 

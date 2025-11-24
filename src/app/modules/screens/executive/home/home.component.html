@@ -56,7 +56,7 @@
 
             </div>
 
-            <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="640" se>
+            <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="750">
 
                 <ng-template ppWidgetName="description" let-row>
                     <span [matTooltip]="row.description" matTooltipPosition="below"
@@ -83,6 +83,17 @@
 
                 <ng-template ppWidgetName="page_no" let-row>
                     <span [matTooltip]="row.page_no" matTooltipPosition="below" class="truncate block">{{row.page_no |
+                        shrinkMessage:20}}</span>
+                </ng-template>
+
+                <ng-template ppWidgetName="quantity" let-row>
+                    <span [matTooltip]="row.qty" matTooltipPosition="below" class="truncate block">{{row.qty |
+                        shrinkMessage:20}}</span>
+                </ng-template>
+
+                <ng-template ppWidgetName="remaining_quantity" let-row>
+                    <span [matTooltip]="row.remainingQty" matTooltipPosition="below"
+                        class="truncate block">{{row.remainingQty |
                         shrinkMessage:20}}</span>
                 </ng-template>
 
