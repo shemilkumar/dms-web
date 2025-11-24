@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './modules/screens/login/login/login.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'projects',
+    redirectTo: 'super-admin',
     pathMatch: 'full'
   },
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/screens/super-admin/super-admin.module')
         .then((module) => module.SuperAdminModule),
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
 ];
 
