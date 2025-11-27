@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditProjectComponent } from '../modals/add-edit-project/add-edit-project.component';
 import { Router } from '@angular/router';
+import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
 
 @Component({
   selector: 'app-projects',
@@ -24,7 +25,9 @@ export class ProjectsComponent {
   ];
 
   createProject() {
-    this.dialog.open(AddEditProjectComponent);
+    this.dialog.open(AddEditProjectComponent), {
+      width: ADD_OR_EDIT_MODAL_WIDTH
+    };
   }
 
   goToHome(project: any) {

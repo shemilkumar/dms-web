@@ -35,7 +35,7 @@ export class LoginComponent {
 
 
   login() {
-    this.api.post('auth/login', { email: 'deepak@gmail.com', password: 'deepak123$' }).subscribe({
+    this.api.post('auth/login', { email: 'shemil@gmail.com', password: '1234' }).subscribe({
       next: (response: any) => {
         console.log('Login successful', response);
 
@@ -47,9 +47,8 @@ export class LoginComponent {
         // localStorage.setItem('userId', response.data.user_id);
         // localStorage.setItem('role', response.data.role);
 
-        if (response.data.role === 'SA') {
-          this.router.navigateByUrl('/super-admin');
-        }
+        if (response.data.role === 'SA') this.router.navigateByUrl('/super-admin');
+        if (['ADM', 'EX'].includes(response.data.role)) this.router.navigateByUrl('/projects');
 
       },
       error: (error) => {
