@@ -12,6 +12,7 @@ import { AuthService } from './core/services/auth.service';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptor/error.interceptor';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -22,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     HttpClientModule,
     MatSnackBarModule,
     MatDialogModule,
+    MatSelectModule,
     BrowserAnimationsModule
   ],
   providers: [

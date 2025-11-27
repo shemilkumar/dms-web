@@ -6,5 +6,5 @@ export const environment = {
   keycloak_clientId: '',
   keycloak_url: '',
 
-  dataApiUrl: 'https://unrainy-nondiaphanously-toby.ngrok-free.dev',
+  dataApiUrl: 'http://3.111.33.44:8000',
 };

@@ -1,0 +1,57 @@
+<app-custom-modal [data]="modalData" (onCancel)="dialogRef.close()" (onClose)="dialogRef.close()" (onSubmit)="submit()"
+    [loading]="isLoading" [isFormValid]="form.valid">
+
+    <form [formGroup]="form" class="form">
+
+        <div class="form__grid !gap-y-8">
+
+            <div class="form__input">
+                <label for="username" class="form__label">
+                    UserName <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="username" formControlName="username">
+            </div>
+
+            <div class="form__input">
+                <label for="role" class="form__label">
+                    Role <span class="form__label--required">*</span>
+                </label>
+                <mat-select id="role" formControlName="role">
+                    <mat-option value="ADM">Admin</mat-option>
+                    <mat-option value="EX">Executive</mat-option>
+                </mat-select>
+            </div>
+
+            <div class="form__input">
+                <label for="email" class="form__label">
+                    Email ID <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="email" formControlName="email">
+                <small *ngIf="form.get('email')?.hasError('invalidEmail') && form.get('email')?.touched">
+                    Enter a valid Email
+                </small>
+            </div>
+
+            <div class="form__input">
+                <label for="phoneNumber" class="form__label">
+                    Phone Number <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="phoneNumber" formControlName="phoneNumber" [disabled]="data?.phoneNumber"
+                    [readOnly]="data?.phoneNumber">
+                <small
+                    *ngIf="form.get('phoneNumber')?.hasError('invalidPhoneNumber') && form.get('phoneNumber')?.touched">
+                    Phone number must be at least 10 characters long
+                </small>
+            </div>
+            <!-- (keypress)="validPhoneNumberCharacters($event)" -->
+
+            <div class="form__input" *ngIf="data?.action !== 'update'">
+                <label for="passcode" class="form__label">
+                    Passcode <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="passcode" formControlName="passcode">
+            </div>
+        </div>
+    </form>
+
+</app-custom-modal>

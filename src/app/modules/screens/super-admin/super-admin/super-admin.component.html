@@ -1,40 +1,68 @@
-<!-- Super Admin — Users list with create and edit actions -->
-<div class="p-6">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold">Users</h2>
-        <div>
-            <button (click)="onCreateUser()"
-                class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Create User</button>
+<div class="px-6 py-4 mb-4 border w-full border-gray-200 flex justify-between items-center shadow-md">
+    <div>
+        LOGO
+    </div>
+    <div>
+        <div class="navbar__icons">
+            <img src="assets/icons/profile.svg" alt="profile-icon" class="icon cursor-pointer" mat-button
+                [matMenuTriggerFor]="profileMenu">
         </div>
+
+        <mat-menu #profileMenu="matMenu" xPosition="before">
+            <button mat-menu-item routerLink="/profile">Profile</button>
+            <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+    </div>
+</div>
+
+<span class="text-4xl font-semibold px-6">Users</span>
+
+
+<div class="px-6 mt-6">
+    <div class="flex justify-between items-center">
+        <app-search-box (onChange)="fetchUsers($event)" id="searchUser" />
+        <app-button type="add" label="Add User" (onClick)="addUser()" />
     </div>
 
-    <div class="overflow-x-auto bg-white rounded shadow">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                <tr *ngFor="let user of users">
-                    <td class="px-6 py-4 whitespace-nowrap">{{ user.name }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ user.email }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ user.role }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span [class]="user.active ? 'text-green-600' : 'text-red-600'">{{ user.active ? 'Active' :
-                            'Inactive' }}</span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button (click)="onEditUser(user)"
-                            class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
-                        <button class="text-red-600 hover:text-red-900">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="user-table mt-4">
+        <pp-table [columns]="columns" [data]="users$ | async" [config]="config" tableHeight="500">
+
+            <ng-template ppWidgetName="id" let-row>
+                <span [matTooltip]="row.id" matTooltipPosition="below" class="truncate block font-semibold">
+                    {{row.id}}</span>
+            </ng-template>
+
+            <ng-template ppWidgetName="username" let-row>
+                <span [matTooltip]="row.username" matTooltipPosition="below" class="truncate block font-semibold">
+                    {{row.username}}</span>
+            </ng-template>
+
+            <ng-template ppWidgetName="email" let-row>
+                <span [matTooltip]="row.email" matTooltipPosition="below" class="truncate block font-semibold">
+                    {{row.email}}</span>
+            </ng-template>
+
+            <ng-template ppWidgetName="phoneNumber" let-row>
+                <span [matTooltip]="row.phoneNumber" matTooltipPosition="below" class="truncate block font-semibold">
+                    {{row.phoneNumber}}</span>
+            </ng-template>
+
+            <ng-template ppWidgetName="role" let-row>
+                <span [matTooltip]="row.role" matTooltipPosition="below" class="truncate block font-semibold">
+                    {{row.role}}</span>
+            </ng-template>
+
+            <ng-template ppWidgetName="action-buttons" let-row>
+                <div class="pp-action-buttons">
+
+                    <app-button [variant]="'outline-icon-neutral'" type="icon" iconSrc="assets/icons/edit.svg"
+                        (onClick)="updateUser(row)" />
+
+                    <app-button [variant]="'outline-icon-error'" type="icon" iconSrc="assets/icons/delete.svg"
+                        (onClick)="deleteUser(row)" />
+                </div>
+            </ng-template>
+        </pp-table>
     </div>
+
 </div>

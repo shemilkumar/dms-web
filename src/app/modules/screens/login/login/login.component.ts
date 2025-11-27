@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 })
 export class LoginComponent {
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private router: Router) { }
 
   isLoading = false;
 
@@ -46,6 +47,9 @@ export class LoginComponent {
         // localStorage.setItem('userId', response.data.user_id);
         // localStorage.setItem('role', response.data.role);
 
+        if (response.data.role === 'SA') {
+          this.router.navigateByUrl('/super-admin');
+        }
 
       },
       error: (error) => {

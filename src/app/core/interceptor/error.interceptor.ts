@@ -36,9 +36,11 @@ export class ErrorInterceptor implements HttpInterceptor {
                     toastMessage = 'Oops! Something went wrong. Please try again later.';
                 } else if (error.status === 0 || error.status === 500) {
                     toastMessage = 'A server error occurred. Please try again later.';
-                } else if (error.status === 400) {
+                } else if (error.status === 400 || error.status === 409) {
                     if (error.error.Message)
                         toastMessage = error.error.Message;
+                    if (error.error.detail)
+                        toastMessage = error.error.detail;
                     else toastMessage = 'Something went wrong. Please try again later.';
                 } else toastMessage = 'Something went wrong. Please try again later.';
 

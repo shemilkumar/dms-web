@@ -5,7 +5,7 @@ import { LoginComponent } from './modules/screens/login/login/login.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'super-admin',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {

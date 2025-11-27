@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { map, of } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
-
-export interface UserRow {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  active: boolean;
-}
+import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
+import { AddEditUserComponent } from '../modals/add-edit-user/add-edit-user.component';
+import { ADD_OR_EDIT_MODAL_WIDTH, SMALL_MODAL_WIDTH } from 'src/environments/constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-super-admin',
@@ -16,86 +14,161 @@ export interface UserRow {
 })
 export class SuperAdminComponent {
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private dialog: MatDialog, private router: Router) { }
 
-  // Mock users list — replace with API data via service
-  users: UserRow[] = [
-    { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin', active: true },
-    { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Manager', active: true },
-    { id: 3, name: 'Charlie Lee', email: 'charlie@example.com', role: 'User', active: false }
+  config: PPTableConfig = {
+    id: 'site-management-table',
+    rowSelectEnabled: false,
+    actions: {
+      header: {
+        class: ['flex', 'items-center', 'justify-end'],
+      },
+      show: true,
+      headerLabel: 'gg',
+      class: ['flex', 'items-center', 'justify-end'],
+    },
+    page: {
+      pageSize: 10,
+      pageIndex: 0,
+      length: 10,
+    },
+    paginator: {
+      hide: true,
+      offline: false,
+    },
+    sort: {
+      active: 'name',
+      direction: 'asc',
+    },
+    translateKey: 'site-management-table',
+    translate: true,
+    tableState: TableState.DEFAULT,
+  };
+
+  columns = [
+    {
+      id: 'id',
+      label: 'User ID',
+      headerClass: ['text-start'],
+      sortable: false,
+      cellClass: [],
+      // style: "max-width: 450px; width: 450px;",
+    },
+    {
+      id: 'username',
+      label: 'Username',
+      headerClass: ['text-start'],
+      sortable: false,
+      cellClass: [],
+    },
+
+    {
+      id: 'email',
+      label: 'Email',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
+      id: 'phoneNumber',
+      label: 'Phone Number',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
+      id: 'role',
+      label: 'Role',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
+      id: 'action-buttons',
+      label: '',
+      headerClass: ['text-start'],
+      sortable: false,
+      cellClass: ['fw-bold', 'font-size-16'],
+      // style: "width: 25%",
+    },
   ];
 
-  onCreateUser() {
-    // Replace with navigation to create user page or open modal
-    console.log('Create user clicked');
-
-    const newUser = {
-      "email": "shemil2@example.com",
-      "passcode": "1234",
-      "phone_number": "+919876545563",
-      "role": "EX",
-      "username": "shemil"
-    }
-
-    this.api.post('users', newUser).subscribe({
-      next: (response: any) => {
-        console.log('User created successfully', response);
-
-        // {
-        //     "status_code": 201,
-        //     "message": "User created successfully",
-        //     "data": {
-        //         "user_id": "EX-88e06808-8a3e-4110-b4b2-a86085352333",
-        //         "username": "shemil",
-        //         "email": "shemil@example.com",
-        //         "phone_number": "+919876545633",
-        //         "role": "EX",
-        //         "status": "ACTIVE"
-        //     }
-        // }
-
-      },
-      error: (error) => {
-        console.error('User creation failed', error);
-      }
-    });
-
-
-  }
-
-  onEditUser(user: UserRow) {
-    // Replace with navigation to edit page or open edit modal
-    console.log('Edit user', user);
-  }
+  users$ = of([
+    { id: 1, username: 'Alice Johnson', email: 'alice@example.com', phoneNumber: '+919876545633', role: 'Admin', active: true },
+    { id: 2, username: 'Bob Smith', email: 'bob@example.com', phoneNumber: '+919876545633', role: 'Manager', active: true },
+    { id: 3, username: 'Charlie Lee', email: 'charlie@example.com', phoneNumber: '+919876545633', role: 'User', active: false }
+  ]);
 
   ngOnInit() {
-    console.log('SuperAdminComponent initialized');
     this.fetchUsers();
   }
 
-  fetchUsers() {
-    this.api.get('projects').subscribe({
-      next: (response: any) => {
-        console.log('User created successfully', response);
+  fetchUsers(searchText?: string) {
 
-        // {
-        //     "status_code": 201,
-        //     "message": "User created successfully",
-        //     "data": {
-        //         "user_id": "EX-88e06808-8a3e-4110-b4b2-a86085352333",
-        //         "username": "shemil",
-        //         "email": "shemil@example.com",
-        //         "phone_number": "+919876545633",
-        //         "role": "EX",
-        //         "status": "ACTIVE"
-        //     }
-        // }
+    let url = `users/all?search=${searchText}`;
 
-      },
-      error: (error) => {
-        console.error('User creation failed', error);
-      }
+    this.users$ = this.api.get(url).pipe(
+      map((users: any) => users.data.map((user: any) => ({
+        id: user.user_id,
+        username: user.username,
+        email: user.email,
+        phoneNumber: user.phone_number,
+        role: this.getRole(user.role),
+        status: user.status === 'active' ? 'Active' : 'Inactive'
+      })))
+    );
+  }
+
+  addUser() {
+    this.dialog.open(AddEditUserComponent, {
+      width: ADD_OR_EDIT_MODAL_WIDTH
+    }).afterClosed().subscribe((result: boolean) => {
+      if (result) this.fetchUsers();
     });
   }
 
+  updateUser(user: any) {
+    this.dialog.open(AddEditUserComponent, {
+      width: ADD_OR_EDIT_MODAL_WIDTH,
+      data: { action: 'update', user }
+    }).afterClosed().subscribe((result: boolean) => {
+      if (result) this.fetchUsers();
+    });
+  }
+
+  deleteUser(user: any) {
+    console.log('Update user clicked', user);
+  }
+
+
+  getRole(role: string) {
+    if (role === 'EX') return 'Executive'
+    else if (role === 'ADM') return 'Admin'
+    else return 'User'
+  }
+
+
+  logout() {
+
+    const token = localStorage.getItem('refresh_token') || '';
+
+    if (token) {
+      this.api.post('auth/logout', { refresh_token: token }).subscribe({
+        next: (data: any) => {
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          this.router.navigateByUrl('/login');
+        },
+        error: (error) => {
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          this.router.navigateByUrl('/login');
+        },
+      });
+    } else {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      this.router.navigateByUrl('/login');
+    }
+  }
 }
