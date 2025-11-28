@@ -35,7 +35,7 @@ export class LoginComponent {
 
 
   login() {
-    this.api.post('auth/login', { email: 'shemil@gmail.com', password: '1234' }).subscribe({
+    this.api.post('auth/login', { email: 'shemilkumar@probeplus.in', password: '1234' }).subscribe({
       next: (response: any) => {
         console.log('Login successful', response);
 

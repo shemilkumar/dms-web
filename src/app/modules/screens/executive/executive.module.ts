@@ -14,11 +14,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BoxComponent } from './box/box.component';
 import { BomComponent } from './bom/bom.component';
 import { BoxProductsComponent } from './box-products/box-products.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [ProjectsComponent, AddEditProjectComponent, HomeComponent, BoxComponent, BomComponent, BoxProductsComponent],
   imports: [CommonModule, ExecutiveRoutingModule, SharedModule, MatDialogModule, FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule, MatDatepickerModule,
+    MatNativeDateModule,
     PpModule, MatTooltipModule, MatMenuModule
   ],
 })

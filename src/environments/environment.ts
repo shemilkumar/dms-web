@@ -6,5 +6,5 @@ export const environment = {
   keycloak_clientId: '',
   keycloak_url: '',
 
-  dataApiUrl: 'http://3.111.33.44:8000',
+  dataApiUrl: 'http://13.203.206.191:8000',
 };

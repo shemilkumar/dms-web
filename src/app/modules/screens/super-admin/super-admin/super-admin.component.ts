@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { map, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
 import { AddEditUserComponent } from '../modals/add-edit-user/add-edit-user.component';
-import { ADD_OR_EDIT_MODAL_WIDTH, SMALL_MODAL_WIDTH } from 'src/environments/constants';
+import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
 import { Router } from '@angular/router';
 
 @Component({
@@ -93,11 +93,7 @@ export class SuperAdminComponent {
     },
   ];
 
-  users$ = of([
-    { id: 1, username: 'Alice Johnson', email: 'alice@example.com', phoneNumber: '+919876545633', role: 'Admin', active: true },
-    { id: 2, username: 'Bob Smith', email: 'bob@example.com', phoneNumber: '+919876545633', role: 'Manager', active: true },
-    { id: 3, username: 'Charlie Lee', email: 'charlie@example.com', phoneNumber: '+919876545633', role: 'User', active: false }
-  ]);
+  users$: Observable<any> = of([]);
 
   ngOnInit() {
     this.fetchUsers();

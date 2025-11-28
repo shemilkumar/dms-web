@@ -6,10 +6,10 @@
     <div class="form__grid !gap-y-8">
 
       <div class="form__input">
-        <label for="name" class="form__label">
+        <label for="projectName" class="form__label">
           Project Name <span class="form__label--required">*</span>
         </label>
-        <input type="text" id="name" formControlName="name">
+        <input type="text" id="projectName" formControlName="projectName">
       </div>
 
       <div class="form__input">
@@ -19,23 +19,38 @@
         <input type="text" id="clientName" formControlName="clientName">
       </div>
 
-      <div class="form__input">
+      <div class="form__input relative">
         <label for="startDate" class="form__label">
           Start Date <span class="form__label--required">*</span>
         </label>
-        <input type="text" id="startDate" formControlName="startDate" [disabled]="data?.startDate"
-          [readOnly]="data?.startDate">
+
+        <input type="text" aria-label="select-patient" matInput class="border rounded-lg p-2 outline-none" readonly
+          [matDatepicker]="picker" (click)="picker.open()" formControlName="startDate" id="startDate" />
+
+        <mat-datepicker-toggle matIconSuffix [for]="picker" class="absolute right-0 bottom-0"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </div>
 
-      <div class="form__input">
+      <div class="form__input relative">
         <label for="endDate" class="form__label">
           End Date <span class="form__label--required">*</span>
         </label>
-        <input type="text" id="endDate" formControlName="endDate" [disabled]="data?.endDate" [readOnly]="data?.endDate">
-      </div>
 
-      <textarea id="description" formControlName="clientName" name="description" rows="3"
-        style="resize: none;border: 1px solid #ccc;width: 100%;border-radius: 5px;"></textarea>
+        <input type="text" aria-label="select-patient" matInput class="border rounded-lg p-2 outline-none" readonly
+          [matDatepicker]="picker2" (click)="picker2.open()" formControlName="endDate" id="endDate" />
+
+        <mat-datepicker-toggle matIconSuffix [for]="picker2" class="absolute right-0 bottom-0"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </div>
+    </div>
+
+    <div class="form__grid form__grid--single-col">
+      <div class="form__input mt-4">
+        <label for="description" class="form__label">
+          Description <span class="form__label--required">*</span>
+        </label> <textarea id="description" formControlName="description" name="description" rows="5"
+          style="resize: none" class="p-4 w-full border border-gray-300 rounded-lg"></textarea>
+      </div>
     </div>
   </form>
 
