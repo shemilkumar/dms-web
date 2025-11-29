@@ -19,6 +19,10 @@
 
             </div>
 
+            <div class="border">
+                <qrcode [qrdata]="qrData" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+            </div>
+
             <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="750">
 
                 <ng-template ppWidgetName="description" let-row>

@@ -7,6 +7,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditProductComponent } from './modals/add-edit-product/add-edit-product.component';
 import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
+import { StickersComponent } from './modals/stickers/stickers.component';
 
 
 @Component({
@@ -137,6 +138,11 @@ export class BomComponent {
     },
   ];
 
+
+  qrData = "{\"sticker_id\":\"STK-400ca817-9c17-4acb-a043-8c9046badddd\",\"project_id\":\"PRJ-5f61dbb2-b905-4c17-875f-276c08d5ab5a\",\"bom_id\":\"BOM-191802a4-8119-4ab5-bee2-58b82295d746\",\"seq\":2,\"total\":2}";
+
+  // qrData = "https://hianime.do";
+
   headerData: any = {};
 
   ngOnInit(): void {
@@ -202,16 +208,23 @@ export class BomComponent {
 
   printProduct(product: any) {
     // this.isLoading = false
-    this.api.post(`stickers/bom/${product.bomId}/generate`, {}).pipe(finalize(() => { }))
-      .subscribe({
-        next: (response: any) => {
-          // this.snackbar.openSnackbar('Product created successfully', 'success');
-        },
-        error: (error) => {
-          console.log(error);
-          // this.snackbar.openSnackbar(error.message, 'error');
-        }
-      })
+    // this.api.post(`stickers/bom/${product.bomId}/generate`, {}).pipe(finalize(() => { }))
+    //   .subscribe({
+    //     next: (response: any) => {
+    //       // this.snackbar.openSnackbar('Product created successfully', 'success');
+    //     },
+    //     error: (error) => {
+    //       console.log(error);
+    //       // this.snackbar.openSnackbar(error.message, 'error');
+    //     }
+    //   });
+
+    this.dialog.open(StickersComponent, {
+      height: '90vh',
+      data: { project: this.project, product }
+    }).afterClosed().subscribe((result: boolean) => {
+      if (result) this.fetchProducts();
+    });
   }
 
   importProducts() {

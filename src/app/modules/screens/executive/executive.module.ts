@@ -18,12 +18,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AddEditProductComponent } from './bom/modals/add-edit-product/add-edit-product.component';
 import { CoreModule } from 'src/app/core/core.module';
+import { QRCodeModule } from 'angularx-qrcode';
+import { StickersComponent } from './bom/modals/stickers/stickers.component';
+import { StickerPageComponent } from './sticker-page/sticker-page.component';
 
 @NgModule({
-  declarations: [ProjectsComponent, AddEditProjectComponent, HomeComponent, BoxComponent, BomComponent, BoxProductsComponent, AddEditProductComponent],
+  declarations: [ProjectsComponent, AddEditProjectComponent, HomeComponent, BoxComponent, BomComponent, BoxProductsComponent, AddEditProductComponent, StickersComponent, StickerPageComponent],
   imports: [
     CommonModule, ExecutiveRoutingModule, SharedModule, MatDialogModule, FormsModule, ReactiveFormsModule,
-    MatDatepickerModule, MatNativeDateModule, PpModule, MatTooltipModule, MatMenuModule, CoreModule
+    MatDatepickerModule, MatNativeDateModule, PpModule, MatTooltipModule, MatMenuModule, CoreModule, QRCodeModule
   ],
 })
 export class ExecutiveModule { }

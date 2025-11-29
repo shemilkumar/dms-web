@@ -7,6 +7,7 @@ import { BoxProductsComponent } from './box-products/box-products.component';
 import { BomComponent } from './bom/bom.component';
 import { SidebarComponent } from 'src/app/core/components/sidebar/sidebar.component';
 import { SidebarLayoutComponent } from 'src/app/core/components/sidebar-layout/sidebar-layout.component';
+import { StickerPageComponent } from './sticker-page/sticker-page.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
       {
         path: 'package-list',
         component: BoxProductsComponent,
+      },
+      {
+        path: 'sticker',
+        component: StickerPageComponent,
       }
     ]
   }

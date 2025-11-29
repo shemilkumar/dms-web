@@ -1,0 +1,86 @@
+* {
+    box-sizing: border-box;
+}
+
+:host {
+    display: block;
+    font-family: Arial, sans-serif;
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    padding: 16px;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Toolbar above the sheet */
+.toolbar {
+    width: 190mm;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.print-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    background: #1976d2;
+    color: #fff;
+
+    &:hover {
+        background: #125aa0;
+    }
+}
+
+/* A4 sheet inner area (we keep it smaller than full A4 to avoid clipping) */
+.sheet {
+    width: 190mm; // safe width inside A4
+    height: 277mm; // A4 height minus margins
+    background: #ffffff;
+    padding: 2mm;
+    margin: 0 auto;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+    // display: grid;
+    // // 4 columns, fixed width stickers
+    // grid-template-columns: repeat(4, 46mm);
+    // // 10 rows, fixed height stickers
+    // grid-auto-rows: 25.9mm;
+    // gap: 2mm; // space between stickers
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // 4 columns
+    grid-auto-rows: 25.5mm; // 👈 important (row height)
+    gap: 2mm;
+}
+
+/* Individual sticker */
+.sticker {
+    border: 1px solid #1976d2; // colored border
+    border-radius: 2mm;
+    padding: 2mm;
+    font-size: 8pt;
+
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: flex-start;
+    // text-align: left;
+
+    &__title {
+        font-weight: 600;
+        margin-bottom: 1mm;
+    }
+
+    &__line {
+        line-height: 1.2;
+    }
+}
+
+/* Print tweaks specifically for this page */

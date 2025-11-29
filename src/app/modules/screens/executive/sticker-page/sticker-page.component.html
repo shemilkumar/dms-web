@@ -1,0 +1,25 @@
+<div class="page-wrapper border border-red-500">
+
+    <!-- Toolbar (won't print) -->
+    <div class="toolbar no-print">
+        <button type="button" class="print-btn" (click)="printStickers()">
+            🖨 Print Stickers
+        </button>
+    </div>
+
+    <!-- A4 Sticker Sheet -->
+    <div class="sheet  border-green-500" id="print-container">
+        <div class="sticker flex justify-between" *ngFor="let s of stickers">
+            <div class="">
+                <div class="sticker__title">Sticker #{{ s.index }}</div>
+                <div class="sticker__line">Product: {{ s.productCode }}</div>
+                <div class="sticker__line">Code: {{ s.stickerCode }}</div>
+                <div class="sticker__line">Batch: {{ s.batch }}</div>
+            </div>
+            <div class="flex-1 m-auto flex justify-center items-center ">
+                <qrcode [qrdata]="qrData" [width]="60" [errorCorrectionLevel]="'M'"></qrcode>
+            </div>
+        </div>
+    </div>
+
+</div>
