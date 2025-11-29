@@ -5,7 +5,7 @@
   </div>
 
   <div class="mt-4 grid w-full grid-cols-1 items-center justify-center gap-4 px-48 md:grid-cols-2 lg:grid-cols-3">
-    <div class="project-card w-80" *ngFor="let project of projects$ | async">
+    <div class="project-card w-80" *ngFor="let project of projects$ | async" (click)="goToHome(project)">
       <pre>{{ project.projectName }}</pre>
 
       <button class="m-2" (click)="updateProject(project)">Edit</button>

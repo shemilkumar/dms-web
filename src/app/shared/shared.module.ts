@@ -13,6 +13,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ShrinkMessagePipe } from './pipes/shrink-message.pipe';
 import { EpochConverterPipe } from './pipes/epoch-converter.pipe';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { EpochConverterPipe } from './pipes/epoch-converter.pipe';
     RouterModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatMenuModule,
     ReactiveFormsModule
   ],
   exports: [

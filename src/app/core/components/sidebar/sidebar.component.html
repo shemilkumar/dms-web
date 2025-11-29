@@ -1,0 +1,33 @@
+<div class="sidebar-inner relative">
+
+    <div class="flex justify-between items-center text-2xl tracking-widest logo">
+
+        <div class="flex gap-2 items-center pl-3">
+            <span>LOGO</span>
+        </div>
+        <!-- 
+        <div class="cursor-pointer flex justify-center" [ngClass]="{'w-full': collapsed}">
+            <img src="assets/icons/chevron-left-double.svg" alt="" *ngIf="!collapsed" class="icon icon__medium"
+                (click)="onToggleClick()">
+            <img src="assets/icons/chevron-right-double.svg" alt="" *ngIf="collapsed" class="icon icon__medium"
+                (click)="onToggleClick()">
+        </div> -->
+    </div>
+
+
+    <ul class="nav">
+        <div class="flex flex-col gap-3 flex-1 space-y-2 px-1 font-semibold text-gray-500 text-lg">
+            <li *ngFor=" let link of navLinks" [routerLink]="link.route" routerLinkActive="active-link"
+                class="block px-3 py-2 rounded ">
+                <span class="label">{{ link.label }}</span>
+            </li>
+        </div>
+
+        <!-- <div class="flex flex-col gap-3 px-1 font-semibold text-gray-500 text-lg">
+            <li class="block px-3 py-2 rounded  border !border-green-500">
+                <span class="label">Logout</span>
+            </li>
+        </div> -->
+    </ul>
+
+</div>

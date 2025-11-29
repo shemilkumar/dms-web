@@ -68,7 +68,7 @@ export class AuthService {
 
     refreshToken(): Observable<any> {
         const refreshToken = { "refresh_token": this.getRefreshToken() }
-        return this.api.post('token/refresh', refreshToken)
+        return this.api.post('auth/refresh', refreshToken)
     }
 
     logout() {

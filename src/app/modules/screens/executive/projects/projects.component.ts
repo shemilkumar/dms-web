@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddEditProjectComponent } from '../modals/add-edit-project/add-edit-project.component';
+import { AddEditProjectComponent } from './add-edit-project/add-edit-project.component';
 import { Router } from '@angular/router';
 import { ADD_OR_EDIT_MODAL_WIDTH, SMALL_MODAL_WIDTH } from 'src/environments/constants';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -32,7 +32,7 @@ export class ProjectsComponent {
     let url = `projects?search=${searchText}`;
 
     this.projects$ = this.api.get(url).pipe(
-      map((proejcts: any) => proejcts.data.map((project: any) => ({
+      map((projects: any) => projects.data?.items?.map((project: any) => ({
         projectName: project.name,
         clientName: project.client_name,
         startDate: project.start_date,
@@ -62,8 +62,7 @@ export class ProjectsComponent {
   }
 
   goToHome(project: any) {
-    console.log("hi");
-    // this.router.navigate(['projects/home'], { state: { project } });
-    this.router.navigateByUrl('projects/home', { state: { project } });
+    localStorage.setItem('project', JSON.stringify(project));
+    this.router.navigateByUrl('projects/bom', { state: { project } });
   }
 }

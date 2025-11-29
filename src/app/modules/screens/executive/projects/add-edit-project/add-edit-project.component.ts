@@ -63,45 +63,48 @@ export class AddEditProjectComponent {
     const projectPayload = {
       "name": this.form.get('projectName')?.value,
       "client_name": this.form.get('clientName')?.value,
-      "start_date": this.changeTimeFormat(this.form.get('startDate')?.value),
-      "end_date": this.changeTimeFormat(this.form.get('endDate')?.value),
+      "start_date": this.getEpoch(this.form.get('startDate')?.value),
+      "end_date": this.getEpoch(this.form.get('endDate')?.value),
       "description": this.form.get('description')?.value,
       "status": 'ACTIVE'
     }
+
     // {expected: "'DRAFT', 'ACTIVE', 'CLOSED' or 'ARCHIVED'"}
 
-    console.log(projectPayload);
-
-    if (this.data?.action === 'update') {
-      this.api.put(`projects/${this.data?.project.projectId}`, projectPayload).pipe(finalize(() => this.isLoading = false))
-        .subscribe({
-          next: (response: any) => {
-            this.snackbar.openSnackbar('Project updated successfully', 'success');
-            this.dialogRef.close(true);
-          },
-          error: (error) => {
-            console.log(error);
-            this.snackbar.openSnackbar(error.message, 'error');
-          }
-        })
-    }
-    else {
-      this.api.post('projects', projectPayload).pipe(finalize(() => this.isLoading = false))
-        .subscribe({
-          next: (response: any) => {
-            this.snackbar.openSnackbar('Project created successfully', 'success');
-            this.dialogRef.close(true);
-          },
-          error: (error) => {
-            console.log(error);
-            this.snackbar.openSnackbar(error.message, 'error');
-          }
-        })
-    }
+    if (this.data?.action === 'update') this.updateProject(projectPayload);
+    else this.createProject(projectPayload);
 
   }
 
-  changeTimeFormat(date: Date) {
-    return date.toISOString()
+  createProject(payload: any) {
+    this.api.post('projects', payload).pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (response: any) => {
+          this.snackbar.openSnackbar('Project created successfully', 'success');
+          this.dialogRef.close(true);
+        },
+        error: (error) => {
+          console.log(error);
+          this.snackbar.openSnackbar(error.message, 'error');
+        }
+      })
+  }
+
+  updateProject(payload: any) {
+    this.api.put(`projects/${this.data?.project.projectId}`, payload).pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (response: any) => {
+          this.snackbar.openSnackbar('Project updated successfully', 'success');
+          this.dialogRef.close(true);
+        },
+        error: (error) => {
+          console.log(error);
+          this.snackbar.openSnackbar(error.message, 'error');
+        }
+      })
+  }
+
+  getEpoch(date: Date) {
+    return date.getTime()
   }
 }

@@ -1,9 +1,0 @@
-@import 'src/assets/scss/mixins/mixins';
-@import 'src/assets/scss/base/variables';
-
-.active {
-    // background-color: #b3ffb3;
-    background-color: $primary-color;
-    color: white;
-    border-radius: 0.75rem;
-}

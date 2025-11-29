@@ -1,0 +1,66 @@
+@import 'src/assets/scss/base/_variables';
+@import 'src/assets/scss/mixins/mixins';
+
+.sidebar-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
+    border-radius: 0 1rem 1rem 0;
+    background-color: transparent;
+
+    .logo {
+        color: #000;
+        height: 40px;
+        margin-top: 1.1rem;
+    }
+
+    .toggle-btn {
+        padding: .5rem 1rem;
+        border: none;
+        background: #008000;
+        color: white;
+        cursor: pointer;
+        border-radius: .5rem;
+        transition: background 0.2s;
+
+        &:hover {
+            background: #006600;
+        }
+    }
+
+    .nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        gap: .75rem;
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            cursor: pointer;
+            // padding: .5rem .75rem;
+            border-radius: .5rem;
+            transition: background 0.2s;
+            border: 1px solid transparent;
+
+            &:hover {
+                border: 1px solid #c6ebc6;
+            }
+
+            .icon {
+                width: 24px;
+                font-size: 20px;
+            }
+        }
+
+        .active-link {
+            background-color: $primary-color;
+            color: white;
+            border-radius: 0.75rem;
+        }
+    }
+}

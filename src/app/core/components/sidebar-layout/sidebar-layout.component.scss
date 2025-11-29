@@ -1,0 +1,32 @@
+:host {
+    display: block;
+    height: 100vh;
+}
+
+.layout {
+    display: grid;
+    height: 100%;
+
+    --sidebar-expanded: 240px;
+    --sidebar-collapsed: 64px;
+
+    grid-template-columns: var(--sidebar-expanded) 1fr;
+    transition: grid-template-columns 220ms ease;
+}
+
+.layout.collapsed {
+    grid-template-columns: var(--sidebar-collapsed) 1fr;
+}
+
+.sidebar {
+    height: 100%;
+    overflow: hidden;
+    transition: width 220ms ease;
+}
+
+.page-content {
+    height: 100%;
+    overflow: auto;
+    padding: 1.25rem;
+    min-width: 0;
+}

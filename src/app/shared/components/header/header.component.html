@@ -1,5 +1,18 @@
-<main class="header">
-    <img *ngIf="showBackButton" src="assets/icons/chevronleft.svg" alt="back-icon" class="icon__small"
-        (click)="location.back()" id="backButton">
-    <h1 class="header__title">{{ title }}</h1>
-</main>
+<header class="flex items-center justify-between mb-6 mx-4">
+
+    <div class="flex gap-4 items-center">
+        <img src="assets/icons/chevron-left.svg" alt="back-icon" class="icon icon__medium cursor-pointer"
+            *ngIf="data?.showBackButton" (click)="goTo(data?.backButtonLink)">
+        <span class="text-4xl font-medium">{{ data?.title }}</span>
+    </div>
+
+    <div class="navbar__icons">
+        <img src="assets/icons/profile.svg" alt="profile-icon" class="icon" mat-button
+            [matMenuTriggerFor]="profileMenu">
+    </div>
+
+    <mat-menu #profileMenu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/profile">Profile</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+</header>

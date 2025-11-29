@@ -1,0 +1,69 @@
+<app-custom-modal [data]="modalData" (onCancel)="dialogRef.close()" (onClose)="dialogRef.close()" (onSubmit)="submit()"
+    [loading]="isLoading" [isFormValid]="form.valid">
+
+    <form [formGroup]="form" class="form">
+
+        <div class="form__grid !gap-y-8">
+
+            <div class="form__input">
+                <label for="description" class="form__label">
+                    Description <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="description" formControlName="description">
+            </div>
+
+            <div class="form__input">
+                <label for="specification" class="form__label">
+                    Specification <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="specification" formControlName="specification">
+            </div>
+
+            <div class="form__input">
+                <label for="moc" class="form__label">
+                    MOC <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="moc" formControlName="moc">
+            </div>
+
+            <div class="form__input">
+                <label for="quantity" class="form__label">
+                    Quantity <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="quantity" formControlName="quantity">
+            </div>
+
+            <div class="form__input">
+                <label for="uom" class="form__label">
+                    UOM <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="uom" formControlName="uom">
+            </div>
+
+            <div class="form__input">
+                <label for="etchingMark" class="form__label">
+                    Etching Mark <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="etchingMark" formControlName="etchingMark">
+            </div>
+
+            <div class="form__input">
+                <label for="pageNo" class="form__label">
+                    Page No <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="pageNo" formControlName="pageNo">
+            </div>
+
+        </div>
+
+        <div class="form__grid form__grid--single-col">
+            <div class="form__input mt-4">
+                <label for="remarks" class="form__label">
+                    Remarks <span class="form__label--required">*</span>
+                </label> <textarea id="remarks" formControlName="remarks" name="remarks" rows="5" style="resize: none"
+                    class="p-4 w-full border border-gray-300 rounded-lg"></textarea>
+            </div>
+        </div>
+    </form>
+
+</app-custom-modal>

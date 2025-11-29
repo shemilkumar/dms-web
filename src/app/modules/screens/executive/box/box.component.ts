@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Box {
   id?: string;
@@ -16,7 +17,7 @@ interface Box {
 })
 export class BoxComponent {
 
-  constructor(public location: Location) { }
+  constructor(public location: Location, private router: Router) { }
 
 
   logout() {
@@ -38,7 +39,31 @@ export class BoxComponent {
   get start() { return this.page * this.pageSize; }
   get end() { return Math.min((this.page + 1) * this.pageSize, this.filtered.length); }
 
+  headerData = {
+
+  }
+
+  project: any;
+
   ngOnInit() {
+
+
+    if (!this.project) {
+      const project = localStorage.getItem('project');
+      if (project) this.project = JSON.parse(project);
+      else return;
+
+      console.log(project, this.project);
+
+    }
+
+    this.headerData = {
+      title: this.project.projectName,
+      showBackButton: true,
+      backButtonLink: 'projects'
+    }
+
+
     // demo seed, replace with API call
     this.boxes = Array.from({ length: 10 }).map((_, i) => ({
       id: String(i + 1),
@@ -48,6 +73,8 @@ export class BoxComponent {
       itemsCount: Math.floor(Math.random() * 10)
     }));
     this.filter();
+
+
 
     console.log(this.boxes);
 
@@ -101,6 +128,10 @@ export class BoxComponent {
     if (!confirm(`Delete "${b.name}"?`)) return;
     this.boxes = this.boxes.filter(x => x.id !== b.id);
     this.filter();
+  }
+
+  goToProjects() {
+    this.router.navigateByUrl('projects');
   }
 }
 

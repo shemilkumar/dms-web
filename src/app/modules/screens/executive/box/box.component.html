@@ -1,40 +1,8 @@
-<!-- Sidebar + Home layout (responsive, Tailwind) -->
 <div class="min-h-screen flex ">
-    <!-- Sidebar (hidden on small screens) -->
-    <aside class="hidden md:flex md:flex-col w-64 p-4">
-        <div class="flex items-center gap-2 px-2 py-3 mb-6">
-            <div class="text-2xl font-bold">Logo</div>
-        </div>
-
-        <nav class="flex-1 space-y-2 px-1 font-semibold text-gray-500 text-lg">
-            <a routerLink="/executive/home" class="block px-3 py-2 rounded hover:bg-gray-100">BOM</a>
-            <a routerLink="/executive/projects" class="block px-3 py-2 rounded hover:bg-gray-100 active">BOX</a>
-            <a routerLink="/executive/settings" class="block px-3 py-2 rounded hover:bg-gray-100">Settings</a>
-        </nav>
-
-        <div class="mt-4 text-xs text-gray-500 px-2">v1.0</div>
-    </aside>
 
     <!-- Main content -->
-    <div class="flex-1 p-4">
-        <header class="flex items-center justify-between mb-6">
-
-            <div class="flex gap-4 items-center">
-                <img src="assets/icons/chevron-left.svg" alt="back-icon" class="icon icon__medium cursor-pointer"
-                    (click)="location.back()">
-                <span class="text-4xl font-medium">Project Name</span>
-            </div>
-
-            <div class="navbar__icons">
-                <img src="assets/icons/profile.svg" alt="profile-icon" class="icon" mat-button
-                    [matMenuTriggerFor]="profileMenu">
-            </div>
-
-            <mat-menu #profileMenu="matMenu" xPosition="before">
-                <button mat-menu-item routerLink="/profile">Profile</button>
-                <button mat-menu-item (click)="logout()">Logout</button>
-            </mat-menu>
-        </header>
+    <div class="flex-1 px-4">
+        <app-header [data]="headerData" />
 
         <main class="p-6 bg-white rounded-xl shadow h-[87.5vh]">
 
