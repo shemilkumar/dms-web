@@ -8,12 +8,19 @@ import { BomComponent } from './bom/bom.component';
 import { SidebarComponent } from 'src/app/core/components/sidebar/sidebar.component';
 import { SidebarLayoutComponent } from 'src/app/core/components/sidebar-layout/sidebar-layout.component';
 import { StickerPageComponent } from './sticker-page/sticker-page.component';
+import { NavbarLayoutComponent } from 'src/app/core/components/navbar-layout/navbar-layout.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: ProjectsComponent,
+    component: NavbarLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: ProjectsComponent,
+      },
+    ]
   },
   {
     path: '',

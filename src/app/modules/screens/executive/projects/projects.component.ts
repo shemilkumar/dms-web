@@ -61,8 +61,98 @@ export class ProjectsComponent {
     });
   }
 
+  deleteProject(project: any) {
+
+  }
+
   goToHome(project: any) {
     localStorage.setItem('project', JSON.stringify(project));
     this.router.navigateByUrl('projects/bom', { state: { project } });
   }
+
+
+  projects: any = [
+    {
+      id: 'PRJ-5f61dbb2-b905-4c17-875f-276c08d5ab5a',
+      name: 'Hospital Management System',
+      created_at: '2024-12-05T10:15:00Z',
+      updated_at: '2025-01-12T09:30:00Z',
+      status: 'active',
+      owner: 'Dr. Arun Kumar'
+    },
+    {
+      id: 'PRJ-002',
+      name: 'Pharmacy Inventory Tracker',
+      created_at: '2024-11-18T14:45:00Z',
+      updated_at: '2024-12-22T16:10:00Z',
+      status: 'active',
+      owner: 'Meena Sharma'
+    },
+    {
+      id: 'PRJ-003',
+      name: 'ECG Monitoring Dashboard',
+      created_at: '2024-10-02T08:00:00Z',
+      updated_at: '2024-10-28T11:20:00Z',
+      status: 'archived',
+      owner: 'Ravi Prasad'
+    },
+    {
+      id: 'PRJ-004',
+      name: 'Laboratory Sample Tracking',
+      created_at: '2024-09-15T13:25:00Z',
+      updated_at: '2024-11-05T10:50:00Z',
+      status: 'draft',
+      owner: 'Anjali Menon'
+    },
+    {
+      id: 'PRJ-005',
+      name: 'Medical Equipment Asset Register',
+      created_at: '2024-08-07T17:40:00Z',
+      updated_at: '2024-12-01T12:15:00Z',
+      status: 'active',
+      owner: 'Suresh Iyer'
+    },
+    {
+      id: 'PRJ-006',
+      name: 'Patient Admission Workflow',
+      created_at: '2024-07-25T09:05:00Z',
+      updated_at: '2024-08-14T15:00:00Z',
+      status: 'archived',
+      owner: 'Neha Gupta'
+    },
+    // {
+    //   id: 'PRJ-007',
+    //   name: 'Clinical Report Automation',
+    //   created_at: '2024-06-30T11:35:00Z',
+    //   updated_at: '2024-07-18T18:45:00Z',
+    //   status: 'active',
+    //   owner: 'Rahul Verma'
+    // },
+    // {
+    //   id: 'PRJ-008',
+    //   name: 'Drug Expiry Alert System',
+    //   created_at: '2024-05-10T16:20:00Z',
+    //   updated_at: '2024-09-01T08:10:00Z',
+    //   status: 'active',
+    //   owner: 'Pooja Nair'
+    // }
+  ];
+
+
+  search = '';
+
+  get filteredProjects() {
+    const q = this.search.trim().toLowerCase();
+    if (!q) return this.projects;
+    return this.projects.filter((p: any) => p.name.toLowerCase().includes(q));
+  }
+
+  shortId(id: string): string {
+    if (!id) return '';
+    return `${id.slice(0, 3)}…${id.slice(-4)}`;
+  }
+  // createProject() { /* open modal / navigate */ }
+  openProject(p: any) { /* go to detail */ }
+  openProjectMenu(p: any) { /* show menu */ }
+
 }

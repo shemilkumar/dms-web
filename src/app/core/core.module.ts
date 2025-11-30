@@ -4,16 +4,22 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { SidebarLayoutComponent } from './components/sidebar-layout/sidebar-layout.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { NavbarLayoutComponent } from './components/navbar-layout/navbar-layout.component';
 
 @NgModule({
   declarations: [
     SidebarComponent,
-    SidebarLayoutComponent
+    SidebarLayoutComponent,
+    NavbarComponent,
+    NavbarLayoutComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    MatMenuModule
   ]
 })
 export class CoreModule { }

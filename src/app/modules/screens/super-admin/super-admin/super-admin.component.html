@@ -1,68 +1,53 @@
-<div class="px-6 py-4 mb-4 border w-full border-gray-200 flex justify-between items-center shadow-md">
-    <div>
-        LOGO
-    </div>
-    <div>
-        <div class="navbar__icons">
-            <img src="assets/icons/profile.svg" alt="profile-icon" class="icon cursor-pointer" mat-button
-                [matMenuTriggerFor]="profileMenu">
+<div class="mt-6">
+    <span class="text-4xl font-semibold px-6">Users</span>
+
+    <div class="px-6 mt-6">
+        <div class="flex justify-between items-center">
+            <app-search-box (onChange)="fetchUsers($event)" id="searchUser" />
+            <app-button type="add" label="Add User" (onClick)="addUser()" />
         </div>
 
-        <mat-menu #profileMenu="matMenu" xPosition="before">
-            <button mat-menu-item routerLink="/profile">Profile</button>
-            <button mat-menu-item (click)="logout()">Logout</button>
-        </mat-menu>
+        <div class="user-table mt-4">
+            <pp-table [columns]="columns" [data]="users$ | async" [config]="config" tableHeight="500">
+
+                <ng-template ppWidgetName="id" let-row>
+                    <span [matTooltip]="row.id" matTooltipPosition="below" class="truncate block font-semibold">
+                        {{row.id}}</span>
+                </ng-template>
+
+                <ng-template ppWidgetName="username" let-row>
+                    <span [matTooltip]="row.username" matTooltipPosition="below" class="truncate block font-semibold">
+                        {{row.username}}</span>
+                </ng-template>
+
+                <ng-template ppWidgetName="email" let-row>
+                    <span [matTooltip]="row.email" matTooltipPosition="below" class="truncate block font-semibold">
+                        {{row.email}}</span>
+                </ng-template>
+
+                <ng-template ppWidgetName="phoneNumber" let-row>
+                    <span [matTooltip]="row.phoneNumber" matTooltipPosition="below"
+                        class="truncate block font-semibold">
+                        {{row.phoneNumber}}</span>
+                </ng-template>
+
+                <ng-template ppWidgetName="role" let-row>
+                    <span [matTooltip]="row.role" matTooltipPosition="below" class="truncate block font-semibold">
+                        {{row.role}}</span>
+                </ng-template>
+
+                <ng-template ppWidgetName="action-buttons" let-row>
+                    <div class="pp-action-buttons">
+
+                        <app-button [variant]="'outline-icon-neutral'" type="icon" iconSrc="assets/icons/edit.svg"
+                            (onClick)="updateUser(row)" />
+
+                        <app-button [variant]="'outline-icon-error'" type="icon" iconSrc="assets/icons/delete.svg"
+                            (onClick)="deleteUser(row)" />
+                    </div>
+                </ng-template>
+            </pp-table>
+        </div>
+
     </div>
-</div>
-
-<span class="text-4xl font-semibold px-6">Users</span>
-
-
-<div class="px-6 mt-6">
-    <div class="flex justify-between items-center">
-        <app-search-box (onChange)="fetchUsers($event)" id="searchUser" />
-        <app-button type="add" label="Add User" (onClick)="addUser()" />
-    </div>
-
-    <div class="user-table mt-4">
-        <pp-table [columns]="columns" [data]="users$ | async" [config]="config" tableHeight="500">
-
-            <ng-template ppWidgetName="id" let-row>
-                <span [matTooltip]="row.id" matTooltipPosition="below" class="truncate block font-semibold">
-                    {{row.id}}</span>
-            </ng-template>
-
-            <ng-template ppWidgetName="username" let-row>
-                <span [matTooltip]="row.username" matTooltipPosition="below" class="truncate block font-semibold">
-                    {{row.username}}</span>
-            </ng-template>
-
-            <ng-template ppWidgetName="email" let-row>
-                <span [matTooltip]="row.email" matTooltipPosition="below" class="truncate block font-semibold">
-                    {{row.email}}</span>
-            </ng-template>
-
-            <ng-template ppWidgetName="phoneNumber" let-row>
-                <span [matTooltip]="row.phoneNumber" matTooltipPosition="below" class="truncate block font-semibold">
-                    {{row.phoneNumber}}</span>
-            </ng-template>
-
-            <ng-template ppWidgetName="role" let-row>
-                <span [matTooltip]="row.role" matTooltipPosition="below" class="truncate block font-semibold">
-                    {{row.role}}</span>
-            </ng-template>
-
-            <ng-template ppWidgetName="action-buttons" let-row>
-                <div class="pp-action-buttons">
-
-                    <app-button [variant]="'outline-icon-neutral'" type="icon" iconSrc="assets/icons/edit.svg"
-                        (onClick)="updateUser(row)" />
-
-                    <app-button [variant]="'outline-icon-error'" type="icon" iconSrc="assets/icons/delete.svg"
-                        (onClick)="deleteUser(row)" />
-                </div>
-            </ng-template>
-        </pp-table>
-    </div>
-
 </div>

@@ -1,14 +1,83 @@
-<div class="m-4">
+<div class="mt-6 px-12">
+  <!-- Header -->
   <div class="flex items-center justify-between">
-    <span class="text-5xl">Projects</span>
-    <app-button label="Projects" type="add" (onClick)="createProject()" />
+    <div class="flex flex-col gap-1">
+      <span
+        class="text-5xl py-2 bg-gradient-to-r from-green-800 via-[#008000] to-green-500 bg-clip-text text-transparent">
+        Projects
+      </span>
+      <p class="text-sm text-gray-500 mt-1 font-semibold">
+        {{ (projects$ | async)?.length || 0 }} projects
+      </p>
+    </div>
+    <app-button label="New Projects" type="add" (onClick)="createProject()" />
   </div>
 
-  <div class="mt-4 grid w-full grid-cols-1 items-center justify-center gap-4 px-48 md:grid-cols-2 lg:grid-cols-3">
-    <div class="project-card w-80" *ngFor="let project of projects$ | async" (click)="goToHome(project)">
-      <pre>{{ project.projectName }}</pre>
+  <!-- Cards grid -->
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-8">
+    <div *ngFor="let project of projects$ | async" class="group relative rounded-2xl border border-gray-100 bg-white p-4 shadow-sm
+             hover:-translate-y-1 hover:shadow transition">
+      <!-- Top accent -->
+      <div class="absolute inset-x-0 top-0 h-1 rounded-t-2xl
+               bg-gradient-to-r from-green-800 via-[#008000] to-green-400">
+      </div>
 
-      <button class="m-2" (click)="updateProject(project)">Edit</button>
+      <!-- Status + short id -->
+      <div class="mb-3 flex items-center justify-between">
+        <span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium" [ngClass]="{
+            'bg-green-100 text-green-800': project.status === 'ACTIVE',
+            'bg-yellow-100 text-yellow-800': project.status === 'DRAFT',
+            'bg-gray-200 text-gray-700': project.status === 'ARCHIEVED'
+          }">
+          {{ project.status | titlecase }}
+        </span>
+
+        <span class="text-[11px] font-medium text-gray-400" [matTooltip]="project.projectId" matTooltipPosition="below">
+          {{ shortId(project.projectId) }}
+        </span>
+      </div>
+
+      <!-- Name -->
+      <h2 class="mb-2 line-clamp-2 text-base font-semibold text-gray-900">
+        {{ project.projectName }}
+      </h2>
+
+      <!-- Meta -->
+      <p class="text-xs text-gray-400 font-semibold">
+        • Created {{ project.createdAt || '21 Nov 2025' }}
+      </p>
+
+      <!-- Footer: open + edit/delete (bottom-right on hover) -->
+      <div class="mt-4 flex items-center justify-between">
+        <button class="text-sm font-medium text-[#008000] hover:text-green-700 underline-offset-4 hover:underline"
+          (click)="goToHome(project)">
+          Open project →
+        </button>
+
+        <div class="flex-shrink-0 flex items-center gap-2">
+          <img src="assets/icons/edit.svg" alt="" class="icon icon__small"
+            (click)="updateProject(project); $event.stopPropagation()">
+          <img src="assets/icons/delete.svg" alt="" class="icon icon__small"
+            (click)="deleteProject(project); $event.stopPropagation()">
+        </div>
+      </div>
+
+      <!-- Subtle hover glow -->
+      <div class="pointer-events-none absolute inset-0 rounded-2xl opacity-0
+               bg-gradient-to-br from-[#008000]/5 via-transparent to-emerald-400/10
+               transition group-hover:opacity-100">
+      </div>
     </div>
+  </div>
+
+  <!-- EMPTY -->
+  <div *ngIf="(projects$ | async)?.length === 0"
+    class="border-dashed flex justify-center items-center flex-col border-2 border-gray-200 rounded-lg p-8 text-center text-gray-500">
+
+    <img src="assets/images/no-card.svg" alt="No Epics" class="empty-image" />
+
+    <div class="text-2xl mb-2">No Projects yet</div>
+    <p class="mb-4">Create your first project — it will appear here as a card.</p>
+    <app-button type="normal" label="Create Project" (onClick)="createProject()" />
   </div>
 </div>
