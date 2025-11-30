@@ -1,16 +1,31 @@
-<header class="flex items-center justify-between mb-6 mx-4">
-
-    <div class="flex gap-4 items-center">
-        <img src="assets/icons/chevron-left.svg" alt="back-icon" class="icon icon__medium cursor-pointer"
-            *ngIf="data?.showBackButton" (click)="goTo(data?.backButtonLink)">
-        <span class="text-4xl font-medium">{{ data?.title }}</span>
+<header class="page-header flex items-center justify-between
+         px-5 py-4 mb-6 rounded-2xl
+         bg-white/60 backdrop-blur-xl backdrop-saturate-150
+         border border-white/40
+         shadow-[0_12px_35px_rgba(15,23,42,0.12)]
+         relative overflow-hidden">
+    <!-- subtle gradient sheen -->
+    <div class="pointer-events-none absolute inset-0
+           bg-gradient-to-r from-green-100/40 via-transparent to-transparent">
     </div>
 
-    <div class="navbar__icons">
-        <img src="assets/icons/profile.svg" alt="profile-icon" class="icon" mat-button
-            [matMenuTriggerFor]="profileMenu">
+    <!-- Left: back + title -->
+    <div class="relative z-10 flex gap-4 items-center">
+        <img src="assets/icons/chevron-left.svg" alt="back-icon" class="icon icon__medium cursor-pointer
+             hover:scale-110 transition-transform" *ngIf="data?.showBackButton" (click)="goTo(data?.backButtonLink)" />
+
+        <span class="text-4xl font-semibold text-slate-900">
+            {{ data?.title }}
+        </span>
     </div>
 
+    <!-- Right: profile -->
+    <div class="relative z-10 navbar__icons">
+        <img src="assets/icons/profile.svg" alt="profile-icon" class="icon cursor-pointer
+             hover:scale-105 transition-transform" mat-button [matMenuTriggerFor]="profileMenu" />
+    </div>
+
+    <!-- Menu -->
     <mat-menu #profileMenu="matMenu" xPosition="before">
         <button mat-menu-item routerLink="/profile">Profile</button>
         <button mat-menu-item (click)="logout()">Logout</button>

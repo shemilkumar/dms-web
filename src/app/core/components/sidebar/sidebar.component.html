@@ -1,33 +1,51 @@
 <div class="sidebar-inner relative">
-
-    <div class="flex justify-between items-center text-2xl tracking-widest logo">
-
-        <div class="flex gap-2 items-center pl-3">
-            <span>LOGO</span>
-        </div>
-        <!-- 
-        <div class="cursor-pointer flex justify-center" [ngClass]="{'w-full': collapsed}">
-            <img src="assets/icons/chevron-left-double.svg" alt="" *ngIf="!collapsed" class="icon icon__medium"
-                (click)="onToggleClick()">
-            <img src="assets/icons/chevron-right-double.svg" alt="" *ngIf="collapsed" class="icon icon__medium"
-                (click)="onToggleClick()">
+    <!-- Logo / Brand -->
+    <div class="logo-row">
+        <!-- <div class="logo-mark">
+            <span class="logo-initial">L</span>
         </div> -->
+        <div class="logo-text">
+            <img src="assets/images/logo.png" alt="Logo" class="w-80" />
+            <!-- <div class="logo-subtitle">Inventory Suite</div> -->
+        </div>
+        <!-- Toggle if you want later
+    <div class="toggle-btn" (click)="onToggleClick()">
+      <img
+        *ngIf="!collapsed"
+        src="assets/icons/chevron-left-double.svg"
+        alt=""
+        class="icon icon__medium"
+      />
+      <img
+        *ngIf="collapsed"
+        src="assets/icons/chevron-right-double.svg"
+        alt=""
+        class="icon icon__medium"
+      />
+    </div>
+    -->
     </div>
 
-
+    <!-- Navigation -->
     <ul class="nav">
-        <div class="flex flex-col gap-3 flex-1 space-y-2 px-1 font-semibold text-gray-500 text-lg">
-            <li *ngFor=" let link of navLinks" [routerLink]="link.route" routerLinkActive="active-link"
-                class="block px-3 py-2 rounded ">
-                <span class="label">{{ link.label }}</span>
+        <div class="nav-list">
+            <li *ngFor="let link of navLinks" [routerLink]="link.route" routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }" class="nav-item">
+                <!-- optional icon slot if you ever add icons
+        <span class="nav-icon">
+          <img [src]="link.icon" alt="" *ngIf="link.icon" />
+        </span>
+        -->
+                <span class="nav-label">{{ link.label }}</span>
             </li>
         </div>
 
-        <!-- <div class="flex flex-col gap-3 px-1 font-semibold text-gray-500 text-lg">
-            <li class="block px-3 py-2 rounded  border !border-green-500">
-                <span class="label">Logout</span>
-            </li>
-        </div> -->
+        <!-- Optional bottom section (e.g., logout)
+    <div class="nav-footer">
+      <li class="nav-item nav-item-outlined" (click)="logout()">
+        <span class="nav-label">Logout</span>
+      </li>
+    </div>
+    -->
     </ul>
-
 </div>

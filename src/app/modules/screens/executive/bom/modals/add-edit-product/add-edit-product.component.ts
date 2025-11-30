@@ -31,13 +31,14 @@ export class AddEditProductComponent {
       uom: ['', Validators.required],
       etchingMark: [''],
       pageNo: ['', Validators.required],
+      section: ['', Validators.required],
       remarks: [''],
     });
   }
 
 
   modalData = {
-    title: this.data?.action === 'update' ? 'Update Product' : 'Add Product',
+    title: this.data?.action === 'update' ? 'Update Product' : 'Create Product',
     confirmButtonText: this.data?.action === 'update' ? 'Update' : 'Submit',
   }
 
@@ -59,6 +60,7 @@ export class AddEditProductComponent {
       etchingMark: this.data.product.etchingMark || '',
       pageNo: this.data.product.pageNo || '',
       remarks: this.data.product.remarks || '',
+      section: this.data.product.section || '',
     });
   }
 
@@ -81,6 +83,7 @@ export class AddEditProductComponent {
       "remarks": this.form.get('remarks')?.value,
       "specification": this.form.get('specification')?.value,
       "uom": this.form.get('uom')?.value,
+      "section": this.form.get('section')?.value,
 
       bom_id: 'BOM123',
       sl_no: 3

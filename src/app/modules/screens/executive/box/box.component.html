@@ -1,10 +1,10 @@
 <div class="min-h-screen flex ">
 
     <!-- Main content -->
-    <div class="flex-1 px-4">
+    <div class="flex-1">
         <app-header [data]="headerData" />
 
-        <main class="p-6 bg-white rounded-xl shadow h-[87.5vh]">
+        <main class="p-6 rounded-xl shadow h-[87.5vh]">
 
             <div class="flex justify-between items-center mb-4 gap-4">
 
@@ -12,7 +12,7 @@
 
 
                 <div class="flex justify-end items-center gap-4">
-                    <app-button type="add" label="Box" (onClick)="createBox()" />
+                    <!-- <app-button type="add" label="New Box" (onClick)="createBox()" /> -->
                 </div>
 
             </div>
@@ -23,32 +23,123 @@
                 <ng-container *ngIf="boxes$ | async as boxes">
                     <div *ngIf="boxes.length; else emptyState"
                         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <article *ngFor="let box of boxes"
-                            class="bg-green-50 cursor-pointer border rounded-lg shadow-xl hover:bg-white hover:shadow-md hover:border hover:border-green-500 transition p-4 flex flex-col">
-                            <div class="flex items-start justify-between gap-3">
+                        <!-- Glass Box Cards -->
+                        <article *ngFor="let box of boxes" class="relative group cursor-pointer overflow-hidden
+             rounded-2xl
+             border border-emerald-100/80
+             bg-white/60
+             backdrop-blur-xl backdrop-saturate-150 
+             shadow-[0_10px_30px_rgba(16,185,129,0.15)]
+             hover:shadow-[0_18px_45px_rgba(16,185,129,0.25)]
+             hover:bg-white/70
+             hover:-translate-y-1 transition-all
+             p-4 flex flex-col">
+                            <!-- Diagonal glow accent -->
+                            <div class="pointer-events-none absolute -top-10 -right-10 w-32 h-32
+               bg-gradient-to-br from-emerald-300/40 via-transparent to-transparent
+               rounded-full opacity-0 group-hover:opacity-100
+               transition-opacity duration-200"></div>
 
-                                <div>
-                                    <span class="text-lg font-medium text-gray-800">{{ box.boxName }}</span>
-                                    <!-- <p class="text-sm text-gray-500 mt-1">{{ b.description || 'No description' }}</p> -->
+                            <!-- Content -->
+                            <div class="relative z-10 flex flex-col h-full gap-3">
+                                <!-- Top row: badge + name + actions -->
+                                <div class="flex items-start justify-between gap-3">
+                                    <div class="flex items-start gap-2">
+                                        <!-- Small badge with first letter -->
+                                        <div class="flex h-8 w-8 items-center justify-center rounded-xl
+                     bg-emerald-50 border border-emerald-100
+                     text-emerald-700 text-sm font-semibold">
+                                            {{ box.boxName?.[0] || 'B' }}
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span
+                                                class="text-xs uppercase tracking-wide text-emerald-500 font-semibold">
+                                                Box
+                                            </span>
+                                            <span class="mt-0.5 text-base font-semibold text-slate-900
+                       group-hover:text-slate-950">
+                                                {{ box.boxName }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Edit/Delete actions -->
+                                    <div class="flex-shrink-0 flex items-center gap-2">
+                                        <img src="assets/icons/edit.svg" alt="Edit"
+                                            class="icon icon__small cursor-pointer hover:scale-125 transition-transform"
+                                            (click)="updateBox(box); $event.stopPropagation()">
+                                        <img src="assets/icons/delete.svg" alt="Delete"
+                                            class="icon icon__small cursor-pointer hover:scale-125 transition-transform"
+                                            (click)="$event.stopPropagation()">
+                                    </div>
                                 </div>
 
-                                <div class="flex-shrink-0 flex items-center gap-2">
-                                    <img src="assets/icons/edit.svg" alt="" class="icon icon__small"
-                                        (click)="updateBox(box)">
-                                    <img src="assets/icons/delete.svg" alt="" class="icon icon__small">
-                                </div>
-                            </div>
+                                <!-- Divider -->
+                                <div class="h-px bg-gradient-to-r from-emerald-100 via-emerald-50 to-transparent"></div>
 
-                            <div class="mt-14 flex items-center justify-between text-sm text-gray-500">
-                                <div class="italic font-semibold text-xs text-amber-500">
-                                    {{ '12 Nov 2021'}}</div>
-                                <div class="text-xs px-2 py-1 bg-green-100 rounded text-gray-500 font-semibold">
-                                    {{ 4 }} items
+                                <!-- Spacer -->
+                                <div class="flex-1"></div>
+
+                                <!-- Footer -->
+                                <div class="flex items-center justify-between text-xs">
+                                    <div class="flex items-center gap-1 text-amber-600/90 font-semibold italic">
+                                        <span class="w-1 h-1 rounded-full bg-amber-400"></span>
+                                        <span>{{ '12 Nov 2021' }}</span>
+                                    </div>
+
+                                    <div class="inline-flex items-center gap-1 px-2.5 py-1
+                   rounded-full
+                   bg-emerald-50 text-emerald-700
+                   font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        <span>{{ 4 }} items</span>
+                                    </div>
                                 </div>
                             </div>
                         </article>
+
+                        <!-- Dashed + Add Box Card -->
+                        <article class="flex flex-col items-center justify-center
+             rounded-2xl
+             border-2 border-dashed border-emerald-300/80
+             bg-white/50 backdrop-blur-lg
+             hover:bg-white
+             hover:border-emerald-500
+             text-center p-4 min-h-[180px]
+             cursor-pointer transition-all
+             shadow-[0_6px_20px_rgba(16,185,129,0.18)]
+             hover:shadow-[0_12px_30px_rgba(16,185,129,0.28)]" (click)="createBox()">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full
+               bg-emerald-50 text-emerald-700 mb-3
+               border border-emerald-200">
+                                <span class="text-3xl leading-none">+</span>
+                            </div>
+                            <div class="text-sm font-semibold text-slate-800">
+                                Create new box
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500 px-4">
+                                Add a new box to organize your inventory.
+                            </p>
+                        </article>
+
                     </div>
                 </ng-container>
+
+                <!-- Empty state when no boxes -->
+                <ng-template #emptyState>
+                    <div class="border-dashed flex justify-center items-center flex-col
+           border-2 border-gray-200 rounded-lg p-8 text-center text-gray-500">
+                        <img src="assets/images/no-card.svg" alt="No Boxes" class="empty-image mb-4" />
+                        <div class="text-2xl mb-2">No boxes yet</div>
+                        <p class="mb-4">Create your first box — it will appear here as a card.</p>
+                        <button
+                            class="px-4 py-2 rounded-lg bg-[#008000] text-white text-sm font-semibold shadow-md hover:bg-green-700"
+                            (click)="createBox()">
+                            Create Box
+                        </button>
+                    </div>
+                </ng-template>
+
 
                 <!-- empty state -->
                 <ng-template #emptyState>
