@@ -1,16 +1,32 @@
-<div class="px-12 border w-full border-gray-200 bg-gray-100 flex justify-between items-center shadow-md z-50 ">
-    <div class="w-80">
-        <img src="assets/images/logo.png" alt="">
-    </div>
-    <div>
-        <div class="navbar__icons">
-            <img src="assets/icons/profile.svg" alt="profile-icon" class="icon cursor-pointer" mat-button
-                [matMenuTriggerFor]="profileMenu">
+<header class="sticky top-0 z-50 px-12 pt-4">
+    <div class="relative w-full flex items-center justify-between
+           rounded-2xl
+
+           bg-white/35 backdrop-blur-2xl backdrop-saturate-150
+           border border-white/40
+           shadow-[0_8px_30px_rgb(0,0,0,0.06)]
+
+           before:absolute before:inset-0
+           before:rounded-2xl
+           before:bg-gradient-to-b
+           before:from-white/40 before:to-transparent
+           before:pointer-events-none
+          ">
+        <!-- Logo -->
+        <div class="flex items-center px-6 py-1">
+            <img src="assets/images/logo.png" alt="Logo" class="w-72" />
         </div>
 
-        <mat-menu #profileMenu="matMenu" xPosition="before">
-            <button mat-menu-item routerLink="/profile">Profile</button>
-            <button mat-menu-item (click)="logout()">Logout</button>
-        </mat-menu>
+        <!-- Right icons -->
+        <div class="flex items-center gap-4 px-6">
+            <img src="assets/icons/profile.svg" alt="profile"
+                class="profile-icon cursor-pointer transition-transform hover:scale-105" mat-button
+                [matMenuTriggerFor]="profileMenu" />
+
+            <mat-menu #profileMenu="matMenu" xPosition="before">
+                <button mat-menu-item routerLink="/profile">Profile</button>
+                <button mat-menu-item (click)="logout()">Logout</button>
+            </mat-menu>
+        </div>
     </div>
-</div>
+</header>
