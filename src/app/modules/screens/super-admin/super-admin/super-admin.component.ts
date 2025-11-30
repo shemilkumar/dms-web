@@ -99,12 +99,12 @@ export class SuperAdminComponent {
     this.fetchUsers();
   }
 
-  fetchUsers(searchText?: string) {
+  fetchUsers(searchText: string = '') {
 
     let url = `users/all?search=${searchText}`;
 
     this.users$ = this.api.get(url).pipe(
-      map((users: any) => users.data.map((user: any) => ({
+      map((users: any) => users.data?.items.map((user: any) => ({
         id: user.user_id,
         username: user.username,
         email: user.email,

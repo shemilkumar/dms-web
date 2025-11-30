@@ -8,7 +8,7 @@
 
             <div class="flex justify-between items-center mb-4 gap-4">
 
-                <app-search-box placeholder="Search boxes..." [(ngModel)]="query" (ngModelChange)="filter()" />
+                <app-search-box placeholder="Search boxes..." />
 
 
                 <div class="flex justify-end items-center gap-4">
@@ -20,34 +20,35 @@
 
             <div class="">
 
-                <!-- grid -->
-                <div *ngIf="filtered.length; else emptyState"
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    <article *ngFor="let b of pagedBoxes"
-                        class="bg-green-50 cursor-pointer border rounded-lg shadow-xl hover:bg-white hover:shadow-md hover:border hover:border-green-500 transition p-4 flex flex-col">
-                        <div class="flex items-start justify-between gap-3">
+                <ng-container *ngIf="boxes$ | async as boxes">
+                    <div *ngIf="boxes.length; else emptyState"
+                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <article *ngFor="let box of boxes"
+                            class="bg-green-50 cursor-pointer border rounded-lg shadow-xl hover:bg-white hover:shadow-md hover:border hover:border-green-500 transition p-4 flex flex-col">
+                            <div class="flex items-start justify-between gap-3">
 
-                            <div>
-                                <span class="text-lg font-medium text-gray-800">{{ b.name }}</span>
-                                <!-- <p class="text-sm text-gray-500 mt-1">{{ b.description || 'No description' }}</p> -->
+                                <div>
+                                    <span class="text-lg font-medium text-gray-800">{{ box.boxName }}</span>
+                                    <!-- <p class="text-sm text-gray-500 mt-1">{{ b.description || 'No description' }}</p> -->
+                                </div>
+
+                                <div class="flex-shrink-0 flex items-center gap-2">
+                                    <img src="assets/icons/edit.svg" alt="" class="icon icon__small"
+                                        (click)="updateBox(box)">
+                                    <img src="assets/icons/delete.svg" alt="" class="icon icon__small">
+                                </div>
                             </div>
 
-                            <div class="flex-shrink-0 flex items-center gap-2">
-                                <img src="assets/icons/edit.svg" alt="" class="icon icon__small">
-                                <img src="assets/icons/delete.svg" alt="" class="icon icon__small">
+                            <div class="mt-14 flex items-center justify-between text-sm text-gray-500">
+                                <div class="italic font-semibold text-xs text-amber-500">
+                                    {{ '12 Nov 2021'}}</div>
+                                <div class="text-xs px-2 py-1 bg-green-100 rounded text-gray-500 font-semibold">
+                                    {{ 4 }} items
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="mt-14 flex items-center justify-between text-sm text-gray-500">
-                            <div class="italic font-semibold text-xs text-amber-500">{{ b.created |
-                                date:'mediumDate'
-                                }}</div>
-                            <div class="text-xs px-2 py-1 bg-green-100 rounded text-gray-500 font-semibold">{{
-                                b.itemsCount ?? 0 }}
-                                items</div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
+                    </div>
+                </ng-container>
 
                 <!-- empty state -->
                 <ng-template #emptyState>

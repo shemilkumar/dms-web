@@ -1,6 +1,11 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { map, Observable, of } from 'rxjs';
+import { ApiService } from 'src/app/core/services/api.service';
+import { AddEditBoxComponent } from './modals/add-edit-box/add-edit-box.component';
+import { SMALL_MODAL_WIDTH, SMALL_SINGLE_COL_MODAL_WIDTH } from 'src/environments/constants';
 
 interface Box {
   id?: string;
@@ -17,44 +22,24 @@ interface Box {
 })
 export class BoxComponent {
 
-  constructor(public location: Location, private router: Router) { }
-
-
-  logout() {
-
+  constructor(public location: Location, private router: Router,
+    private api: ApiService, private dialog: MatDialog
+  ) {
+    const state = router.getCurrentNavigation()?.extras.state;
+    this.project = state?.['project'];
   }
 
-  createBox() { }
-
-
-  boxes: Box[] = []; // load from API
-  filtered: Box[] = [];
-  pagedBoxes: Box[] = [];
-  query = '';
-  sortBy = 'createdDesc';
-  page = 0;
-  pageSize = 12;
-  editing: Box | null = null;
-
-  get start() { return this.page * this.pageSize; }
-  get end() { return Math.min((this.page + 1) * this.pageSize, this.filtered.length); }
-
-  headerData = {
-
-  }
-
+  isLoading: boolean = false;
+  headerData = {}
   project: any;
+  boxes$: Observable<any> = of([]);
 
   ngOnInit() {
-
 
     if (!this.project) {
       const project = localStorage.getItem('project');
       if (project) this.project = JSON.parse(project);
       else return;
-
-      console.log(project, this.project);
-
     }
 
     this.headerData = {
@@ -63,71 +48,39 @@ export class BoxComponent {
       backButtonLink: 'projects'
     }
 
-
-    // demo seed, replace with API call
-    this.boxes = Array.from({ length: 10 }).map((_, i) => ({
-      id: String(i + 1),
-      name: `Box ${i + 1}`,
-      description: i % 2 ? `Description ${i + 1}` : '',
-      created: new Date(Date.now() - i * 86400000),
-      itemsCount: Math.floor(Math.random() * 10)
-    }));
-    this.filter();
-
-
-
-    console.log(this.boxes);
-
+    this.fetchBoxes();
   }
 
-  filter() {
-    const q = this.query.trim().toLowerCase();
-    this.filtered = this.boxes
-      .filter(b => !q || b.name.toLowerCase().includes(q) || (b.description || '').toLowerCase().includes(q))
-      .sort(this.getSorter());
-    this.page = 0;
-    this.updatePaged();
+  fetchBoxes(searchText: string = '') {
+    this.isLoading = true;
+
+    let url = `boxes/project/${this.project.projectId}?search=${searchText}`;
+
+    this.boxes$ = this.api.get(url).pipe(
+      map((boxes: any) => boxes.data?.items?.map((box: any) => ({
+        boxName: box.name,
+        description: box.description,
+        boxId: box.box_id
+      })))
+    );
   }
 
-  getSorter() {
-    switch (this.sortBy) {
-      case 'createdAsc': return (a: Box, b: Box) => +(a.created! > b.created!) - 0.5;
-      case 'nameAsc': return (a: Box, b: Box) => a.name.localeCompare(b.name);
-      default: // createdDesc
-        return (a: Box, b: Box) => +(b.created! > a.created!) - 0.5;
-    }
+  createBox() {
+    this.dialog.open(AddEditBoxComponent, {
+      width: SMALL_MODAL_WIDTH,
+      data: { action: 'add', project: this.project }
+    }).afterClosed().subscribe((result: boolean) => {
+      if (result) this.fetchBoxes();
+    });
   }
 
-  updatePaged() {
-    this.pagedBoxes = this.filtered.slice(this.start, this.end);
-  }
-
-  prevPage() { if (this.page > 0) { this.page--; this.updatePaged(); } }
-  nextPage() { if (this.end < this.filtered.length) { this.page++; this.updatePaged(); } }
-
-  openCreate() { this.editing = { name: '', description: '', created: new Date(), itemsCount: 0 }; }
-  openEdit(b: Box) { this.editing = { ...b }; }
-  closeEdit() { this.editing = null; }
-
-  save() {
-    if (!this.editing) return;
-    if (this.editing.id) {
-      // update
-      const idx = this.boxes.findIndex(x => x.id === this.editing!.id);
-      if (idx >= 0) this.boxes[idx] = { ...this.editing };
-    } else {
-      // create
-      this.editing.id = Date.now().toString();
-      this.boxes.unshift({ ...this.editing });
-    }
-    this.closeEdit();
-    this.filter();
-  }
-
-  confirmDelete(b: Box) {
-    if (!confirm(`Delete "${b.name}"?`)) return;
-    this.boxes = this.boxes.filter(x => x.id !== b.id);
-    this.filter();
+  updateBox(box: any) {
+    this.dialog.open(AddEditBoxComponent, {
+      width: SMALL_MODAL_WIDTH,
+      data: { action: 'update', project: this.project, box }
+    }).afterClosed().subscribe((result: boolean) => {
+      if (result) this.fetchBoxes();
+    });
   }
 
   goToProjects() {

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -10,50 +12,44 @@ import { ApiService } from 'src/app/core/services/api.service';
 })
 export class LoginComponent {
 
-  constructor(private api: ApiService, private router: Router) { }
+  loginForm: FormGroup
+
+  constructor(private api: ApiService, private router: Router,
+    private fb: FormBuilder, private snackbar: SnackbarService
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    })
+  }
 
   isLoading = false;
 
-  // Simple submit handler — replace with real auth call
-  onSubmit(form: NgForm) {
-    if (!form || !form.valid) {
-      return;
-    }
-
-    this.isLoading = true;
-    const { email, password, remember } = form.value;
-    // TODO: call AuthService.login(email, password, remember)
-    console.log('Login attempt', { email, password, remember });
-
-    this.login();
-
-    // simulate finish
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 700);
-  }
-
 
   login() {
-    this.api.post('auth/login', { email: 'shemilkumar@probeplus.in', password: '1234' }).subscribe({
-      next: (response: any) => {
-        console.log('Login successful', response);
+    this.isLoading = true;
 
-        const accessToken = response.data.access_token;
-        const refreshToken = response.data.refresh_token;
+    this.api.post('auth/login', this.loginForm.value).pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (response: any) => {
+          console.log('Login successful', response);
 
-        localStorage.setItem('access_token', accessToken);
-        localStorage.setItem('refresh_token', refreshToken);
-        // localStorage.setItem('userId', response.data.user_id);
-        // localStorage.setItem('role', response.data.role);
+          const accessToken = response.data.access_token;
+          const refreshToken = response.data.refresh_token;
 
-        if (response.data.role === 'SA') this.router.navigateByUrl('/super-admin');
-        if (['ADM', 'EX'].includes(response.data.role)) this.router.navigateByUrl('/projects');
+          localStorage.setItem('access_token', accessToken);
+          localStorage.setItem('refresh_token', refreshToken);
+          // localStorage.setItem('userId', response.data.user_id);
+          // localStorage.setItem('role', response.data.role);
 
-      },
-      error: (error) => {
-        console.error('Login failed', error);
-      }
-    });
+          if (response.data.role === 'SA') this.router.navigateByUrl('/super-admin');
+          if (['ADM', 'EX'].includes(response.data.role)) this.router.navigateByUrl('/projects');
+
+        },
+        error: (error) => {
+          console.error('Login failed', error);
+          this.snackbar.openSnackbar(error.message, 'error');
+        }
+      });
   }
 }

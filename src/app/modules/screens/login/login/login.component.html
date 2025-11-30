@@ -1,11 +1,71 @@
-<!-- Responsive login form (Tailwind) -->
-<div class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-    <div class="w-full max-w-md">
-        <div class="bg-white shadow rounded-lg p-6">
-            <div class="text-center mb-6">
-                <h2 class="text-2xl font-semibold">Sign in to DMS</h2>
-                <p class="text-sm text-gray-500 mt-1">Enter your credentials to continue</p>
-            </div>
+<div class="h-screen w-full flex gap-4 bg-white">
+    <div class="w-1/2 h-full flex justify-center items-center flex-col gap-8">
+
+        <span class="text-xl">LOGO</span>
+
+        <!-- <span class="font-semibold text-3xl ">Welcome to Database Management System</span> -->
+        <span class="text-4xl p-4 text-center font-semibold bg-gradient-to-r from-green-800 via-[#008000] to-green-500
+            bg-clip-text text-transparent">
+            Welcome to
+            <br>
+            Database Management System
+        </span>
+
+        <img src="assets/images/login.png" alt="" class="object-cover w-1/2">
+    </div>
+
+    <div
+        class="login w-1/2 rounded-tl-3xl rounded-bl-3xl flex justify-center items-center  bg-gradient-to-l from-green-500 via-emerald-500 to-teal-500">
+
+        <div class="bg-white p-4 rounded-2xl w-96 shadow-2xl">
+            <div class="text-3xl font-semibold mb-4 pt-2">Login</div>
+            <span class="text-sm font-semibold text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Architecto,
+                veniam!</span>
+
+            <form [formGroup]="loginForm">
+                <div class="space-y-4 mt-4">
+                    <div class="text-gray-500 font-semibold">
+                        <label class="block text-sm">Email</label>
+
+                        <input name="email" required type="email" autocomplete="username"
+                            class="mt-1 block w-full bg-[#f5f5f5] rounded outline-none  border-gray-300 shadow-sm p-4"
+                            placeholder="you@example.com" formControlName="email" />
+
+                        <small *ngIf="" class="text-xs text-red-500 mt-1">Please enter a valid email.</small>
+                    </div>
+
+                    <div class="text-gray-500 font-semibold">
+                        <label class="block text-sm font-medium text-gray-700">Password</label>
+                        <input name="password" required type="password" autocomplete="current-password"
+                            class="mt-1 block w-full bg-[#f5f5f5] outline-none rounded border-gray-300 shadow-sm p-4"
+                            placeholder="****" formControlName="password" />
+
+                        <small *ngIf="" class="text-xs text-red-500 mt-1">Please enter a valid password.</small>
+                    </div>
+
+                    <div class="w-full flex justify-end items-center font-semibold text-[#008000]">
+                        <span class="cursor-pointer hover:underline">Forgot Password</span>
+                    </div>
+
+                    <div class="pb-4">
+                        <button
+                            class="p-2 w-full bg-[#008000] rounded mt-4 text-white font-semibold text-xl flex items-center justify-center gap-4"
+                            (click)="login()" [disabled]="isLoading || loginForm.invalid">
+                            <span>Login</span>
+                            <mat-spinner *ngIf="isLoading" diameter="20" class="spinner" color="secondary" />
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- 
 
             <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
                 <div class="space-y-4">
@@ -44,11 +104,4 @@
                         </button>
                     </div>
                 </div>
-            </form>
-
-            <div class="text-center text-sm text-gray-500 mt-4">
-                Don't have an account? <a class="text-indigo-600 hover:underline">Sign up</a>
-            </div>
-        </div>
-    </div>
-</div>
+            </form> -->
