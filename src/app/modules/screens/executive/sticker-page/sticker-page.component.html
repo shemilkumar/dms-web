@@ -9,15 +9,17 @@
 
     <!-- A4 Sticker Sheet -->
     <div class="sheet  border-green-500" id="print-container">
-        <div class="sticker flex justify-between" *ngFor="let s of stickers">
+        <div class="sticker flex justify-between" *ngFor="let sticker of stickers">
             <div class="">
-                <div class="sticker__title">Sticker #{{ s.index }}</div>
-                <div class="sticker__line">Product: {{ s.productCode }}</div>
-                <div class="sticker__line">Code: {{ s.stickerCode }}</div>
-                <div class="sticker__line">Batch: {{ s.batch }}</div>
+                <div class="sticker__title">{{ sticker.projectName }}</div>
+                <div class="sticker__line">DESC: {{ sticker.description }}</div>
+                <div class="sticker__line">SPEC: {{ sticker.specification }}</div>
+                <div class="sticker__line">SEC: {{ sticker.section }}</div>
+                <div class="sticker__line">MOC: {{ sticker.moc }}</div>
+                <div class="sticker__line">QTY: {{ sticker.quantity }}</div>
             </div>
             <div class="flex-1 m-auto flex justify-center items-center ">
-                <qrcode [qrdata]="qrData" [width]="60" [errorCorrectionLevel]="'M'"></qrcode>
+                <qrcode [qrdata]="sticker.qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
             </div>
         </div>
     </div>

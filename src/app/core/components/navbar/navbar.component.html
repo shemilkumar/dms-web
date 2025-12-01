@@ -13,12 +13,21 @@
            before:pointer-events-none
           ">
         <!-- Logo -->
-        <div class="flex items-center px-6 py-1">
+        <div class="flex items-center px-6 py-1 w-80">
             <img src="assets/images/logo.png" alt="Logo" class="w-72" />
         </div>
 
+        <div class="flex gap-8 font-semibold">
+            <div class="py-2 px-3 border-b-2 border-green-500">
+                Projects
+            </div>
+            <div class="py-2 px-1">
+                User Management
+            </div>
+        </div>
+
         <!-- Right icons -->
-        <div class="flex items-center gap-4 px-6">
+        <div class="flex justify-end items-center gap-4 px-6 w-80">
             <img src="assets/icons/profile.svg" alt="profile"
                 class="profile-icon cursor-pointer transition-transform hover:scale-105" mat-button
                 [matMenuTriggerFor]="profileMenu" />

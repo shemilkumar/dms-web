@@ -1,11 +1,9 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
+import { ApiService } from 'src/app/core/services/api.service';
 
-interface Sticker {
-  index: number;
-  productCode: string;
-  stickerCode: string;
-  batch: string;
-}
 
 @Component({
   selector: 'app-sticker-page',
@@ -14,20 +12,59 @@ interface Sticker {
 })
 export class StickerPageComponent implements OnInit {
 
+  products: any;
 
-  stickers: Sticker[] = [];
+  constructor(public location: Location, private router: Router, private api: ApiService) {
+    const state = router.getCurrentNavigation()?.extras.state;
+    this.products = state?.['product'];
+    // if (!this.products) router.navigate(['projects/bom']);
+  }
+
+
+  stickers: any = [];
   qrData = "https://hianime.do";
 
   ngOnInit(): void {
-    this.stickers = Array.from({ length: 40 }, (_, i) => {
-      const index = i + 1;
+
+    console.log(this.products);
+
+    const bomIds = this.products?.map((product: any) => product.bomId);
+
+    console.log(bomIds);
+    this.fetchStickers(bomIds);
+  }
+
+  fetchStickers(bomIds: any) {
+
+    // cosnt payload = this.product
+
+    this.api.post(`stickers/boms/multiple`, { bom_ids: bomIds }).pipe(finalize(() => { }))
+      .subscribe({
+        next: (response: any) => {
+          console.log(response);
+
+          this.generateStickers(response.data?.all_stickers)
+          // this.snackbar.openSnackbar('Product created successfully', 'success');
+        },
+        error: (error) => {
+          console.log(error);
+          // this.snackbar.openSnackbar(error.message, 'error');
+        }
+      });
+  }
+
+  generateStickers(stickers: any) {
+    this.stickers = stickers.map((sticker: any) => {
       return {
-        index,
-        productCode: `PROD-${index.toString().padStart(2, '0')}`,
-        stickerCode: `STK-${index.toString().padStart(4, '0')}`,
-        batch: index <= 10 ? 'A' : index <= 20 ? 'B' : index <= 30 ? 'C' : 'D',
+        projectName: sticker.project_name,
+        description: sticker.description,
+        specification: sticker.specification,
+        section: sticker.section,
+        moc: sticker.moc,
+        quantity: sticker.total,
+        qrData: `{"stickerId": ${sticker.sticker_id}, "seq": ${sticker.seq}}`,
       };
-    });
+    })
   }
 
   printStickers(): void {

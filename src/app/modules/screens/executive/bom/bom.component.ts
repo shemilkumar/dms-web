@@ -179,7 +179,8 @@ export class BomComponent {
         remarks: product.remarks,
         remainingQuantity: product.remaining_quantity,
         dispatchedQuantity: product.dispatched_quantity,
-        bomId: product.bom_id
+        bomId: product.bom_id,
+        section: product.section
       })))
     );
   }
@@ -219,12 +220,15 @@ export class BomComponent {
     //     }
     //   });
 
-    this.dialog.open(StickersComponent, {
-      height: '90vh',
-      data: { project: this.project, product }
-    }).afterClosed().subscribe((result: boolean) => {
-      if (result) this.fetchProducts();
-    });
+    // this.dialog.open(StickersComponent, {
+    //   height: '90vh',
+    //   data: { project: this.project, product }
+    // }).afterClosed().subscribe((result: boolean) => {
+    //   if (result) this.fetchProducts();
+    // });
+
+    this.router.navigate(['projects/sticker'], { state: { project: this.project, product: [product] } });
+
   }
 
   importProducts() {

@@ -86,5 +86,9 @@ export class BoxComponent {
   goToProjects() {
     this.router.navigateByUrl('projects');
   }
+
+  openBox(box: any) {
+    this.router.navigate(['projects/package-list'], { state: { box } });
+  }
 }
 

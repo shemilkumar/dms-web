@@ -71,7 +71,7 @@ export class AddEditProductComponent {
 
     this.isLoading = true;
 
-    const projectPayload = {
+    const productPayload = {
       "description": this.form.get('description')?.value,
       "dispatched_quantity": 0,
       "etching_mark": this.form.get('etchingMark')?.value,
@@ -89,8 +89,8 @@ export class AddEditProductComponent {
       sl_no: 3
     }
 
-    if (this.data?.action === 'update') { }
-    else this.createProduct(projectPayload);
+    if (this.data?.action === 'update') this.updateProduct(productPayload)
+    else this.createProduct(productPayload);
   }
 
   createProduct(payload: any) {
@@ -98,6 +98,20 @@ export class AddEditProductComponent {
       .subscribe({
         next: (response: any) => {
           this.snackbar.openSnackbar('Product created successfully', 'success');
+          this.dialogRef.close(true);
+        },
+        error: (error) => {
+          console.log(error);
+          this.snackbar.openSnackbar(error.message, 'error');
+        }
+      })
+  }
+
+  updateProduct(payload: any) {
+    this.api.put(`boms/${this.data?.product.bomId}`, payload).pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (response: any) => {
+          this.snackbar.openSnackbar('Product Updated successfully', 'success');
           this.dialogRef.close(true);
         },
         error: (error) => {

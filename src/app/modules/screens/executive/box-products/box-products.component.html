@@ -1,108 +1,77 @@
-<!-- Sidebar + Home layout (responsive, Tailwind) -->
-<div class="min-h-screen flex ">
-    <!-- Sidebar (hidden on small screens) -->
-    <aside class="hidden md:flex md:flex-col w-64 p-4">
-        <div class="flex items-center gap-2 px-2 py-3 mb-6">
-            <div class="text-2xl font-bold">Logo</div>
+<div class="min-h-screen flex flex-col">
+    <!-- Main content -->
+    <app-header [data]="headerData" />
+
+    <main class="flex-1 rounded-xl shadow-sm p-6 h-full">
+
+        <div class="flex justify-between items-center mb-4 gap-4">
+
         </div>
 
-        <nav class="flex-1 space-y-2 px-1 font-semibold text-gray-500 text-lg">
-            <a routerLink="/executive/home" class="block px-3 py-2 rounded hover:bg-gray-100">BOM</a>
-            <a routerLink="/executive/projects" class="block px-3 py-2 rounded hover:bg-gray-100 active">BOX</a>
-            <a routerLink="/executive/settings" class="block px-3 py-2 rounded hover:bg-gray-100">Settings</a>
-        </nav>
+        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="650">
 
-        <div class="mt-4 text-xs text-gray-500 px-2">v1.0</div>
-    </aside>
+            <ng-template ppWidgetName="description" let-row>
+                <span [matTooltip]="row.description" matTooltipPosition="below" class="truncate block font-semibold">
+                    {{row.description}}</span>
+            </ng-template>
 
-    <!-- Main content -->
-    <div class="flex-1 p-4">
-        <header class="flex items-center justify-between mb-6">
-            <!-- Mobile menu button (non-functional visual placeholder) -->
-            <div class="md:hidden">
-                <button class="p-2 rounded bg-white border">Menu</button>
-            </div>
+            <ng-template ppWidgetName="specification" let-row>
+                <span [matTooltip]="row.specification" matTooltipPosition="below"
+                    class="truncate block">{{row.specification |
+                    shrinkMessage:30 }}</span>
+            </ng-template>
 
-            <div class="flex gap-4 items-center">
-                <img src="assets/icons/chevron-left.svg" alt="back-icon" class="icon icon__medium cursor-pointer"
-                    (click)="location.back()">
-                <span class="text-4xl font-medium">Box 10</span>
-            </div>
+            <ng-template ppWidgetName="moc" let-row>
+                <span [matTooltip]="row.moc" matTooltipPosition="below" class="truncate block">{{row.moc |
+                    shrinkMessage:20}}</span>
+            </ng-template>
 
-            <div class="navbar__icons">
-                <img src="assets/icons/profile.svg" alt="profile-icon" class="icon" mat-button
-                    [matMenuTriggerFor]="profileMenu">
-            </div>
+            <ng-template ppWidgetName="etchingMark" let-row>
+                <span [matTooltip]="row.etchingMark" matTooltipPosition="below" class="truncate block">{{row.etchingMark
+                    |
+                    shrinkMessage:20}}</span>
+            </ng-template>
 
-            <mat-menu #profileMenu="matMenu" xPosition="before">
-                <button mat-menu-item routerLink="/profile">Profile</button>
-                <button mat-menu-item (click)="logout()">Logout</button>
-            </mat-menu>
-        </header>
+            <ng-template ppWidgetName="pageNo" let-row>
+                <span [matTooltip]="row.pageNo" matTooltipPosition="below" class="truncate block">{{row.pageNo |
+                    shrinkMessage:20}}</span>
+            </ng-template>
 
-        <main class="p-6 bg-white rounded-xl shadow">
+            <ng-template ppWidgetName="quantity" let-row>
+                <span [matTooltip]="row.quantity" matTooltipPosition="below" class="truncate block">{{row.quantity |
+                    shrinkMessage:20}}</span>
+            </ng-template>
 
-            <div class="flex justify-end items-center mb-4 gap-4">
-                <app-button type="with-icon" label="Print" iconSrc="assets/icons/print-white.svg"
-                    (onClick)="createProduct()" [disabled]="false" />
-            </div>
+            <ng-template ppWidgetName="dispatchedQuantity" let-row>
+                <span [matTooltip]="row.dispatchedQuantity" matTooltipPosition="below"
+                    class="truncate block">{{row.dispatchedQuantity |
+                    shrinkMessage:20}}</span>
+            </ng-template>
 
-            <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="640"
-                (page)="onPageChange($event)">
+            <ng-template ppWidgetName="remainingQuantity" let-row>
+                <span [matTooltip]="row.remainingQuantity" matTooltipPosition="below"
+                    class="truncate block">{{row.remainingQuantity |
+                    shrinkMessage:20}}</span>
+            </ng-template>
 
-                <ng-template ppWidgetName="description" let-row>
-                    <span [matTooltip]="row.description" matTooltipPosition="below"
-                        class="truncate block font-semibold">
-                        {{row.description}}</span>
-                </ng-template>
+            <ng-template ppWidgetName="remarks" let-row>
+                <span [matTooltip]="row.remarks" matTooltipPosition="below" class="truncate block">{{row.remarks |
+                    shrinkMessage:20}}</span>
+            </ng-template>
 
-                <ng-template ppWidgetName="specification" let-row>
-                    <span [matTooltip]="row.specification" matTooltipPosition="below"
-                        class="truncate block">{{row.specification |
-                        shrinkMessage:30 }}</span>
-                </ng-template>
+            <ng-template ppWidgetName="createdOn" let-row>
+                <span [matTooltip]="row.createdOn" matTooltipPosition="below" class="truncate block">
+                    {{row.createdOn}}
+                </span>
+            </ng-template>
 
-                <ng-template ppWidgetName="moc" let-row>
-                    <span [matTooltip]="row.moc" matTooltipPosition="below" class="truncate block">{{row.moc |
-                        shrinkMessage:20}}</span>
-                </ng-template>
+            <ng-template ppWidgetName="action-buttons" let-row>
+                <div class="pp-action-buttons">
 
-                <ng-template ppWidgetName="etching_mark" let-row>
-                    <span [matTooltip]="row.etching_mark" matTooltipPosition="below"
-                        class="truncate block">{{row.etching_mark |
-                        shrinkMessage:20}}</span>
-                </ng-template>
 
-                <ng-template ppWidgetName="page_no" let-row>
-                    <span [matTooltip]="row.page_no" matTooltipPosition="below" class="truncate block">{{row.page_no |
-                        shrinkMessage:20}}</span>
-                </ng-template>
+                </div>
+            </ng-template>
+        </pp-table>
 
-                <ng-template ppWidgetName="remarks" let-row>
-                    <span [matTooltip]="row.remarks" matTooltipPosition="below" class="truncate block">{{row.remarks |
-                        shrinkMessage:20}}</span>
-                </ng-template>
-
-                <ng-template ppWidgetName="createdOn" let-row>
-                    <span [matTooltip]="row.createdOn" matTooltipPosition="below" class="truncate block">
-                        {{row.createdOn}}
-                    </span>
-                </ng-template>
-
-                <ng-template ppWidgetName="action-buttons" let-row>
-                    <!-- <div class="pp-action-buttons">
-
-                        <app-button [variant]="'outline-icon-success'" type="icon" iconSrc="assets/icons/print.svg"
-                            (onClick)="updateProduct(row)" />
-
-                        <app-button [variant]="'outline-icon-neutral'" type="icon" iconSrc="assets/icons/edit.svg"
-                            (onClick)="updateProduct(row)" />
-
-                        <app-button [variant]="'outline-icon-error'" type="icon" iconSrc="assets/icons/delete.svg"
-                            (onClick)="deleteProduct(row)" />
-                    </div> -->
-                </ng-template>
-            </pp-table>
-        </main>
-    </div>
+    </main>
 </div>
