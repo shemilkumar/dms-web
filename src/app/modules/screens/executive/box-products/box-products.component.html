@@ -8,7 +8,7 @@
 
         </div>
 
-        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="650">
+        <pp-table [columns]="columns" [data]="packageList$ | async" [config]="config" tableHeight="650">
 
             <ng-template ppWidgetName="description" let-row>
                 <span [matTooltip]="row.description" matTooltipPosition="below" class="truncate block font-semibold">

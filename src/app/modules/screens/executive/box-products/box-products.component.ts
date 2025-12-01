@@ -17,16 +17,17 @@ export class BoxProductsComponent {
 
   box: any = {};
   isLoading: boolean = false;
-  products$: Observable<any> = of([]);
+  packageList$: Observable<any> = of([]);
 
   constructor(public location: Location, private router: Router, private api: ApiService, private dialog: MatDialog) {
     const state = router.getCurrentNavigation()?.extras.state;
     this.box = state?.['box'];
+    if (!this.box) router.navigate(['projects/box']);
   }
 
   config: PPTableConfig = {
     id: 'product-table',
-    rowSelectEnabled: true,
+    rowSelectEnabled: false,
     actions: {
       header: {
         class: ['flex', 'items-center', 'justify-end'],
@@ -69,7 +70,13 @@ export class BoxProductsComponent {
       sortable: false,
       cellClass: [],
     },
-
+    {
+      id: 'uom',
+      label: 'UOM',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
     {
       id: 'moc',
       label: 'MOC',
@@ -78,15 +85,8 @@ export class BoxProductsComponent {
       cellClass: ['fw-bold', 'font-size-16'],
     },
     {
-      id: 'etchingMark',
-      label: 'Etching Mark',
-      headerClass: ['text-start'],
-      sortable: true,
-      cellClass: ['fw-bold', 'font-size-16'],
-    },
-    {
-      id: 'pageNo',
-      label: 'Page No',
+      id: 'section',
+      label: 'Section',
       headerClass: ['text-start'],
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],
@@ -99,33 +99,19 @@ export class BoxProductsComponent {
       cellClass: ['fw-bold', 'font-size-16'],
     },
     {
-      id: 'dispatchedQuantity',
-      label: 'Dispatched Quantity',
+      id: 'dispatchedStickers',
+      label: 'Dispatched Stickers',
       headerClass: ['text-start'],
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],
     },
     {
-      id: 'remainingQuantity',
-      label: 'Remaining Quantity',
+      id: 'pendingStickers',
+      label: 'Pending Stickers',
       headerClass: ['text-start'],
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],
     },
-    {
-      id: 'remarks',
-      label: 'Remarks',
-      headerClass: ['text-start'],
-      sortable: true,
-      cellClass: ['fw-bold', 'font-size-16'],
-    },
-    // {
-    //   id: 'createdOn',
-    //   label: 'Created On',
-    //   headerClass: ['text-start'],
-    //   sortable: true,
-    //   cellClass: ['fw-bold', 'font-size-16'],
-    // },
     {
       id: 'action-buttons',
       label: '',
@@ -146,28 +132,26 @@ export class BoxProductsComponent {
       showBackButton: true,
       backButtonLink: 'projects/box'
     }
-    this.fetchProducts();
+    this.fetchPackageList();
   }
 
 
-  fetchProducts(searchText: string = '') {
+  fetchPackageList(searchText: string = '') {
     this.isLoading = true;
 
     let url = `stickers/package/${this.box.boxId}/package-list`;
 
-    this.products$ = this.api.get(url).pipe(
+    this.packageList$ = this.api.get(url).pipe(
       map((products: any) => products.data?.items?.map((product: any) => ({
         description: product.description,
         specification: product.specification,
         moc: product.moc,
         quantity: product.quantity,
         uom: product.uom,
-        etchingMark: product.etching_mark,
-        pageNo: product.page_no,
-        remarks: product.remarks,
-        remainingQuantity: product.remaining_quantity,
-        dispatchedQuantity: product.dispatched_quantity,
-        bomId: product.bom_id
+        section: product.section,
+        dispatchedStickers: product.dispatched_stickers,
+        pendingStickers: product.pending_stickers,
+        bomId: product.bom_id,
       })))
     );
   }
