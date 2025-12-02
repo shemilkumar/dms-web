@@ -127,16 +127,26 @@ body {
         visibility: hidden;
     }
 
-    #print-container {
-        visibility: visible !important;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-    }
+    // #print-container {
+    //     visibility: visible !important;
+    //     position: absolute;
+    //     left: 0;
+    //     top: 0;
+    //     width: 100%;
+    // }
 
     @page {
         size: A4;
         margin: 10mm;
     }
+}
+
+/* Hide toolbar while capturing PDF */
+.print-mode .no-print {
+    display: none !important;
+}
+
+/* REMOVE shadows in PDF (optional but recommended) */
+.print-mode .sheet {
+    box-shadow: none !important;
 }

@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEditProductComponent } from './modals/add-edit-product/add-edit-product.component';
 import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
 import { StickersComponent } from './modals/stickers/stickers.component';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
@@ -20,6 +21,8 @@ export class BomComponent {
   project: any = {};
   isLoading: boolean = false;
   products$: Observable<any> = of([]);
+
+  selectedBOMs: SelectionModel<any> = new SelectionModel<any>(true);
 
   constructor(public location: Location, private router: Router, private api: ApiService, private dialog: MatDialog) {
     const state = router.getCurrentNavigation()?.extras.state;
@@ -139,10 +142,6 @@ export class BomComponent {
   ];
 
 
-  qrData = "{\"sticker_id\":\"STK-400ca817-9c17-4acb-a043-8c9046badddd\",\"project_id\":\"PRJ-5f61dbb2-b905-4c17-875f-276c08d5ab5a\",\"bom_id\":\"BOM-191802a4-8119-4ab5-bee2-58b82295d746\",\"seq\":2,\"total\":2}";
-
-  // qrData = "https://hianime.do";
-
   headerData: any = {};
 
   ngOnInit(): void {
@@ -207,28 +206,21 @@ export class BomComponent {
     });
   }
 
-  printProduct(product: any) {
-    // this.isLoading = false
-    // this.api.post(`stickers/bom/${product.bomId}/generate`, {}).pipe(finalize(() => { }))
-    //   .subscribe({
-    //     next: (response: any) => {
-    //       // this.snackbar.openSnackbar('Product created successfully', 'success');
-    //     },
-    //     error: (error) => {
-    //       console.log(error);
-    //       // this.snackbar.openSnackbar(error.message, 'error');
-    //     }
-    //   });
+  printProduct(product: any = null) {
+    let products;
+    if (product) products = [product];
+    else products = this.selectedBOMs.selected;
 
-    // this.dialog.open(StickersComponent, {
-    //   height: '90vh',
-    //   data: { project: this.project, product }
-    // }).afterClosed().subscribe((result: boolean) => {
-    //   if (result) this.fetchProducts();
-    // });
+    this.router.navigate(['projects/sticker'], { state: { project: this.project, products } });
+  }
 
-    this.router.navigate(['projects/sticker'], { state: { project: this.project, product: [product] } });
+  onUsersSelected(event: any) {
+    this.selectedBOMs = event;
+    // const selected = new Set(event.selected.map((users: any) => users));
+  }
 
+  isSelected(row: any, selection: SelectionModel<any>) {
+    return selection.selected.map(bom => bom.bomId).includes(row.bomId);
   }
 
   importProducts() {

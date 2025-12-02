@@ -6,8 +6,10 @@
 
         <div class="flex justify-between items-center mb-4 gap-4">
 
-            <app-button type="with-icon" label="Print" iconSrc="assets/icons/print-white.svg"
-                (onClick)="createProduct()" [disabled]="false" />
+            <app-button type="with-icon" label="Print" iconSrc="assets/icons/print-white.svg" (onClick)="printProduct()"
+                [disabled]="false" *ngIf="selectedBOMs.selected.length" />
+
+            <div></div>
 
             <div class="flex justify-end items-center gap-4">
                 <app-button type="with-icon" iconSrc="assets/icons/upload.svg" variant="outline-with-icon-success"
@@ -18,7 +20,8 @@
 
         </div>
 
-        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="650">
+        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="650"
+            (selected)="onUsersSelected($event)" [isSelected]="isSelected">
 
             <ng-template ppWidgetName="description" let-row>
                 <span [matTooltip]="row.description" matTooltipPosition="below" class="truncate block font-semibold">

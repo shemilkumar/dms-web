@@ -1,129 +1,100 @@
-* {
-    box-sizing: border-box;
-}
+/* stickers-page.component.scss */
 
-:host {
-    display: block;
-    font-family: Arial, sans-serif;
-}
-
+/* Whole page wrapper */
 .page-wrapper {
     min-height: 100vh;
-    padding: 16px;
     background: #f4f4f4;
+    padding: 16px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
 }
 
-/* Toolbar above the sheet */
+/* Top toolbar / actions */
 .toolbar {
-    width: 190mm;
-    margin-bottom: 12px;
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 12px;
 }
 
 .print-btn {
     padding: 8px 16px;
-    font-size: 14px;
     border-radius: 4px;
     border: none;
     cursor: pointer;
-    background: #1976d2;
-    color: #fff;
-
-    &:hover {
-        background: #125aa0;
-    }
 }
 
-/* A4 sheet inner area (we keep it smaller than full A4 to avoid clipping) */
-.sheet {
-    width: 190mm; // safe width inside A4
-    min-height: 277mm; // A4 height minus margins
-    background: #ffffff;
-    padding: 2mm;
-    margin: 0 auto;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-
-    // display: grid;
-    // // 4 columns, fixed width stickers
-    // grid-template-columns: repeat(4, 46mm);
-    // // 10 rows, fixed height stickers
-    // grid-auto-rows: 25.9mm;
-    // gap: 2mm; // space between stickers
-
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); // 4 columns
-    grid-auto-rows: 25.5mm; // 👈 important (row height)
-    gap: 2mm;
-}
-
-/* Individual sticker */
-.sticker {
-    border: 1px solid #1976d2; // colored border
-    border-radius: 2mm;
-    padding: 2mm;
-    font-size: 8pt;
-
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: flex-start;
-    // text-align: left;
-
-    &__title {
-        font-weight: 600;
-        margin-bottom: 1mm;
-    }
-
-    &__line {
-        line-height: 1.2;
-        font-size: 0.5rem;
-    }
-}
-
-/* Print tweaks specifically for this page */
-
-// .sheet {
-//     width: 794px; // approximate A4 width at 96dpi
-//     min-height: 1123px;
-//     background: #fff;
-//     padding: 16px;
-// }
-
-/* SCREEN VIEW */
-.sheet {
-    width: 210mm;
-    min-height: 297mm;
-    /* ✅ allow content to grow */
-    padding: 10mm;
-    margin: 20px auto;
-    box-sizing: border-box;
-    background: #fff;
-}
-
-/* Allow scrolling */
-.page-wrapper {
-    min-height: 100vh;
+/* Scrollable area containing the pages */
+.preview-container {
+    flex: 1;
     overflow-y: auto;
 }
 
-/* PRINT ONLY */
-@media print {
-    body {
-        overflow: visible;
-    }
+/* Each sheet = one A4 page visually */
+.sheet {
+    width: 210mm;
+    min-height: 297mm;
+    /* allow growth on screen */
+    margin: 0 auto 16px auto;
+    padding: 5mm;
+    background: white;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
 
-    .sheet {
-        height: 297mm;
-        /* ✅ fixed only while printing */
-        page-break-after: always;
-    }
+.page-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
 
-    .no-print {
-        display: none !important;
-    }
+/* Simple sticker layout */
+.sticker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px dashed #ccc;
+    padding: 6px 8px;
+    margin-bottom: 6px;
+}
+
+.sticker-text {
+    flex: 1;
+}
+
+.sticker__title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.sticker__line {
+    font-size: 12px;
+}
+
+.sticker-qr {
+    margin-left: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hide toolbar when printing / in PDF capture mode */
+.print-mode .no-print {
+    display: none !important;
+}
+
+/* When we add .print-mode to body, enforce strict A4 page height and breaks */
+.print-mode .sheet {
+    width: 210mm;
+    height: 297mm;
+    /* fixed height for PDF */
+    margin: 0 auto;
+    box-shadow: none;
+}
+
+/* Page breaks between sheets for PDF */
+.print-mode .page-break {
+    page-break-after: always;
+    break-after: page;
 }

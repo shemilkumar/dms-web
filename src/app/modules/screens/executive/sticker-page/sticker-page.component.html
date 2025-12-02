@@ -1,34 +1,48 @@
-<div class="page-wrapper border-red-500">
+<app-header [data]="headerData" />
+<!-- app-stickers.component.html -->
+<div class="h-screen overflow-y-auto bg-slate-100 pb-4">
 
-    <!-- Toolbar (won't print) -->
-    <div class="toolbar no-print">
-        <button type="button" class="print-btn" (click)="downloadStickersPdf()">
+
+    <!-- Toolbar (stays at top) -->
+    <div class="sticky top-0 z-10 bg-slate-100 p-2 no-print flex justify-end">
+        <!-- <button class="px-4 py-2 rounded bg-blue-600 text-white" (click)="downloadStickersPdf()">
             🖨 Download Stickers PDF
-        </button>
+        </button> -->
+        <app-button type="with-icon" label="Download" iconSrc="assets/icons/download.svg"
+            (onClick)="downloadStickersPdf()" />
     </div>
 
-    <!-- Printable area -->
-    <div id="print-container" #printContainer>
+    <!-- This is what jsPDF will capture -->
+    <div id="print-container" #printContainer class="py-4 space-y-6">
 
-        <!-- One loop = one A4 page -->
-        <div *ngFor="let pageSticker of pagedStickers; let i = index" class="sheet border border-green-500"
-            [class.page-break]="i < pagedStickers.length - 1">
-            <!-- One loop = one sticker on that page -->
-            <div class="sticker flex justify-between" *ngFor="let sticker of pageSticker">
-                <div>
-                    <div class="sticker__title">{{ sticker.projectName }}</div>
-                    <div class="sticker__line">DESC: {{ sticker.description }}</div>
-                    <div class="sticker__line">SPEC: {{ sticker.specification }}</div>
-                    <div class="sticker__line">SEC: {{ sticker.section }}</div>
-                    <div class="sticker__line">MOC: {{ sticker.moc }}</div>
-                    <div class="sticker__line">QTY: {{ sticker.quantity }}</div>
-                </div>
+        <!-- One array = one A4 page -->
+        <div *ngFor="let pageSticker of pagedStickers; let pageIndex = index"
+            class="mx-auto bg-white shadow w-[210mm] min-h-[297mm] p-6 flex flex-col page sheet"
+            [class.page-break]="pageIndex < pagedStickers.length - 1" #sheetRef>
+            <!-- <div class="font-bold mb-2">
+                Page {{ pageIndex + 1 }}
+            </div> -->
 
-                <div class="flex-1 m-auto flex justify-center items-center">
-                    <qrcode class="qr-code" [qrdata]="sticker.qrData" [width]="60" [errorCorrectionLevel]="'M'"
-                        [margin]="2" [elementType]="'canvas'"></qrcode>
+            <!-- Each sticker -->
+            <div class="grid grid-cols-3 gap-x-2 gap-y-4">
+                <div *ngFor="let sticker of pageSticker"
+                    class="flex justify-between items-center border border-dashed rounded border-green-500 px-3 py-2 text-xs">
+                    <div class="">
+                        <div class="font-semibold text-sm">{{ sticker.projectName }}</div>
+                        <div class="text-[0.65rem]">DESC: {{ sticker.description }}</div>
+                        <div class="text-[0.65rem]">SPEC: {{ sticker.specification }}</div>
+                        <div class="text-[0.65rem]">SEC: {{ sticker.section }}</div>
+                        <div class="text-[0.65rem]">MOC: {{ sticker.moc }}</div>
+                        <div class="text-[0.65rem]">QTY: {{ sticker.quantity }}</div>
+                    </div>
+
+                    <div class="flex items-center justify-center ml-4">
+                        <qrcode [qrdata]="sticker.qrData" [width]="70" [errorCorrectionLevel]="'M'" [margin]="2"
+                            [elementType]="'canvas'"></qrcode>
+                    </div>
                 </div>
             </div>
+
         </div>
 
     </div>
