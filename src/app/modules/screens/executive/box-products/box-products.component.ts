@@ -22,7 +22,7 @@ export class BoxProductsComponent {
   constructor(public location: Location, private router: Router, private api: ApiService, private dialog: MatDialog) {
     const state = router.getCurrentNavigation()?.extras.state;
     this.box = state?.['box'];
-    if (!this.box) router.navigate(['projects/box']);
+    if (!this.box) router.navigate(['home/box']);
   }
 
   config: PPTableConfig = {
@@ -130,7 +130,7 @@ export class BoxProductsComponent {
     this.headerData = {
       title: this.box.boxName,
       showBackButton: true,
-      backButtonLink: 'projects/box'
+      backButtonLink: 'home/box'
     }
     this.fetchPackageList();
   }

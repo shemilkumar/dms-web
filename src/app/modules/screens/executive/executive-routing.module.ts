@@ -9,17 +9,26 @@ import { SidebarComponent } from 'src/app/core/components/sidebar/sidebar.compon
 import { SidebarLayoutComponent } from 'src/app/core/components/sidebar-layout/sidebar-layout.component';
 import { StickerPageComponent } from './sticker-page/sticker-page.component';
 import { NavbarLayoutComponent } from 'src/app/core/components/navbar-layout/navbar-layout.component';
+import { UserManagementComponent } from 'src/app/shared/components/user-management/user-management.component';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'projects',
     pathMatch: 'full',
+  },
+  {
+    path: '',
     component: NavbarLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'projects',
         component: ProjectsComponent,
       },
+      {
+        path: 'users',
+        component: UserManagementComponent
+      }
     ]
   },
   {

@@ -14,6 +14,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { ShrinkMessagePipe } from './pipes/shrink-message.pipe';
 import { EpochConverterPipe } from './pipes/epoch-converter.pipe';
 import { MatMenuModule } from '@angular/material/menu';
+import { UserManagementComponent } from './components/user-management/user-management.component';
+import { PpModule } from '../modules/base/pp/pp.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { MatMenuModule } from '@angular/material/menu';
     SearchBoxComponent,
     ToastComponent,
     HeaderComponent,
-    EpochConverterPipe
+    EpochConverterPipe,
+    UserManagementComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +38,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatProgressSpinnerModule,
     MatSelectModule,
     MatMenuModule,
+    PpModule,
+    MatTooltipModule,
     ReactiveFormsModule
   ],
   exports: [
@@ -44,7 +50,8 @@ import { MatMenuModule } from '@angular/material/menu';
     SearchBoxComponent,
     ToastComponent,
     HeaderComponent,
-    EpochConverterPipe
+    EpochConverterPipe,
+    UserManagementComponent
   ],
 })
 export class SharedModule { }

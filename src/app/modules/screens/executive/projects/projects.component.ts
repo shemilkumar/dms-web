@@ -67,7 +67,7 @@ export class ProjectsComponent {
 
   goToHome(project: any) {
     localStorage.setItem('project', JSON.stringify(project));
-    this.router.navigateByUrl('projects/bom', { state: { project } });
+    this.router.navigateByUrl('/home/bom', { state: { project } });
   }
 
 

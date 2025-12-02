@@ -172,7 +172,7 @@ export class BomComponent {
     this.headerData = {
       title: this.project.projectName,
       showBackButton: true,
-      backButtonLink: 'projects'
+      backButtonLink: 'home'
     }
     this.fetchProducts();
   }
@@ -229,7 +229,7 @@ export class BomComponent {
     if (product) products = [product];
     else products = this.selectedBOMs.selected;
 
-    this.router.navigate(['projects/sticker'], { state: { project: this.project, products } });
+    this.router.navigate(['home/sticker'], { state: { project: this.project, products } });
   }
 
   onUsersSelected(event: any) {

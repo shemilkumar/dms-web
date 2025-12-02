@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { map, Observable, of } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
-import { AddEditUserComponent } from '../modals/add-edit-user/add-edit-user.component';
+import { AddEditUserComponent } from '../../../../shared/components/user-management/modals/add-edit-user/add-edit-user.component';
 import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
 import { Router } from '@angular/router';
 

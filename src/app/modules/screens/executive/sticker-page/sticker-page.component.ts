@@ -39,7 +39,7 @@ export class StickerPageComponent implements OnInit {
   ) {
     const state = router.getCurrentNavigation()?.extras.state;
     this.products = state?.['products'];
-    if (!this.products) router.navigate(['projects/bom']);
+    if (!this.products) router.navigate(['home/bom']);
   }
 
   @ViewChildren('sheetRef') sheetRefs!: QueryList<ElementRef<HTMLDivElement>>;
@@ -55,7 +55,7 @@ export class StickerPageComponent implements OnInit {
     this.headerData = {
       title: 'Preview Stickers',
       showBackButton: true,
-      backButtonLink: 'projects/bom'
+      backButtonLink: 'home/bom'
     }
     // Demo data: 40 items
     // this.stickers = Array.from({ length: 40 }).map((_, i) => ({

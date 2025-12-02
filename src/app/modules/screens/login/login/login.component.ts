@@ -40,10 +40,10 @@ export class LoginComponent {
           localStorage.setItem('access_token', accessToken);
           localStorage.setItem('refresh_token', refreshToken);
           // localStorage.setItem('userId', response.data.user_id);
-          // localStorage.setItem('role', response.data.role);
+          localStorage.setItem('role', response.data.role);
 
           if (response.data.role === 'SA') this.router.navigateByUrl('/super-admin');
-          if (['ADM', 'EX'].includes(response.data.role)) this.router.navigateByUrl('/projects');
+          if (['ADM', 'EX'].includes(response.data.role)) this.router.navigateByUrl('/home/projects');
 
         },
         error: (error) => {

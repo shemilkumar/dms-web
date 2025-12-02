@@ -10,8 +10,8 @@ export class SidebarComponent {
   constructor() { }
 
   navLinks = [
-    { label: 'BOM', route: '/projects/bom' },
-    { label: 'BOX', route: '/projects/box' },
+    { label: 'BOM', route: '/home/bom' },
+    { label: 'BOX', route: '/home/box' },
     { label: 'Settings', route: '/executive/settings' },
   ]
 

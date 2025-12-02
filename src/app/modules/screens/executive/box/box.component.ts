@@ -45,7 +45,7 @@ export class BoxComponent {
     this.headerData = {
       title: this.project.projectName,
       showBackButton: true,
-      backButtonLink: 'projects'
+      backButtonLink: 'home'
     }
 
     this.fetchBoxes();
@@ -84,11 +84,11 @@ export class BoxComponent {
   }
 
   goToProjects() {
-    this.router.navigateByUrl('projects');
+    this.router.navigateByUrl('home');
   }
 
   openBox(box: any) {
-    this.router.navigate(['projects/package-list'], { state: { box } });
+    this.router.navigate(['home/package-list'], { state: { box } });
   }
 }
 

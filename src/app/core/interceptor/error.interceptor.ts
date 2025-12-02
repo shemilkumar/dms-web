@@ -17,10 +17,10 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                 // if (error.status === 401 || error.status === 403) this.authService.logout();
 
+                if (error.status === 403 && error.error.detail === 'Not authenticated') this.authService.logout();
+
                 if (error.status === 401 && error.error.detail === 'Token expired')
                     return this.authService.handleUpdateAccessToken(req, next);
-
-                // if (error.status === 403 && error.error.detail === 'Not authenticated') this.router.navigate(['/login']);
 
                 if (error.error instanceof ErrorEvent) {
                     errorMessage = `ClientSide Error: ${error.error}`;

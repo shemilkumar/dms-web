@@ -9,7 +9,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'projects',
+    path: 'home',
     loadChildren: () =>
       import('./modules/screens/executive/executive.module')
         .then((module) => module.ExecutiveModule),
