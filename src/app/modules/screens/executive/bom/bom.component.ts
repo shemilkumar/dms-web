@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { finalize, map, Observable, of } from 'rxjs';
 import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
@@ -9,6 +9,7 @@ import { AddEditProductComponent } from './modals/add-edit-product/add-edit-prod
 import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
 import { StickersComponent } from './modals/stickers/stickers.component';
 import { SelectionModel } from '@angular/cdk/collections';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 
 @Component({
@@ -23,8 +24,11 @@ export class BomComponent {
   products$: Observable<any> = of([]);
 
   selectedBOMs: SelectionModel<any> = new SelectionModel<any>(true);
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-  constructor(public location: Location, private router: Router, private api: ApiService, private dialog: MatDialog) {
+  constructor(public location: Location, private router: Router, private api: ApiService, private dialog: MatDialog,
+    private snackbar: SnackbarService
+  ) {
     const state = router.getCurrentNavigation()?.extras.state;
     this.project = state?.['project'];
   }
@@ -84,7 +88,7 @@ export class BomComponent {
     },
     {
       id: 'etchingMark',
-      label: 'Etching Mark',
+      label: 'EM',
       headerClass: ['text-start'],
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],
@@ -92,6 +96,20 @@ export class BomComponent {
     {
       id: 'pageNo',
       label: 'Page No',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
+      id: 'section',
+      label: 'Section',
+      headerClass: ['text-start'],
+      sortable: true,
+      cellClass: ['fw-bold', 'font-size-16'],
+    },
+    {
+      id: 'uom',
+      label: 'UOM',
       headerClass: ['text-start'],
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],
@@ -105,25 +123,25 @@ export class BomComponent {
     },
     {
       id: 'dispatchedQuantity',
-      label: 'Dispatched Quantity',
+      label: 'Dispatched',
       headerClass: ['text-start'],
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],
     },
     {
       id: 'remainingQuantity',
-      label: 'Remaining Quantity',
+      label: 'Remaining',
       headerClass: ['text-start'],
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],
     },
-    {
-      id: 'remarks',
-      label: 'Remarks',
-      headerClass: ['text-start'],
-      sortable: true,
-      cellClass: ['fw-bold', 'font-size-16'],
-    },
+    // {
+    //   id: 'remarks',
+    //   label: 'Remarks',
+    //   headerClass: ['text-start'],
+    //   sortable: true,
+    //   cellClass: ['fw-bold', 'font-size-16'],
+    // },
     // {
     //   id: 'createdOn',
     //   label: 'Created On',
@@ -137,7 +155,7 @@ export class BomComponent {
       headerClass: ['text-start'],
       sortable: false,
       cellClass: ['fw-bold', 'font-size-16'],
-      // style: "width: 25%",
+      style: "width: 120px",
     },
   ];
 
@@ -216,19 +234,59 @@ export class BomComponent {
 
   onUsersSelected(event: any) {
     this.selectedBOMs = event;
-    // const selected = new Set(event.selected.map((users: any) => users));
   }
 
   isSelected(row: any, selection: SelectionModel<any>) {
     return selection.selected.map(bom => bom.bomId).includes(row.bomId);
   }
 
-  importProducts() {
+  fileUploadLoading: boolean = false;
 
+  uploadProducts(file: File) {
+
+    const formData = new FormData();
+    formData.append('file', file);
+    this.fileUploadLoading = true;
+
+    this.api.post(`boms/project/${this.project.projectId}/upload`, formData).pipe(finalize(() => this.fileUploadLoading = false))
+      .subscribe({
+        next: (response: any) => {
+          this.snackbar.openSnackbar('Products imported successfully', 'success');
+          this.fetchProducts();
+        },
+        error: (error) => {
+          console.log(error);
+          this.snackbar.openSnackbar(error.message, 'error');
+        }
+      })
   }
 
-  logout() {
+  triggerFileSelect(): void {
+    this.fileInput.nativeElement.click();
+  }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) return;
+
+    // ✅ validate file type
+    const allowedTypes = [
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      alert('Please select a valid Excel file (.xls or .xlsx)');
+      input.value = '';
+      return;
+    }
+
+    console.log('Selected file:', file);
+
+    this.uploadProducts(file);
+    input.value = '';
   }
 
 }

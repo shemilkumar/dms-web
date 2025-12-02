@@ -84,9 +84,6 @@ export class AddEditProductComponent {
       "specification": this.form.get('specification')?.value,
       "uom": this.form.get('uom')?.value,
       "section": this.form.get('section')?.value,
-
-      bom_id: 'BOM123',
-      sl_no: 3
     }
 
     if (this.data?.action === 'update') this.updateProduct(productPayload)

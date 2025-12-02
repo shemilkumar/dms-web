@@ -142,7 +142,7 @@ export class BoxProductsComponent {
     let url = `stickers/package/${this.box.boxId}/package-list`;
 
     this.packageList$ = this.api.get(url).pipe(
-      map((products: any) => products.data?.items?.map((product: any) => ({
+      map((products: any) => products.data?.map((product: any) => ({
         description: product.description,
         specification: product.specification,
         moc: product.moc,
