@@ -2,26 +2,34 @@
 
     <!-- Toolbar (won't print) -->
     <div class="toolbar no-print">
-        <button type="button" class="print-btn" (click)="printStickers()">
-            🖨 Print Stickers
+        <button type="button" class="print-btn" (click)="downloadStickersPdf()">
+            🖨 Download Stickers PDF
         </button>
     </div>
 
-    <!-- A4 Sticker Sheet -->
-    <div class="sheet  border-green-500" id="print-container">
-        <div class="sticker flex justify-between" *ngFor="let sticker of stickers">
-            <div class="">
-                <div class="sticker__title">{{ sticker.projectName }}</div>
-                <div class="sticker__line">DESC: {{ sticker.description }}</div>
-                <div class="sticker__line">SPEC: {{ sticker.specification }}</div>
-                <div class="sticker__line">SEC: {{ sticker.section }}</div>
-                <div class="sticker__line">MOC: {{ sticker.moc }}</div>
-                <div class="sticker__line">QTY: {{ sticker.quantity }}</div>
-            </div>
-            <div class="flex-1 m-auto flex justify-center items-center ">
-                <qrcode [qrdata]="sticker.qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
+    <!-- Printable area -->
+    <div id="print-container" #printContainer>
+
+        <!-- One loop = one A4 page -->
+        <div *ngFor="let pageSticker of pagedStickers; let i = index" class="sheet border border-green-500"
+            [class.page-break]="i < pagedStickers.length - 1">
+            <!-- One loop = one sticker on that page -->
+            <div class="sticker flex justify-between" *ngFor="let sticker of pageSticker">
+                <div>
+                    <div class="sticker__title">{{ sticker.projectName }}</div>
+                    <div class="sticker__line">DESC: {{ sticker.description }}</div>
+                    <div class="sticker__line">SPEC: {{ sticker.specification }}</div>
+                    <div class="sticker__line">SEC: {{ sticker.section }}</div>
+                    <div class="sticker__line">MOC: {{ sticker.moc }}</div>
+                    <div class="sticker__line">QTY: {{ sticker.quantity }}</div>
+                </div>
+
+                <div class="flex-1 m-auto flex justify-center items-center">
+                    <qrcode class="qr-code" [qrdata]="sticker.qrData" [width]="60" [errorCorrectionLevel]="'M'"
+                        [margin]="2" [elementType]="'canvas'"></qrcode>
+                </div>
             </div>
         </div>
-    </div>
 
+    </div>
 </div>
