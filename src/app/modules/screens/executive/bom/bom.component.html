@@ -6,7 +6,7 @@
 
         <div class="flex justify-between items-center mb-4 gap-4">
 
-            <div class="w-fit">
+            <div class="w-fit flex gap-4 items-center">
                 <app-button type="with-icon" label="Print" iconSrc="assets/icons/print-white.svg"
                     (onClick)="printProduct()" [disabled]="false" *ngIf="selectedBOMs.selected.length" />
 
@@ -28,7 +28,7 @@
 
         </div>
 
-        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="700"
+        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="750"
             (selected)="onUsersSelected($event)" [isSelected]="isSelected">
 
             <ng-template ppWidgetName="description" let-row>

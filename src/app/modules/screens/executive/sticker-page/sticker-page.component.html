@@ -8,12 +8,12 @@
         <!-- <button class="px-4 py-2 rounded bg-blue-600 text-white" (click)="downloadStickersPdf()">
             🖨 Download Stickers PDF
         </button> -->
-        <app-button type="with-icon" label="Download" iconSrc="assets/icons/download.svg"
+        <app-button type="with-icon" label="Download" iconSrc="assets/icons/pdf.svg"
             (onClick)="downloadStickersPdf()" />
     </div>
 
     <!-- This is what jsPDF will capture -->
-    <div id="print-container" #printContainer class="py-4 space-y-6">
+    <div id="" #printContainer class="py-4 space-y-6">
 
         <!-- One array = one A4 page -->
         <div *ngFor="let pageSticker of pagedStickers; let pageIndex = index"

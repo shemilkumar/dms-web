@@ -156,5 +156,8 @@ export class BoxProductsComponent {
     );
   }
 
+  printPackageList() {
+
+  }
 
 }

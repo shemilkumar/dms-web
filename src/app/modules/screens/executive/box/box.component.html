@@ -8,11 +8,10 @@
 
             <div class="flex justify-between items-center mb-4 gap-4">
 
-                <app-search-box placeholder="Search boxes..." />
-
+                <app-search-box (onChange)="fetchBoxes($event)" id="searchProjects" placeholder="Search boxes..." />
 
                 <div class="flex justify-end items-center gap-4">
-                    <!-- <app-button type="add" label="New Box" (onClick)="createBox()" /> -->
+                    <app-button type="add" label="New Box" (onClick)="createBox()" />
                 </div>
 
             </div>
@@ -125,9 +124,8 @@
                     </div>
                 </ng-container>
 
-                <!-- Empty state when no boxes -->
                 <ng-template #emptyState>
-                    <div class="border-dashed flex justify-center items-center flex-col
+                    <!-- <div class="border-dashed flex justify-center items-center flex-col
            border-2 border-gray-200 rounded-lg p-8 text-center text-gray-500">
                         <img src="assets/images/no-card.svg" alt="No Boxes" class="empty-image mb-4" />
                         <div class="text-2xl mb-2">No boxes yet</div>
@@ -137,20 +135,20 @@
                             (click)="createBox()">
                             Create Box
                         </button>
-                    </div>
+                    </div> -->
                 </ng-template>
 
 
                 <!-- empty state -->
-                <ng-template #emptyState>
-                    <div
-                        class="border-dashed flex justify-center items-center flex-col border-2 border-gray-200 rounded-lg p-8 text-center text-gray-500">
+                <!-- <ng-template #emptyState>
+                    <div class=" border-dashed flex justify-center items-center flex-col border-2 border-gray-200
+                    rounded-lg p-8 text-center text-gray-500">
                         <img src="assets/images/no-card.svg" alt="No Epics" class="empty-image" />
                         <div class="text-2xl mb-2">No boxes yet</div>
                         <p class="mb-4">Create your first box — it will appear here as a card.</p>
                         <app-button type="normal" label="Create Box" (onClick)="createBox()" />
                     </div>
-                </ng-template>
+                </ng-template> -->
             </div>
 
         </main>

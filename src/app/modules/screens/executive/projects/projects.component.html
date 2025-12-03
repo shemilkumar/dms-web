@@ -14,10 +14,12 @@
   </div>
 
   <div class="flex gap-4 w-fit">
-    <app-search-box placeholder="Search projects..." (onChange)="fetchProjects($event)" />
+    <app-search-box (onChange)="fetchProjects($event)" id="searchProjects" placeholder="Search projects..." />
+
     <mat-select placeholder="Select Status" (selectionChange)="statusChange($event)" [(ngModel)]="selectedStatus">
       <mat-option value="ALL">All</mat-option>
       <mat-option value="ACTIVE">Active</mat-option>
+      <mat-option value="DRAFT">Draft</mat-option>
       <mat-option value="CLOSED">Closed</mat-option>
     </mat-select>
   </div>
@@ -32,7 +34,7 @@
              backdrop-blur-md
              shadow-[0_12px_35px_rgba(15,23,42,0.10)]
              hover:shadow-[0_18px_55px_rgba(15,23,42,0.18)]
-             hover:-translate-y-1 transition-all cursor-pointer" (click)="goToHome(project)">
+             hover:-translate-y-1 transition-all cursor-pointer" (click)="goToBOM(project)">
       <!-- Content wrapper -->
       <div class="relative z-10 p-4">
         <!-- Status + short id with top divider -->
@@ -72,7 +74,7 @@
         <div class="mt-4 flex items-center justify-between">
           <button class="text-sm font-medium text-[#008000]
                    hover:text-green-700 underline-offset-4 hover:underline"
-            (click)="goToHome(project); $event.stopPropagation()">
+            (click)="goToBOM(project); $event.stopPropagation()">
             Open project →
           </button>
 

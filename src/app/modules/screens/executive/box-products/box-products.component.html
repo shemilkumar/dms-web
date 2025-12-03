@@ -4,74 +4,80 @@
 
     <main class="flex-1 rounded-xl shadow-sm p-6 h-full">
 
-        <div class="flex justify-between items-center mb-4 gap-4">
-
+        <div class="flex justify-end items-center mb-4 gap-4">
+            <app-button label="Print" type="with-icon" iconSrc="assets/icons/print-white.svg"
+                (onClick)="printPackageList()" />
         </div>
 
-        <pp-table [columns]="columns" [data]="packageList$ | async" [config]="config" tableHeight="650">
+        <div id="print-container">
 
-            <ng-template ppWidgetName="description" let-row>
-                <span [matTooltip]="row.description" matTooltipPosition="below" class="truncate block font-semibold">
-                    {{row.description}}</span>
-            </ng-template>
+            <pp-table [columns]="columns" [data]="packageList$ | async" [config]="config" tableHeight="650">
 
-            <ng-template ppWidgetName="specification" let-row>
-                <span [matTooltip]="row.specification" matTooltipPosition="below"
-                    class="truncate block">{{row.specification |
-                    shrinkMessage:30 }}</span>
-            </ng-template>
+                <ng-template ppWidgetName="description" let-row>
+                    <span [matTooltip]="row.description" matTooltipPosition="below"
+                        class="truncate block font-semibold">
+                        {{row.description}}</span>
+                </ng-template>
 
-            <ng-template ppWidgetName="moc" let-row>
-                <span [matTooltip]="row.moc" matTooltipPosition="below" class="truncate block">{{row.moc |
-                    shrinkMessage:20}}</span>
-            </ng-template>
+                <ng-template ppWidgetName="specification" let-row>
+                    <span [matTooltip]="row.specification" matTooltipPosition="below"
+                        class="truncate block">{{row.specification |
+                        shrinkMessage:30 }}</span>
+                </ng-template>
 
-            <ng-template ppWidgetName="etchingMark" let-row>
-                <span [matTooltip]="row.etchingMark" matTooltipPosition="below" class="truncate block">{{row.etchingMark
-                    |
-                    shrinkMessage:20}}</span>
-            </ng-template>
+                <ng-template ppWidgetName="moc" let-row>
+                    <span [matTooltip]="row.moc" matTooltipPosition="below" class="truncate block">{{row.moc |
+                        shrinkMessage:20}}</span>
+                </ng-template>
 
-            <ng-template ppWidgetName="pageNo" let-row>
-                <span [matTooltip]="row.pageNo" matTooltipPosition="below" class="truncate block">{{row.pageNo |
-                    shrinkMessage:20}}</span>
-            </ng-template>
+                <ng-template ppWidgetName="etchingMark" let-row>
+                    <span [matTooltip]="row.etchingMark" matTooltipPosition="below"
+                        class="truncate block">{{row.etchingMark
+                        |
+                        shrinkMessage:20}}</span>
+                </ng-template>
 
-            <ng-template ppWidgetName="quantity" let-row>
-                <span [matTooltip]="row.quantity" matTooltipPosition="below" class="truncate block">{{row.quantity |
-                    shrinkMessage:20}}</span>
-            </ng-template>
+                <ng-template ppWidgetName="pageNo" let-row>
+                    <span [matTooltip]="row.pageNo" matTooltipPosition="below" class="truncate block">{{row.pageNo |
+                        shrinkMessage:20}}</span>
+                </ng-template>
 
-            <ng-template ppWidgetName="dispatchedQuantity" let-row>
-                <span [matTooltip]="row.dispatchedQuantity" matTooltipPosition="below"
-                    class="truncate block">{{row.dispatchedQuantity |
-                    shrinkMessage:20}}</span>
-            </ng-template>
+                <ng-template ppWidgetName="quantity" let-row>
+                    <span [matTooltip]="row.quantity" matTooltipPosition="below" class="truncate block">{{row.quantity |
+                        shrinkMessage:20}}</span>
+                </ng-template>
 
-            <ng-template ppWidgetName="remainingQuantity" let-row>
-                <span [matTooltip]="row.remainingQuantity" matTooltipPosition="below"
-                    class="truncate block">{{row.remainingQuantity |
-                    shrinkMessage:20}}</span>
-            </ng-template>
+                <ng-template ppWidgetName="dispatchedQuantity" let-row>
+                    <span [matTooltip]="row.dispatchedQuantity" matTooltipPosition="below"
+                        class="truncate block">{{row.dispatchedQuantity |
+                        shrinkMessage:20}}</span>
+                </ng-template>
 
-            <ng-template ppWidgetName="remarks" let-row>
-                <span [matTooltip]="row.remarks" matTooltipPosition="below" class="truncate block">{{row.remarks |
-                    shrinkMessage:20}}</span>
-            </ng-template>
+                <ng-template ppWidgetName="remainingQuantity" let-row>
+                    <span [matTooltip]="row.remainingQuantity" matTooltipPosition="below"
+                        class="truncate block">{{row.remainingQuantity |
+                        shrinkMessage:20}}</span>
+                </ng-template>
 
-            <ng-template ppWidgetName="createdOn" let-row>
-                <span [matTooltip]="row.createdOn" matTooltipPosition="below" class="truncate block">
-                    {{row.createdOn}}
-                </span>
-            </ng-template>
+                <ng-template ppWidgetName="remarks" let-row>
+                    <span [matTooltip]="row.remarks" matTooltipPosition="below" class="truncate block">{{row.remarks |
+                        shrinkMessage:20}}</span>
+                </ng-template>
 
-            <ng-template ppWidgetName="action-buttons" let-row>
-                <div class="pp-action-buttons">
+                <ng-template ppWidgetName="createdOn" let-row>
+                    <span [matTooltip]="row.createdOn" matTooltipPosition="below" class="truncate block">
+                        {{row.createdOn}}
+                    </span>
+                </ng-template>
+
+                <ng-template ppWidgetName="action-buttons" let-row>
+                    <div class="pp-action-buttons">
 
 
-                </div>
-            </ng-template>
-        </pp-table>
+                    </div>
+                </ng-template>
+            </pp-table>
+        </div>
 
     </main>
 </div>
