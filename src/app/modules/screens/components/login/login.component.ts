@@ -42,6 +42,8 @@ export class LoginComponent {
           // localStorage.setItem('userId', response.data.user_id);
           localStorage.setItem('role', response.data.role);
 
+          this.getUserRights();
+
           if (response.data.role === 'SA') this.router.navigateByUrl('/super-admin');
           if (['ADM', 'EX'].includes(response.data.role)) this.router.navigateByUrl('/home/projects');
 
@@ -51,5 +53,15 @@ export class LoginComponent {
           this.snackbar.openSnackbar(error.message, 'error');
         }
       });
+  }
+
+  getUserRights() {
+    this.api.get('users/user_rights').subscribe({
+      next: (response: any) => {
+        console.log(response);
+        const userRights = response.data.rights;
+        localStorage.setItem('userRights', JSON.stringify(userRights));
+      }
+    })
   }
 }

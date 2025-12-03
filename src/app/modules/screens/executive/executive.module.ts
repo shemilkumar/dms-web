@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ExecutiveRoutingModule } from './executive-routing.module';
 import { ProjectsComponent } from './projects/projects.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -25,10 +24,32 @@ import { AddEditBoxComponent } from './box/modals/add-edit-box/add-edit-box.comp
 import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-  declarations: [ProjectsComponent, AddEditProjectComponent, HomeComponent, BoxComponent, BomComponent, BoxProductsComponent, AddEditProductComponent, StickersComponent, StickerPageComponent, AddEditBoxComponent],
+  declarations: [
+    ProjectsComponent,
+    AddEditProjectComponent,
+    HomeComponent,
+    BoxComponent,
+    BomComponent, BoxProductsComponent,
+    AddEditProductComponent,
+    StickersComponent,
+    StickerPageComponent,
+    AddEditBoxComponent
+  ],
+
   imports: [
-    CommonModule, ExecutiveRoutingModule, SharedModule, MatDialogModule, FormsModule, ReactiveFormsModule,
-    MatDatepickerModule, MatNativeDateModule, PpModule, MatTooltipModule, MatMenuModule, CoreModule, QRCodeModule,
+    CommonModule,
+    ExecutiveRoutingModule,
+    SharedModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    PpModule,
+    MatTooltipModule,
+    MatMenuModule,
+    CoreModule,
+    QRCodeModule,
     MatSelectModule
   ],
 })

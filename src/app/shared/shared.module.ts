@@ -17,6 +17,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { UserManagementComponent } from './components/user-management/user-management.component';
 import { PpModule } from '../modules/base/pp/pp.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AddEditUserComponent } from './components/user-management/modals/add-edit-user/add-edit-user.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 @NgModule({
   declarations: [
@@ -28,6 +31,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ToastComponent,
     HeaderComponent,
     EpochConverterPipe,
+    AddEditUserComponent,
     UserManagementComponent
   ],
   imports: [
@@ -40,7 +44,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatMenuModule,
     PpModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSlideToggleModule
   ],
   exports: [
     ButtonComponent,

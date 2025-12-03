@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProjectsComponent } from './projects/projects.component';
-import { HomeComponent } from './home/home.component';
 import { BoxComponent } from './box/box.component';
 import { BoxProductsComponent } from './box-products/box-products.component';
 import { BomComponent } from './bom/bom.component';
-import { SidebarComponent } from 'src/app/core/components/sidebar/sidebar.component';
 import { SidebarLayoutComponent } from 'src/app/core/components/sidebar-layout/sidebar-layout.component';
 import { StickerPageComponent } from './sticker-page/sticker-page.component';
 import { NavbarLayoutComponent } from 'src/app/core/components/navbar-layout/navbar-layout.component';

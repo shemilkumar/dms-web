@@ -174,15 +174,27 @@ export class BomComponent {
       showBackButton: true,
       backButtonLink: 'home'
     }
+    this.fetchSections();
     this.fetchProducts();
   }
 
+  sections: any[] = [];
 
+  fetchSections() {
+
+    this.api.get(`boms/dropdown/sections?project_id=${this.project.projectId}`).subscribe({
+      next: (response: any) => {
+        this.sections = response.data;
+      }
+    })
+  }
 
   fetchProducts(searchText: string = '') {
     this.isLoading = true;
+    let url;
 
-    let url = `boms/project/${this.project.projectId}?search=${searchText}`;
+    if (this.selectedSection && this.selectedSection !== 'ALL') url = `boms/project/${this.project.projectId}?search=${searchText}&section_filter=${this.selectedSection}`;
+    else url = `boms/project/${this.project.projectId}?search=${searchText}`;
 
     this.products$ = this.api.get(url).pipe(
       map((products: any) => products.data?.items?.map((product: any) => ({
@@ -287,6 +299,12 @@ export class BomComponent {
 
     this.uploadProducts(file);
     input.value = '';
+  }
+
+
+  selectedSection: string = ''
+  sectionChange(event: any) {
+    this.fetchProducts();
   }
 
 }

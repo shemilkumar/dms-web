@@ -7,6 +7,18 @@
     <div class="user-table mt-4">
         <pp-table [columns]="columns" [data]="users$ | async" [config]="config" tableHeight="500">
 
+            <ng-template ppWidgetName="status" let-row>
+                <span class="toggle-status">
+                    <mat-slide-toggle #userToggle id="editToggle" aria-label="isActive" hideIcon="true"
+                        [checked]="row.status === 'ACTIVE'" (change)="changeStatusToggle($event , row, userToggle)"
+                        id="userToggle">
+                    </mat-slide-toggle>
+                    <span [ngClass]="{'active': row.status === 'ACTIVE', 'inactive': row.status === 'INACTIVE'}">
+                        {{row.status | titlecase }}
+                    </span>
+                </span>
+            </ng-template>
+
             <ng-template ppWidgetName="id" let-row>
                 <span [matTooltip]="row.id" matTooltipPosition="below" class="truncate block font-semibold">
                     {{row.id}}</span>

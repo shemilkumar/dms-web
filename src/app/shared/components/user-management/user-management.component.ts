@@ -4,8 +4,8 @@ import { map, Observable, of } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
 import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
-import { Router } from '@angular/router';
 import { AddEditUserComponent } from './modals/add-edit-user/add-edit-user.component';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-user-management',
@@ -14,7 +14,11 @@ import { AddEditUserComponent } from './modals/add-edit-user/add-edit-user.compo
 })
 export class UserManagementComponent {
 
-  constructor(private api: ApiService, private dialog: MatDialog, private router: Router) { }
+  constructor(
+    private api: ApiService,
+    private dialog: MatDialog,
+    private snackbar: SnackbarService
+  ) { }
 
   config: PPTableConfig = {
     id: 'user-management-table',
@@ -47,8 +51,8 @@ export class UserManagementComponent {
 
   columns = [
     {
-      id: 'id',
-      label: 'User ID',
+      id: 'status',
+      label: 'Status',
       headerClass: ['text-start'],
       sortable: false,
       cellClass: [],
@@ -109,7 +113,7 @@ export class UserManagementComponent {
         email: user.email,
         phoneNumber: user.phone_number,
         role: this.getRole(user.role),
-        status: user.status === 'active' ? 'Active' : 'Inactive',
+        status: user.status,
         userId: user.user_id
       })))
     );
@@ -132,8 +136,25 @@ export class UserManagementComponent {
     });
   }
 
-  deleteUser(user: any) {
-    console.log('Update user clicked', user);
+  deleteUser(user: any) { }
+
+  changeStatusToggle(event: any, user: any, toggle?: any) {
+    const prevStatus = user.status;
+    const newStatus = event.checked ? 'ACTIVE' : 'INACTIVE';
+
+    user.status = newStatus;
+
+    this.api.put(`users/status_update/${user.id}`, { status: newStatus }).subscribe({
+      next: () => {
+        this.snackbar.openSnackbar('User Status updated successfully', 'success');
+        this.fetchUsers();
+      }, error: (err) => {
+        console.log(err);
+        user.status = prevStatus;
+        toggle.checked = prevStatus === 'ACTIVE';
+        this.snackbar.openSnackbar('Unable to update user status', 'error');
+      }
+    });
   }
 
 
