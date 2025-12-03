@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './modules/screens/login/login/login.component';
+import { LoginComponent } from './modules/screens/components/login/login.component';
+import { NavbarLayoutComponent } from './core/components/navbar-layout/navbar-layout.component';
+import { ProfileComponent } from './modules/screens/components/profile/profile.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'home',
@@ -21,8 +27,12 @@ const routes: Routes = [
         .then((module) => module.SuperAdminModule),
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'profile',
+    component: NavbarLayoutComponent,
+    children: [{
+      path: '',
+      component: ProfileComponent
+    }]
   },
 ];
 

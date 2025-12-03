@@ -13,7 +13,7 @@ import { NavbarLayoutComponent } from './components/navbar-layout/navbar-layout.
     SidebarComponent,
     SidebarLayoutComponent,
     NavbarComponent,
-    NavbarLayoutComponent
+    NavbarLayoutComponent,
   ],
   imports: [
     CommonModule,

@@ -17,7 +17,9 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                 // if (error.status === 401 || error.status === 403) this.authService.logout();
 
-                if (error.status === 403 && error.error.detail === 'Not authenticated') this.authService.logout();
+                if (error.status === 403 && error.error.detail === 'Not authenticated' ||
+                    error.status === 401 && error.error.detail === 'Could not validate credentials'
+                ) this.authService.logout();
 
                 if (error.status === 401 && error.error.detail === 'Token expired')
                     return this.authService.handleUpdateAccessToken(req, next);

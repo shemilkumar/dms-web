@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './modules/screens/login/login/login.component';
+import { LoginComponent } from './modules/screens/components/login/login.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from './core/services/auth.service';
@@ -15,12 +15,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ProfileComponent } from './modules/screens/components/profile/profile.component';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, ProfileComponent],
   imports: [
     BrowserModule,
     FormsModule,
+    CoreModule,
     AppRoutingModule,
     HttpClientModule,
     MatSnackBarModule,

@@ -17,7 +17,7 @@
             <img src="assets/images/logo.png" alt="Logo" class="w-72" />
         </div>
 
-        <div class="flex gap-8 font-semibold" *ngIf="role !== 'EX'">
+        <div class="flex gap-8 font-semibold" *ngIf="role === 'ADM'">
             <div class="py-2 px-3 border-b-2 border-transparent cursor-pointer" routerLink="/home/projects"
                 routerLinkActive="active-link">
                 Projects
