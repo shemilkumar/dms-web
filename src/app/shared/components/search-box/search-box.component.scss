@@ -14,12 +14,14 @@
     position: relative;
 
     input {
-        padding: 0.25rem 0.75rem;
+        padding: 0.5rem 0.75rem;
         padding-right: 2rem;
         font-size: 0.75rem;
-        background-color: #eee;
-        // border: 1px solid #ddd;
+        background-color: white;
+        border: 1px solid #ddd;
         border-radius: 0.25rem;
+        outline: none;
+        width: 250px;
     }
 }
 

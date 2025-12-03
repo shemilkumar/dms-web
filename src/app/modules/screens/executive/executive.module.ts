@@ -22,12 +22,14 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { StickersComponent } from './bom/modals/stickers/stickers.component';
 import { StickerPageComponent } from './sticker-page/sticker-page.component';
 import { AddEditBoxComponent } from './box/modals/add-edit-box/add-edit-box.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [ProjectsComponent, AddEditProjectComponent, HomeComponent, BoxComponent, BomComponent, BoxProductsComponent, AddEditProductComponent, StickersComponent, StickerPageComponent, AddEditBoxComponent],
   imports: [
     CommonModule, ExecutiveRoutingModule, SharedModule, MatDialogModule, FormsModule, ReactiveFormsModule,
-    MatDatepickerModule, MatNativeDateModule, PpModule, MatTooltipModule, MatMenuModule, CoreModule, QRCodeModule
+    MatDatepickerModule, MatNativeDateModule, PpModule, MatTooltipModule, MatMenuModule, CoreModule, QRCodeModule,
+    MatSelectModule
   ],
 })
 export class ExecutiveModule { }

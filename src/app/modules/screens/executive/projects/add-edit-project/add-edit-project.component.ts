@@ -25,10 +25,10 @@ export class AddEditProjectComponent {
   ) {
     this.form = this.fb.group({
       projectName: ['', Validators.required],
-      clientName: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      description: ['', Validators.required],
+      clientName: ['',],
+      startDate: ['',],
+      endDate: ['',],
+      description: ['',],
     });
   }
 
@@ -49,8 +49,8 @@ export class AddEditProjectComponent {
     this.form.patchValue({
       projectName: this.data.project.projectName || '',
       clientName: this.data.project.clientName || '',
-      startDate: new Date(this.data.project.startDate) || '',
-      endDate: new Date(this.data.project.endDate) || '',
+      startDate: this.data.project.startDate ? new Date(this.data.project.startDate) : undefined,
+      endDate: this.data.project.endDate ? new Date(this.data.project.endDate) : undefined,
       description: this.data.project.description || '',
     });
   }
@@ -60,11 +60,14 @@ export class AddEditProjectComponent {
 
     this.isLoading = true;
 
+    console.log(this.form.get('startDate'));
+
+
     const projectPayload = {
       "name": this.form.get('projectName')?.value,
       "client_name": this.form.get('clientName')?.value,
-      "start_date": this.getEpoch(this.form.get('startDate')?.value),
-      "end_date": this.getEpoch(this.form.get('endDate')?.value),
+      "start_date": this.form.get('startDate')?.value ? this.getEpoch(this.form.get('startDate')?.value) : undefined,
+      "end_date": this.form.get('staend_datertDate')?.value ? this.getEpoch(this.form.get('endDate')?.value) : undefined,
       "description": this.form.get('description')?.value,
       "status": 'ACTIVE'
     }
@@ -105,6 +108,6 @@ export class AddEditProjectComponent {
   }
 
   getEpoch(date: Date) {
-    return date.getTime()
+    return date?.getTime()
   }
 }

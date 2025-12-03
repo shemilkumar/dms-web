@@ -15,7 +15,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 export class ProjectsComponent {
   constructor(private dialog: MatDialog, private router: Router,
     private api: ApiService,
-    // private snackbar: SnackbarService,
+    private snackbar: SnackbarService,
   ) { }
 
   isLoading = false;
@@ -28,8 +28,10 @@ export class ProjectsComponent {
 
   fetchProjects(searchText: string = '') {
     this.isLoading = true;
+    let url;
 
-    let url = `projects?search=${searchText}`;
+    if (this.selectedStatus && this.selectedStatus !== 'ALL') url = `projects?search=${searchText}&status=${this.selectedStatus}`;
+    else url = `projects?search=${searchText}`;
 
     this.projects$ = this.api.get(url).pipe(
       map((projects: any) => projects.data?.items?.map((project: any) => ({
@@ -62,7 +64,17 @@ export class ProjectsComponent {
   }
 
   deleteProject(project: any) {
-
+    this.api.put(`projects/${project.projectId}`, { status: "DELETED" }).pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        next: (response: any) => {
+          this.snackbar.openSnackbar('Project Deleted successfully', 'success');
+          this.fetchProjects();
+        },
+        error: (error) => {
+          console.log(error);
+          this.snackbar.openSnackbar(error.message, 'error');
+        }
+      })
   }
 
   goToHome(project: any) {
@@ -154,5 +166,12 @@ export class ProjectsComponent {
   // createProject() { /* open modal / navigate */ }
   openProject(p: any) { /* go to detail */ }
   openProjectMenu(p: any) { /* show menu */ }
+
+
+  selectedStatus = '';
+  statusChange(event: any) {
+    console.log(event);
+    this.fetchProjects();
+  }
 
 }
