@@ -31,8 +31,12 @@ export class ProfileComponent {
   passwordChangeSuccess = false;
   passwordChangeError: string | null = null;
 
+  role: string = ''
+
   ngOnInit() {
     this.fetchUserProfile();
+
+    this.role = localStorage.getItem('role') || ''
 
     this.changePasswordForm = this.fb.group(
       {
@@ -52,6 +56,11 @@ export class ProfileComponent {
         validators: [this.passwordsMatchValidator]
       }
     );
+  }
+
+  get homeLink() {
+    if (this.role === 'SA') return '/super-admin';
+    else return '/home';
   }
 
   user: any = {};
