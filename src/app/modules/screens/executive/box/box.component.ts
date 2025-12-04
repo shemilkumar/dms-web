@@ -51,8 +51,13 @@ export class BoxComponent {
     this.fetchBoxes();
   }
 
+  searchQuery: string = '';
+
   fetchBoxes(searchText: string = '') {
     this.isLoading = true;
+
+    if (searchText === '') this.searchQuery = '';
+    else this.searchQuery = searchText;
 
     let url = `boxes/project/${this.project.projectId}?search=${searchText}`;
 

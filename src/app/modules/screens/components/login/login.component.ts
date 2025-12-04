@@ -37,15 +37,25 @@ export class LoginComponent {
           const accessToken = response.data.access_token;
           const refreshToken = response.data.refresh_token;
 
+          localStorage.setItem('role', response.data.role);
+          if (response.data.role === 'EX') {
+            this.snackbar.openSnackbar(
+              'Please log in through the mobile application, your account does not have permission to access the web portal',
+              'warning'
+            );
+            return;
+          }
+
           localStorage.setItem('access_token', accessToken);
           localStorage.setItem('refresh_token', refreshToken);
           // localStorage.setItem('userId', response.data.user_id);
-          localStorage.setItem('role', response.data.role);
 
           this.getUserRights();
 
-          if (response.data.role === 'SA') this.router.navigateByUrl('/super-admin');
-          if (['ADM', 'EX'].includes(response.data.role)) this.router.navigateByUrl('/home/projects');
+          // if (response.data.role === 'SA') this.router.navigateByUrl('/super-admin');
+          // if (['ADM', 'EX'].includes(response.data.role))
+
+          this.router.navigateByUrl('/home/projects');
 
         },
         error: (error) => {

@@ -19,6 +19,7 @@ import { PpModule } from '../modules/base/pp/pp.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddEditUserComponent } from './components/user-management/modals/add-edit-user/add-edit-user.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     ToastComponent,
     HeaderComponent,
     EpochConverterPipe,
+    ConfirmDialogComponent,
     AddEditUserComponent,
     UserManagementComponent
   ],
@@ -55,6 +57,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     SearchBoxComponent,
     ToastComponent,
     HeaderComponent,
+    ConfirmDialogComponent,
     EpochConverterPipe,
     UserManagementComponent
   ],

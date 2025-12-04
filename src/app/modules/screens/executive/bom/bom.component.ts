@@ -1,13 +1,12 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { finalize, map, Observable, of } from 'rxjs';
+import { catchError, finalize, map, Observable, of, tap } from 'rxjs';
 import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditProductComponent } from './modals/add-edit-product/add-edit-product.component';
 import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
-import { StickersComponent } from './modals/stickers/stickers.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
@@ -181,7 +180,6 @@ export class BomComponent {
   sections: any[] = [];
 
   fetchSections() {
-
     this.api.get(`boms/dropdown/sections?project_id=${this.project.projectId}`).subscribe({
       next: (response: any) => {
         this.sections = response.data;
@@ -193,7 +191,10 @@ export class BomComponent {
     this.isLoading = true;
     let url;
 
-    if (this.selectedSection && this.selectedSection !== 'ALL') url = `boms/project/${this.project.projectId}?search=${searchText}&section_filter=${this.selectedSection}`;
+    this.config.tableState = TableState.LOADING;
+
+    if (this.selectedSection && this.selectedSection !== 'ALL')
+      url = `boms/project/${this.project.projectId}?search=${searchText}&section_filter=${this.selectedSection}`;
     else url = `boms/project/${this.project.projectId}?search=${searchText}`;
 
     this.products$ = this.api.get(url).pipe(
@@ -210,7 +211,19 @@ export class BomComponent {
         dispatchedQuantity: product.dispatched_quantity,
         bomId: product.bom_id,
         section: product.section
-      })))
+      }))),
+      tap(items => {
+        if (items.length === 0) {
+          this.config.tableState = TableState.NO_DATA;
+        } else {
+          this.config.tableState = TableState.SUCCESS;
+        }
+      }),
+      catchError(err => {
+        console.error(err);
+        this.config.tableState = TableState.FAILURE;
+        return of([]);
+      }),
     );
   }
 

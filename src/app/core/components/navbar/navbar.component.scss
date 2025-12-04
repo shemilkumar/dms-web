@@ -7,3 +7,18 @@
 .active-link {
     border-color: #22c55e;
 }
+
+.glass-navbar {
+    /* semi-transparent tint */
+    background: rgba(255, 255, 255, 0.6);
+
+    /* blur content BEHIND the navbar */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    /* visual separation */
+    // border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+    /* subtle depth */
+    // box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}

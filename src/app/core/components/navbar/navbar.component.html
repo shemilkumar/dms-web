@@ -1,35 +1,38 @@
-<header class="sticky top-0 z-50 px-12 pt-4">
-    <div class="relative w-full flex items-center justify-between
-           rounded-2xl
+<header class="sticky top-0 z-[999] px-12 pt-4 glass-navbar">
+    <div class="relative w-full flex items-center justify-between rounded-2xl
 
-           bg-white/35 backdrop-blur-2xl backdrop-saturate-150
+           bg-white/30 backdrop-blur-xl backdrop-saturate-150
            border border-white/40
-           shadow-[0_8px_30px_rgb(0,0,0,0.06)]
+           shadow-[0_8px_30px_rgba(15,23,42,0.10)]
 
            before:absolute before:inset-0
            before:rounded-2xl
-           before:bg-gradient-to-b
-           before:from-white/40 before:to-transparent
+           before:bg-gradient-to-l
+           before:from-green-500/20
+           before:via-emerald-400/10
+           before:to-transparent
            before:pointer-events-none
+           before:z-0
           ">
         <!-- Logo -->
-        <div class="flex items-center px-6 py-1 w-80">
+        <div class="relative z-10 flex items-center px-6 py-1 w-80">
             <img src="assets/images/logo.png" alt="Logo" class="w-72" />
         </div>
 
-        <div class="flex gap-8 font-semibold" *ngIf="role === 'ADM'">
-            <div class="py-2 px-3 border-b-2 border-transparent cursor-pointer" routerLink="/home/projects"
-                routerLinkActive="active-link">
+        <!-- Nav links -->
+        <div class="relative z-10 flex gap-8 font-semibold" *ngIf="['ADM', 'SA'].includes(role)">
+            <div class="py-2 px-3 border-b-2 border-transparent cursor-pointer
+               hover:text-green-700" routerLink="/home/projects" routerLinkActive="active-link">
                 Projects
             </div>
-            <div class="py-2 px-3 border-b-2 border-transparent cursor-pointer" routerLink="/home/users"
-                routerLinkActive="active-link">
+            <div class="py-2 px-3 border-b-2 border-transparent cursor-pointer
+               hover:text-green-700" routerLink="/home/users" routerLinkActive="active-link">
                 User Management
             </div>
         </div>
 
-        <!-- Right icons -->
-        <div class="flex justify-end items-center gap-4 px-6 w-80">
+        <!-- Right -->
+        <div class="relative z-10 flex justify-end items-center gap-4 px-6 w-80">
             <img src="assets/icons/profile.svg" alt="profile"
                 class="profile-icon cursor-pointer transition-transform hover:scale-105" mat-button
                 [matMenuTriggerFor]="profileMenu" />

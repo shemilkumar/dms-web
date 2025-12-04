@@ -20,12 +20,12 @@ const routes: Routes = [
       import('./modules/screens/executive/executive.module')
         .then((module) => module.ExecutiveModule),
   },
-  {
-    path: 'super-admin',
-    loadChildren: () =>
-      import('./modules/screens/super-admin/super-admin.module')
-        .then((module) => module.SuperAdminModule),
-  },
+  // {
+  //   path: 'super-admin',
+  //   loadChildren: () =>
+  //     import('./modules/screens/super-admin/super-admin.module')
+  //       .then((module) => module.SuperAdminModule),
+  // },
   {
     path: 'profile',
     component: NavbarLayoutComponent,

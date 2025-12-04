@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditProjectComponent } from './add-edit-project/add-edit-project.component';
 import { Router } from '@angular/router';
-import { ADD_OR_EDIT_MODAL_WIDTH, SMALL_MODAL_WIDTH } from 'src/environments/constants';
+import { ADD_OR_EDIT_MODAL_WIDTH, CONFIRM_MODAL_WIDTH, SMALL_MODAL_WIDTH } from 'src/environments/constants';
 import { ApiService } from 'src/app/core/services/api.service';
 import { finalize, map, Observable, of } from 'rxjs';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-projects',
@@ -82,18 +83,63 @@ export class ProjectsComponent {
     });
   }
 
-  deleteProject(project: any) {
-    this.api.put(`projects/${project.projectId}`, { status: "DELETED" }).pipe(finalize(() => this.isLoading = false))
-      .subscribe({
-        next: (response: any) => {
-          this.snackbar.openSnackbar('Project Deleted successfully', 'success');
-          this.fetchProjects();
-        },
-        error: (error) => {
-          console.log(error);
-          this.snackbar.openSnackbar(error.message, 'error');
+  changeProjectStatus(project: any, status: string) {
+
+    const cofirmStatus = status === 'CLOSED' ? 'Close' : 'Re-open';
+
+    const confirmModalData = {
+      title: `Confirm ${cofirmStatus} Project`,
+      message: `Are you sure you want to ${cofirmStatus} this project?`
+    }
+
+    this.dialog.open(ConfirmDialogComponent, { data: confirmModalData, width: CONFIRM_MODAL_WIDTH })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.api.put(`projects/${project.projectId}`, { status }).pipe()
+            .subscribe({
+              next: (response: any) => {
+                const message = status === 'CLOSED' ? 'Project Closed successfully' : 'Project Re-opened successfully';
+                this.snackbar.openSnackbar(message, 'success');
+                this.fetchProjects();
+              },
+              error: (error) => {
+                console.log(error);
+                this.snackbar.openSnackbar(error.message, 'error');
+              }
+            })
         }
-      })
+        else { }
+      });
+
+
+  }
+
+  deleteProject(project: any) {
+
+    const confirmModalData = {
+      title: "Confirm Delete Project",
+      message: `Are you sure you want to delete this project?`
+    }
+
+    this.dialog.open(ConfirmDialogComponent, { data: confirmModalData, width: CONFIRM_MODAL_WIDTH })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.api.put(`projects/${project.projectId}`, { status: "DELETED" }).pipe(finalize(() => this.isLoading = false))
+            .subscribe({
+              next: (response: any) => {
+                this.snackbar.openSnackbar('Project Deleted successfully', 'success');
+                this.fetchProjects();
+              },
+              error: (error) => {
+                console.log(error);
+                this.snackbar.openSnackbar(error.message, 'error');
+              }
+            })
+        }
+        else { }
+      });
   }
 
   goToBOM(project: any) {

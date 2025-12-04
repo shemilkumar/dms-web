@@ -125,30 +125,19 @@
                 </ng-container>
 
                 <ng-template #emptyState>
-                    <!-- <div class="border-dashed flex justify-center items-center flex-col
-           border-2 border-gray-200 rounded-lg p-8 text-center text-gray-500">
-                        <img src="assets/images/no-card.svg" alt="No Boxes" class="empty-image mb-4" />
-                        <div class="text-2xl mb-2">No boxes yet</div>
-                        <p class="mb-4">Create your first box — it will appear here as a card.</p>
-                        <button
-                            class="px-4 py-2 rounded-lg bg-[#008000] text-white text-sm font-semibold shadow-md hover:bg-green-700"
-                            (click)="createBox()">
-                            Create Box
-                        </button>
-                    </div> -->
-                </ng-template>
-
-
-                <!-- empty state -->
-                <!-- <ng-template #emptyState>
                     <div class=" border-dashed flex justify-center items-center flex-col border-2 border-gray-200
-                    rounded-lg p-8 text-center text-gray-500">
-                        <img src="assets/images/no-card.svg" alt="No Epics" class="empty-image" />
+                    rounded-lg p-8 text-center text-gray-500" *ngIf="!searchQuery">
+                        <img src="assets/images/no-card.svg" alt="No Boxes" class="empty-image mb-4" />
                         <div class="text-2xl mb-2">No boxes yet</div>
                         <p class="mb-4">Create your first box — it will appear here as a card.</p>
                         <app-button type="normal" label="Create Box" (onClick)="createBox()" />
                     </div>
-                </ng-template> -->
+
+                    <div *ngIf="searchQuery"
+                        class="flex justify-center items-center w-full text-lg font-semibold py-10">
+                        Box not Found
+                    </div>
+                </ng-template>
             </div>
 
         </main>
