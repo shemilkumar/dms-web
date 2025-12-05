@@ -10,6 +10,7 @@ import { ADD_OR_EDIT_MODAL_WIDTH, CONFIRM_MODAL_WIDTH } from 'src/environments/c
 import { SelectionModel } from '@angular/cdk/collections';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { PageEvent } from 'src/app/modules/base/pp/_components/pp-paginator/pp-paginator.component';
 
 
 @Component({
@@ -45,9 +46,9 @@ export class BomComponent {
       class: ['flex', 'items-center', 'justify-end'],
     },
     page: {
-      pageSize: 10,
+      pageSize: 50,
       pageIndex: 0,
-      length: 10,
+      length: 0,
     },
     paginator: {
       hide: false,
@@ -187,18 +188,23 @@ export class BomComponent {
       }
     })
   }
+  currentSearchText: string = '';
 
   fetchProducts(searchText: string = '') {
     this.isLoading = true;
     let url;
 
+    if (searchText === '') this.currentSearchText = '';
+    else this.currentSearchText = searchText;
+
     this.config.tableState = TableState.LOADING;
 
     if (this.selectedSection && this.selectedSection !== 'ALL')
-      url = `boms/project/${this.project.projectId}?search=${encodeURIComponent(searchText)}&section_filter=${encodeURIComponent(this.selectedSection)}`;
-    else url = `boms/project/${this.project.projectId}?search=${encodeURIComponent(searchText)}`;
+      url = `boms/project/${this.project.projectId}?page=${this.config?.page?.pageIndex}&limit=${this.config.page?.pageSize}&search=${encodeURIComponent(searchText)}&section_filter=${encodeURIComponent(this.selectedSection)}`;
+    else url = `boms/project/${this.project.projectId}?page=${this.config?.page?.pageIndex}&limit=${this.config.page?.pageSize}&search=${encodeURIComponent(searchText)}`;
 
     this.products$ = this.api.get(url).pipe(
+      tap((products: any) => this.config.page!.length = products.data.total),
       map((products: any) => products.data?.items?.map((product: any) => ({
         description: product.description,
         specification: product.specification,
@@ -212,7 +218,8 @@ export class BomComponent {
         dispatchedQuantity: product.dispatched_quantity,
         bomId: product.bom_id,
         section: product.section,
-        status: product.status
+        status: product.status,
+        slNo: product.sl_no
       }))),
       tap(items => {
         if (items.length === 0) {
@@ -343,6 +350,19 @@ export class BomComponent {
   selectedSection: string = ''
   sectionChange(event: any) {
     this.fetchProducts();
+  }
+
+  onPageChange(event: PageEvent) {
+    this.config = {
+      ...this.config,
+      page: {
+        ...this.config.page,
+        pageIndex: event.pageIndex,
+        pageSize: event.pageSize
+      }
+    }
+    // this.fetchProducts();
+    this.fetchProducts(this.currentSearchText);
   }
 
 }

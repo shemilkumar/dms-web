@@ -62,6 +62,7 @@ export class AddEditProductComponent {
       pageNo: this.data.product.pageNo || '',
       remarks: this.data.product.remarks || '',
       section: this.data.product.section || '',
+      slNo: this.data.product.slNo || ''
     });
   }
 

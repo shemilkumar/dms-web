@@ -1,8 +1,9 @@
-<div class="min-h-screen flex flex-col">
+<div class="flex flex-col h-full">
     <!-- Main content -->
     <app-header [data]="headerData" />
 
-    <main class="flex-1 rounded-xl shadow-sm p-6 h-full">
+    <!-- <main class="rounded-xl shadow-sm p-6 overflow-auto border border-green-500 h-full"> -->
+    <main class="flex-1 overflow-auto rounded-xl shadow-sm p-6 min-h-0">
 
         <div class="flex justify-between items-center mb-4 gap-4">
 
@@ -31,8 +32,8 @@
 
         </div>
 
-        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="720"
-            (selected)="onUsersSelected($event)" [isSelected]="isSelected">
+        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="700"
+            (selected)="onUsersSelected($event)" [isSelected]="isSelected" (page)="onPageChange($event)">
 
             <ng-template ppWidgetName="description" let-row>
                 <span [matTooltip]="row.description" matTooltipPosition="below" class="truncate block font-semibold">
