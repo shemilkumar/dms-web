@@ -195,8 +195,8 @@ export class BomComponent {
     this.config.tableState = TableState.LOADING;
 
     if (this.selectedSection && this.selectedSection !== 'ALL')
-      url = `boms/project/${this.project.projectId}?search=${searchText}&section_filter=${this.selectedSection}`;
-    else url = `boms/project/${this.project.projectId}?search=${searchText}`;
+      url = `boms/project/${this.project.projectId}?search=${encodeURIComponent(searchText)}&section_filter=${encodeURIComponent(this.selectedSection)}`;
+    else url = `boms/project/${this.project.projectId}?search=${encodeURIComponent(searchText)}`;
 
     this.products$ = this.api.get(url).pipe(
       map((products: any) => products.data?.items?.map((product: any) => ({
