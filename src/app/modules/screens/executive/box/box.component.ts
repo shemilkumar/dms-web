@@ -69,7 +69,8 @@ export class BoxComponent {
         boxName: box.name,
         description: box.description,
         boxId: box.box_id,
-        createdAt: box?.audit_log[0]?.created_at
+        createdAt: box?.audit_log[0]?.created_at,
+        status: box.status
       }))),
       tap(items => {
         console.log(items);
@@ -98,22 +99,36 @@ export class BoxComponent {
 
   changeBoxStatus(box: any, status: string) {
 
-    const cofirmStatus = status === 'CLOSED' ? 'Close' : 'Delete';
+    const target = (status || '').toString().toUpperCase();
+
+    // Determine action label + confirmation copy
+    let actionLabel = target === 'ACTIVE' ? 'Re-open' : target === 'CLOSED' ? 'Close' : target === 'DELETED' ? 'Delete' : target;
+    let confirmMessage = `Are you sure you want to ${actionLabel.toLowerCase()} this box?`;
+
+    // Stronger warning for delete
+    if (target === 'DELETED') {
+      confirmMessage = `This action will permanently delete the box. Are you sure you want to delete it?`;
+    }
 
     const confirmModalData = {
-      title: `Confirm ${cofirmStatus} Box`,
-      message: `Are you sure you want to ${cofirmStatus} this Box?`
-    }
+      title: `${actionLabel} Box`,
+      message: confirmMessage
+    };
 
     this.dialog.open(ConfirmDialogComponent, { data: confirmModalData, width: CONFIRM_MODAL_WIDTH })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.api.put(`boxes/${box.boxId}`, { status }).pipe()
+          this.api.put(`boxes/${box.boxId}`, { status: target }).pipe()
             .subscribe({
               next: (response: any) => {
-                const message = status === 'CLOSED' ? 'Box closed successfully' : 'Box Deleted successfully';
-                this.snackbar.openSnackbar(message, 'success');
+
+                const successMsg = target === 'ACTIVE' ? 'Box re-opened successfully'
+                  : target === 'CLOSED' ? 'Box closed successfully'
+                    : target === 'DELETED' ? 'Box deleted successfully'
+                      : 'Status updated successfully';
+
+                this.snackbar.openSnackbar(successMsg, 'success');
                 this.fetchBoxes();
               },
               error: (error) => {
