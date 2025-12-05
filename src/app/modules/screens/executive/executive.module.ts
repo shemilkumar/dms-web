@@ -22,6 +22,7 @@ import { StickersComponent } from './bom/modals/stickers/stickers.component';
 import { StickerPageComponent } from './sticker-page/sticker-page.component';
 import { AddEditBoxComponent } from './box/modals/add-edit-box/add-edit-box.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatMenuModule,
     CoreModule,
     QRCodeModule,
+    MatProgressSpinnerModule,
     MatSelectModule
   ],
 })

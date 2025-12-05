@@ -76,9 +76,13 @@ export class StickerPageComponent implements OnInit {
 
   }
 
+  isStickerGenerating: boolean = true;
+
   fetchStickers(bomIds: any) {
+    this.isStickerGenerating = true;
+
     this.api.post(`stickers/boms/multiple`, { bom_ids: bomIds })
-      .pipe(finalize(() => { }))
+      .pipe(finalize(() => { this.isStickerGenerating = false }))
       .subscribe({
         next: (response: any) => {
           this.generateStickers(response.data?.all_stickers);
