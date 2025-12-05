@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
-import * as XLSX from 'xlsx'; // 👈 from `xlsx` package
+import * as XLSX from 'xlsx-js-style';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 
@@ -210,18 +210,37 @@ export class BoxProductsComponent {
 
       const range = XLSX.utils.decode_range(worksheet['!ref']!);
 
-      for (let C = range.s.c; C <= range.e.c; ++C) {
-        const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
-        const cell = worksheet[cellAddress];
-
-        if (!cell) continue;
-
-        cell.s = {
+      for (let col = range.s.c; col <= range.e.c; col++) {
+        const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
+        worksheet[cellAddress].s = {
           font: { bold: true, color: { rgb: 'FFFFFF' } },
           fill: { fgColor: { rgb: '008000' } },
-          alignment: { horizontal: 'center', vertical: 'center' }
+          alignment: { horizontal: 'left', vertical: 'center', indent: 1 },
+          border: {
+            top: { style: 'thin', color: { rgb: 'CCCCCC' } },
+            bottom: { style: 'thin', color: { rgb: 'CCCCCC' } },
+          },
         };
       }
+
+      for (let R = 1; R <= range.e.r; R++) {
+        for (let C = range.s.c; C <= range.e.c; C++) {
+          const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+          const cell = worksheet[cellAddress];
+          if (!cell) continue;
+
+          cell.s = {
+            alignment: {
+              horizontal: 'left',
+              vertical: 'center',
+              indent: 1 // padding-like effect
+            }
+          };
+        }
+      }
+
+      worksheet['!rows'] = Array(range.e.r + 1).fill({ hpt: 22 });
+
 
       worksheet['!cols'] = Object.keys(excelData[0]).map(() => ({ wch: 20 }));
 
@@ -230,6 +249,7 @@ export class BoxProductsComponent {
 
       const fileName = `package-list-${new Date().toISOString().slice(0, 10)}.xlsx`;
       XLSX.writeFile(workbook, fileName);
+
     } catch (err) {
       console.error('Excel export failed', err);
       this.snackbar?.openSnackbar?.('Failed to export Excel', 'error');
