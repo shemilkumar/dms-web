@@ -6,9 +6,10 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditProductComponent } from './modals/add-edit-product/add-edit-product.component';
-import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
+import { ADD_OR_EDIT_MODAL_WIDTH, CONFIRM_MODAL_WIDTH } from 'src/environments/constants';
 import { SelectionModel } from '@angular/cdk/collections';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -210,7 +211,8 @@ export class BomComponent {
         remainingQuantity: product.remaining_quantity,
         dispatchedQuantity: product.dispatched_quantity,
         bomId: product.bom_id,
-        section: product.section
+        section: product.section,
+        status: product.status
       }))),
       tap(items => {
         if (items.length === 0) {
@@ -229,6 +231,29 @@ export class BomComponent {
 
   deleteProduct(product: any) {
 
+    const confirmModalData = {
+      title: `Confirm Delete Product`,
+      message: `Are you sure you want to Delete this Product?`
+    }
+
+    this.dialog.open(ConfirmDialogComponent, { data: confirmModalData, width: CONFIRM_MODAL_WIDTH })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.api.put(`boms/${product.bomId}/status`, { status: 'DELETED' }).pipe()
+            .subscribe({
+              next: (response: any) => {
+                this.snackbar.openSnackbar('Product Deleted successfully', 'success');
+                this.fetchProducts();
+              },
+              error: (error) => {
+                console.log(error);
+                this.snackbar.openSnackbar(error.message, 'error');
+              }
+            })
+        }
+        else { }
+      });
   }
 
   createProduct() {

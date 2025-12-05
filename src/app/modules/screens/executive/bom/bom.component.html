@@ -94,14 +94,17 @@
             <ng-template ppWidgetName="action-buttons" let-row>
                 <div class="pp-action-buttons">
 
+                    <img src="assets/icons/check-circle-normal.svg" alt="" class="icon icon__medium"
+                        *ngIf="row.status === 'PRINTED'">
+
                     <app-button [variant]="'outline-icon-success'" type="icon" iconSrc="assets/icons/print.svg"
                         (onClick)="printProduct(row)" />
 
                     <app-button [variant]="'outline-icon-neutral'" type="icon" iconSrc="assets/icons/edit.svg"
-                        (onClick)="updateProduct(row)" />
+                        (onClick)="updateProduct(row)" *ngIf="row.status !== 'PRINTED'" />
 
                     <app-button [variant]="'outline-icon-error'" type="icon" iconSrc="assets/icons/delete.svg"
-                        (onClick)="deleteProduct(row)" />
+                        (onClick)="deleteProduct(row)" *ngIf="row.status !== 'PRINTED'" />
                 </div>
             </ng-template>
         </pp-table>

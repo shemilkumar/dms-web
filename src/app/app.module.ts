@@ -17,6 +17,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProfileComponent } from './modules/screens/components/profile/profile.component';
 import { CoreModule } from './core/core.module';
+import { SharedModule } from "src/app/shared/shared.module";
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, ProfileComponent],
@@ -32,6 +33,7 @@ import { CoreModule } from './core/core.module';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
+    SharedModule
   ],
   providers: [
     AuthService,

@@ -6,6 +6,13 @@
         <div class="form__grid !gap-y-8">
 
             <div class="form__input">
+                <label for="sl_no" class="form__label">
+                    SL No <span class="form__label--required">*</span>
+                </label>
+                <input type="number" id="sl_no" formControlName="slNo">
+            </div>
+
+            <div class="form__input">
                 <label for="description" class="form__label">
                     Description <span class="form__label--required">*</span>
                 </label>
@@ -20,38 +27,12 @@
             </div>
 
             <div class="form__input">
-                <label for="moc" class="form__label">
-                    MOC <span class="form__label--required">*</span>
-                </label>
-                <input type="text" id="moc" formControlName="moc">
-            </div>
-
-            <div class="form__input">
                 <label for="quantity" class="form__label">
                     Quantity <span class="form__label--required">*</span>
                 </label>
-                <input type="text" id="quantity" formControlName="quantity">
-            </div>
-
-            <div class="form__input">
-                <label for="uom" class="form__label">
-                    UOM <span class="form__label--required">*</span>
-                </label>
-                <input type="text" id="uom" formControlName="uom">
-            </div>
-
-            <div class="form__input">
-                <label for="etchingMark" class="form__label">
-                    Etching Mark <span class="form__label--required">*</span>
-                </label>
-                <input type="text" id="etchingMark" formControlName="etchingMark">
-            </div>
-
-            <div class="form__input">
-                <label for="pageNo" class="form__label">
-                    Page No <span class="form__label--required">*</span>
-                </label>
-                <input type="text" id="pageNo" formControlName="pageNo">
+                <input type="number" id="quantity" formControlName="quantity"
+                    [ngClass]="{'bg-neutral-200': this.data?.action === 'update'}"
+                    [readonly]="this.data?.action === 'update'">
             </div>
 
             <div class="form__input">
@@ -60,6 +41,37 @@
                 </label>
                 <input type="text" id="section" formControlName="section">
             </div>
+
+            <div class="form__input">
+                <label for="uom" class="form__label">
+                    UOM
+                </label>
+                <input type="text" id="uom" formControlName="uom">
+            </div>
+
+            <div class="form__input">
+                <label for="moc" class="form__label">
+                    MOC
+                </label>
+                <input type="text" id="moc" formControlName="moc">
+            </div>
+
+
+            <div class="form__input">
+                <label for="etchingMark" class="form__label">
+                    Etching Mark
+                </label>
+                <input type="text" id="etchingMark" formControlName="etchingMark">
+            </div>
+
+            <div class="form__input">
+                <label for="pageNo" class="form__label">
+                    Page No
+                </label>
+                <input type="text" id="pageNo" formControlName="pageNo">
+            </div>
+
+
         </div>
 
         <div class="form__grid form__grid--single-col">

@@ -138,45 +138,6 @@ export class ProfileComponent {
     return this.changePasswordForm.controls;
   }
 
-  async onChangePassword(): Promise<void> {
-    if (this.changePasswordForm.invalid) {
-      this.changePasswordForm.markAllAsTouched();
-      return;
-    }
-
-    this.isSubmitting = true;
-    this.passwordChangeSuccess = false;
-    this.passwordChangeError = null;
-
-    const payload = {
-      new_password: this.f['newPassword'].value,
-      user_id: this.user.user_id
-    };
-
-    try {
-      this.api.put('users/change_password', payload).pipe(finalize(() => this.isLoading = false)).subscribe({
-        next: (response: any) => {
-          console.log(response);
-          this.snackbar.openSnackbar('Password changed successfully', 'success');
-        },
-        error: (error) => {
-          console.log(error);
-          this.snackbar.openSnackbar(error.message, 'error');
-        }
-      })
-
-      // For now, mock success:
-      await new Promise((res) => setTimeout(res, 600));
-
-      this.passwordChangeSuccess = true;
-      this.changePasswordForm.reset();
-    } catch (err: any) {
-      this.passwordChangeError = err?.message || 'Failed to change password. Please try again.';
-    } finally {
-      this.isSubmitting = false;
-    }
-  }
-
   isEditMode = false;
 
   editedUser = { ...this.user };
@@ -205,6 +166,29 @@ export class ProfileComponent {
       .subscribe({
         next: (response: any) => {
           this.snackbar.openSnackbar('Profile updated successfully', 'success');
+          this.fetchUserProfile();
+        },
+        error: (error) => {
+          console.log(error);
+          this.snackbar.openSnackbar(error.message, 'error');
+        }
+      })
+  }
+
+  isPasswordChange: boolean = false;
+  changePassword() {
+
+    this.isPasswordChange = true;
+
+    const payload = {
+      new_password: this.f['newPassword'].value,
+      user_id: this.user.user_id
+    };
+
+    this.api.put('users/change_password', payload).pipe(finalize(() => this.isPasswordChange = false))
+      .subscribe({
+        next: (response: any) => {
+          this.snackbar.openSnackbar('Password changed successfully', 'success');
           this.fetchUserProfile();
         },
         error: (error) => {

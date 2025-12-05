@@ -3,9 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { map, Observable, of } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
-import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
+import { ADD_OR_EDIT_MODAL_WIDTH, CONFIRM_MODAL_WIDTH } from 'src/environments/constants';
 import { AddEditUserComponent } from './modals/add-edit-user/add-edit-user.component';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-user-management',
@@ -136,7 +137,33 @@ export class UserManagementComponent {
     });
   }
 
-  deleteUser(user: any) { }
+  deleteUser(user: any) {
+
+    const confirmModalData = {
+      title: `Confirm Delete User`,
+      message: `Are you sure you want to Delete this User?`
+    }
+
+    this.dialog.open(ConfirmDialogComponent, { data: confirmModalData, width: CONFIRM_MODAL_WIDTH })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.api.put(`users/status_update/${user.userId}`, { status: 'DELETED' }).pipe()
+            .subscribe({
+              next: (response: any) => {
+                this.snackbar.openSnackbar('User Deleted successfully', 'success');
+                this.fetchUsers();
+              },
+              error: (error) => {
+                console.log(error);
+                this.snackbar.openSnackbar(error.message, 'error');
+              }
+            })
+        }
+        else { }
+      });
+
+  }
 
   changeStatusToggle(event: any, user: any, toggle?: any) {
     const prevStatus = user.status;

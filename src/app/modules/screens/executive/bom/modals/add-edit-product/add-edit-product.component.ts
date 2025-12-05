@@ -24,13 +24,14 @@ export class AddEditProductComponent {
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
+      slNo: ['', Validators.required],
       description: ['', Validators.required],
       specification: ['', Validators.required],
-      moc: ['', Validators.required],
+      moc: ['',],
       quantity: ['', Validators.required],
-      uom: ['', Validators.required],
+      uom: ['',],
       etchingMark: [''],
-      pageNo: ['', Validators.required],
+      pageNo: ['',],
       section: ['', Validators.required],
       remarks: [''],
     });
@@ -84,6 +85,7 @@ export class AddEditProductComponent {
       "specification": this.form.get('specification')?.value,
       "uom": this.form.get('uom')?.value,
       "section": this.form.get('section')?.value,
+      "sl_no": this.form.get('slNo')?.value
     }
 
     if (this.data?.action === 'update') this.updateProduct(productPayload)

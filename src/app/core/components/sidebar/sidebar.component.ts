@@ -12,7 +12,7 @@ export class SidebarComponent {
   navLinks = [
     { label: 'BOM', route: '/home/bom' },
     { label: 'BOX', route: '/home/box' },
-    { label: 'Settings', route: '/executive/settings' },
+    // { label: 'Settings', route: '/executive/settings' },
   ]
 
 }
