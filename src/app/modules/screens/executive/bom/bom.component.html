@@ -32,7 +32,7 @@
 
         </div>
 
-        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="700"
+        <pp-table [columns]="columns" [data]="products$ | async" [config]="config" tableHeight="690"
             (selected)="onUsersSelected($event)" [isSelected]="isSelected" (page)="onPageChange($event)">
 
             <ng-template ppWidgetName="description" let-row>
