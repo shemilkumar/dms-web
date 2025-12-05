@@ -11,7 +11,7 @@
                 <app-button type="with-icon" label="Print" iconSrc="assets/icons/print-white.svg"
                     (onClick)="printProduct()" [disabled]="false" *ngIf="selectedBOMs.selected.length" />
 
-                <app-search-box (onChange)="fetchProducts($event)" id="searchProducts"
+                <app-search-box (onChange)="onSearchChange($event)" id="searchProducts"
                     placeholder="Search products..." />
 
                 <mat-select placeholder="Select Section" (selectionChange)="sectionChange($event)"

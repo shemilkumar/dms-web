@@ -192,16 +192,19 @@ export class BomComponent {
 
   fetchProducts(searchText: string = '') {
     this.isLoading = true;
-    let url;
+
+    const page = this.config?.page?.pageIndex;
+    const limit = this.config?.page?.pageSize;
 
     if (searchText === '') this.currentSearchText = '';
     else this.currentSearchText = searchText;
 
+
     this.config.tableState = TableState.LOADING;
 
-    if (this.selectedSection && this.selectedSection !== 'ALL')
-      url = `boms/project/${this.project.projectId}?page=${this.config?.page?.pageIndex}&limit=${this.config.page?.pageSize}&search=${encodeURIComponent(searchText)}&section_filter=${encodeURIComponent(this.selectedSection)}`;
-    else url = `boms/project/${this.project.projectId}?page=${this.config?.page?.pageIndex}&limit=${this.config.page?.pageSize}&search=${encodeURIComponent(searchText)}`;
+    let url = `boms/project/${this.project.projectId}?page=${page}&limit=${limit}&search=${encodeURIComponent(searchText)}`;
+
+    if (this.selectedSection && this.selectedSection !== 'ALL') url += `&section_filter=${encodeURIComponent(this.selectedSection)}`;
 
     this.products$ = this.api.get(url).pipe(
       tap((products: any) => this.config.page!.length = products.data.total),
@@ -349,8 +352,15 @@ export class BomComponent {
 
   selectedSection: string = ''
   sectionChange(event: any) {
+    this.config.page!.pageIndex = 0;
     this.fetchProducts();
   }
+
+  onSearchChange(searchText: string) {
+    this.config.page!.pageIndex = 0;
+    this.fetchProducts(searchText);
+  }
+
 
   onPageChange(event: PageEvent) {
     this.config = {
