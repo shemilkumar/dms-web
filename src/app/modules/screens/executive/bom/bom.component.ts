@@ -50,7 +50,7 @@ export class BomComponent {
       length: 10,
     },
     paginator: {
-      hide: true,
+      hide: false,
       offline: false,
     },
     sort: {

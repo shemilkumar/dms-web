@@ -113,7 +113,11 @@ export class StickerPageComponent implements OnInit {
     return result;
   }
 
+  isDownloading: boolean = false;
+
   async downloadStickersPdf(): Promise<void> {
+    this.isDownloading = true;
+
     const sheets = this.sheetRefs.toArray();
     if (!sheets.length) return;
 
@@ -150,10 +154,19 @@ export class StickerPageComponent implements OnInit {
     }
 
     document.body.classList.remove('print-mode');
-    pdf.save('stickers.pdf');
 
+    await this.savePdfAsync(pdf, 'stickers.pdf');
+
+    this.isDownloading = false; // hide loader
 
     this.markAsPrinted();
+  }
+
+  private savePdfAsync(pdf: jsPDF, filename: string): Promise<void> {
+    return new Promise((resolve) => {
+      pdf.save(filename);
+      setTimeout(() => resolve(), 300);
+    });
   }
 
   markAsPrinted() {

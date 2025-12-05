@@ -4,12 +4,12 @@
 
 
     <!-- Toolbar (stays at top) -->
-    <div class="sticky top-0 z-10 bg-slate-100 p-2 no-print flex justify-end">
+    <div class="sticky top-0 z-10 bg-slate-100 p-2 flex justify-end">
         <!-- <button class="px-4 py-2 rounded bg-blue-600 text-white" (click)="downloadStickersPdf()">
             🖨 Download Stickers PDF
         </button> -->
-        <app-button type="with-icon" label="Download" iconSrc="assets/icons/pdf.svg"
-            (onClick)="downloadStickersPdf()" />
+        <app-button type="with-icon" label="Download" iconSrc="assets/icons/pdf.svg" (onClick)="downloadStickersPdf()"
+            [loading]="isDownloading" />
     </div>
 
     <!-- This is what jsPDF will capture -->

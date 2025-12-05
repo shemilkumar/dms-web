@@ -7,6 +7,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ADD_OR_EDIT_MODAL_WIDTH } from 'src/environments/constants';
 import * as XLSX from 'xlsx'; // 👈 from `xlsx` package
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 
 @Component({
@@ -21,7 +22,12 @@ export class BoxProductsComponent {
   packageList$: Observable<any> = of([]);
   private packageListData: any[] = []; // keep raw data for export
 
-  constructor(public location: Location, private router: Router, private api: ApiService, private dialog: MatDialog) {
+  constructor(
+    public location: Location,
+    private router: Router,
+    private api: ApiService,
+    private snackbar: SnackbarService
+  ) {
     const state = router.getCurrentNavigation()?.extras.state;
     this.box = state?.['box'];
     if (!this.box) router.navigate(['home/box']);
@@ -177,47 +183,61 @@ export class BoxProductsComponent {
       }))
   }
 
-  exportToExcel() {
+  isExporting: boolean = false;
+  async exportToExcel() {
 
     if (!this.packageListData.length) {
-      console.warn('No data to export');
+      this.snackbar.openSnackbar('No data to export', 'warn');
       return;
     }
 
-    const excelData = this.packageListData.map((row) => ({
-      Description: row.description ?? '',
-      Specification: row.specification ?? '',
-      MOC: row.moc ?? '',
-      Section: row.section ?? '',
-      Quantity: row.quantity ?? '',
-      'Dispatched Stickers': row.dispatchedStickers ?? '',
-      'Pending Stickers': row.pendingStickers ?? '',
-    }));
+    this.isExporting = true;
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelData);
+    try {
+      await new Promise(res => setTimeout(res, 50));
 
-    const range = XLSX.utils.decode_range(worksheet['!ref']!);
+      const excelData = this.packageListData.map((row) => ({
+        Description: row.description ?? '',
+        Specification: row.specification ?? '',
+        MOC: row.moc ?? '',
+        Section: row.section ?? '',
+        Quantity: row.quantity ?? '',
+        'Dispatched Stickers': row.dispatchedStickers ?? '',
+        'Pending Stickers': row.pendingStickers ?? '',
+      }));
 
-    for (let C = range.s.c; C <= range.e.c; ++C) {
-      const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
-      const cell = worksheet[cellAddress];
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelData);
 
-      if (!cell) continue;
+      const range = XLSX.utils.decode_range(worksheet['!ref']!);
 
-      cell.s = {
-        font: { bold: true, color: { rgb: 'FFFFFF' } },
-        fill: { fgColor: { rgb: '008000' } },
-        alignment: { horizontal: 'center', vertical: 'center' }
-      };
+      for (let C = range.s.c; C <= range.e.c; ++C) {
+        const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
+        const cell = worksheet[cellAddress];
+
+        if (!cell) continue;
+
+        cell.s = {
+          font: { bold: true, color: { rgb: 'FFFFFF' } },
+          fill: { fgColor: { rgb: '008000' } },
+          alignment: { horizontal: 'center', vertical: 'center' }
+        };
+      }
+
+      worksheet['!cols'] = Object.keys(excelData[0]).map(() => ({ wch: 20 }));
+
+      const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Package List');
+
+      const fileName = `package-list-${new Date().toISOString().slice(0, 10)}.xlsx`;
+      XLSX.writeFile(workbook, fileName);
+    } catch (err) {
+      console.error('Excel export failed', err);
+      this.snackbar?.openSnackbar?.('Failed to export Excel', 'error');
+    } finally {
+      // give a tiny delay so the browser can complete the save trigger before hiding spinner
+      await new Promise(res => setTimeout(res, 120));
+      this.isExporting = false;
     }
-
-    worksheet['!cols'] = Object.keys(excelData[0]).map(() => ({ wch: 20 }));
-
-    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Package List');
-
-    const fileName = `package-list-${new Date().toISOString().slice(0, 10)}.xlsx`;
-    XLSX.writeFile(workbook, fileName);
   }
 
 

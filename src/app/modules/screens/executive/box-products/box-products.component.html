@@ -6,7 +6,7 @@
 
         <div class="flex justify-end items-center mb-4 gap-4">
             <app-button label="Print" type="with-icon" iconSrc="assets/icons/print-white.svg"
-                (onClick)="exportToExcel()" />
+                (onClick)="exportToExcel()" [loading]="isExporting" />
         </div>
 
         <div id="print-container">
