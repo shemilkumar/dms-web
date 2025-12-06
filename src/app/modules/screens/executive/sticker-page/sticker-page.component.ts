@@ -104,7 +104,8 @@ export class StickerPageComponent implements OnInit {
       moc: sticker.moc,
       // quantity: sticker.total,
       stcikerId: sticker.sticker_id,
-      qrData: sticker.sticker_id
+      qrData: sticker.sticker_id,
+      seqLabel: sticker.seq_label,
     }));
   }
 
