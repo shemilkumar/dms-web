@@ -79,17 +79,16 @@ export class BomComponent {
       sortable: false,
       cellClass: [],
     },
-
+    {
+      id: 'drawingNo',
+      label: 'Drawing No',
+      headerClass: ['text-start'],
+      sortable: false,
+      cellClass: [],
+    },
     {
       id: 'moc',
       label: 'MOC',
-      headerClass: ['text-start'],
-      sortable: true,
-      cellClass: ['fw-bold', 'font-size-16'],
-    },
-    {
-      id: 'etchingMark',
-      label: 'EM',
       headerClass: ['text-start'],
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],

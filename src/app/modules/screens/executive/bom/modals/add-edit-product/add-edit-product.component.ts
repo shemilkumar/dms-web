@@ -30,7 +30,7 @@ export class AddEditProductComponent {
       moc: ['',],
       quantity: ['', Validators.required],
       uom: ['',],
-      etchingMark: [''],
+      // etchingMark: [''],
       pageNo: ['',],
       section: ['', Validators.required],
       remarks: [''],
@@ -48,8 +48,6 @@ export class AddEditProductComponent {
   }
 
   populatData() {
-    console.log(this.data);
-
     if (!this.data?.product) return;
 
     this.form.patchValue({
@@ -58,7 +56,7 @@ export class AddEditProductComponent {
       moc: this.data.product.moc || '',
       quantity: this.data.product.quantity || '',
       uom: this.data.product.uom || '',
-      etchingMark: this.data.product.etchingMark || '',
+      // etchingMark: this.data.product.etchingMark || '',
       pageNo: this.data.product.pageNo || '',
       remarks: this.data.product.remarks || '',
       section: this.data.product.section || '',
@@ -76,7 +74,7 @@ export class AddEditProductComponent {
     const productPayload = {
       "description": this.form.get('description')?.value,
       "dispatched_quantity": 0,
-      "etching_mark": this.form.get('etchingMark')?.value,
+      // "etching_mark": this.form.get('etchingMark')?.value,
       "moc": this.form.get('moc')?.value,
       "page_no": this.form.get('pageNo')?.value,
       "project_id": this.data?.project?.projectId,

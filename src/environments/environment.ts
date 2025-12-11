@@ -10,3 +10,5 @@ export const environment = {
   // dataApiUrl: 'http://10.10.3.62:8000', // local
 };
 // 
+
+// http://52.66.245.19:8000/boms/bom/project/projectID/status

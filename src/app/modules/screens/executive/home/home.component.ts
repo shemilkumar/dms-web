@@ -65,13 +65,13 @@ export class HomeComponent {
       sortable: true,
       cellClass: ['fw-bold', 'font-size-16'],
     },
-    {
-      id: 'etching_mark',
-      label: 'Etching Mark',
-      headerClass: ['text-start'],
-      sortable: true,
-      cellClass: ['fw-bold', 'font-size-16'],
-    },
+    // {
+    //   id: 'etching_mark',
+    //   label: 'Etching Mark',
+    //   headerClass: ['text-start'],
+    //   sortable: true,
+    //   cellClass: ['fw-bold', 'font-size-16'],
+    // },
     {
       id: 'page_no',
       label: 'Page No',

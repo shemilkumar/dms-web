@@ -32,13 +32,12 @@ export class LoginComponent {
     this.api.post('auth/login', this.loginForm.value).pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: (response: any) => {
-          console.log('Login successful', response);
 
           const accessToken = response.data.access_token;
           const refreshToken = response.data.refresh_token;
 
           localStorage.setItem('role', response.data.role);
-          if (response.data.role === 'EX') {
+          if (response.data.role === 'SC') {
             this.snackbar.openSnackbar(
               'Please log in through the mobile application, your account does not have permission to access the web portal',
               'warning'
