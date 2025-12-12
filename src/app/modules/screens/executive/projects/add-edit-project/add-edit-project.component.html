@@ -3,7 +3,7 @@
 
   <form [formGroup]="form" class="form">
 
-    <div class="form__grid !gap-y-8">
+    <div class="form__grid !gap-y-8 form__grid--quad-col">
 
       <div class="form__input">
         <label for="projectName" class="form__label">
@@ -48,12 +48,102 @@
     </div>
 
     <div class="form__grid form__grid--single-col">
-      <div class="form__input mt-4">
+      <div class="form__input">
         <label for="description" class="form__label">
-          Description
+          Project Description
           <!-- <span class="form__label--required">*</span> -->
-        </label> <textarea id="description" formControlName="description" name="description" rows="5"
-          style="resize: none" class="p-4 w-full border border-gray-300 rounded-lg"></textarea>
+        </label> <textarea id="description" formControlName="description" name="description" rows="4"
+          style="resize: none" class="p-4 w-full border border-gray-300 rounded-lg outline-none"></textarea>
+      </div>
+    </div>
+
+    <div class="form__grid !gap-y-8 form__grid--quad-col">
+
+      <div class="form__input">
+        <label for="supplierName" class="form__label">
+          Supplier Name
+          <!-- <span class="form__label--required">*</span> -->
+        </label>
+        <input type="text" id="supplierName" formControlName="supplierName">
+      </div>
+
+      <div class="form__input">
+        <label for="supplierGSTNo" class="form__label">
+          Supplier GST No.
+          <!-- <span class="form__label--required">*</span> -->
+        </label>
+        <input type="text" id="supplierGSTNo" formControlName="supplierGSTNo">
+      </div>
+
+      <div class="form__input">
+        <label for="supplierCINNo" class="form__label">
+          Supplier CIN No.
+          <!-- <span class="form__label--required">*</span> -->
+        </label>
+        <input type="text" id="supplierCINNo" formControlName="supplierCINNo">
+      </div>
+
+      <div class="form__input">
+        <label for="supplierIECNo" class="form__label">
+          Supplier IEC No.
+          <!-- <span class="form__label--required">*</span> -->
+        </label>
+        <input type="text" id="supplierIECNo" formControlName="supplierIECNo">
+      </div>
+    </div>
+
+    <div class="form__grid form__grid--single-col">
+      <div class="form__input">
+        <label for="supplierAddress" class="form__label">
+          Supplier Address
+          <!-- <span class="form__label--required">*</span> -->
+        </label> <textarea id="supplierAddress" formControlName="supplierAddress" name="supplierAddress" rows="4"
+          style="resize: none" class="p-4 w-full border border-gray-300 rounded-lg outline-none"></textarea>
+      </div>
+    </div>
+
+    <div class="form__grid !gap-y-8 form__grid--quad-col">
+
+      <div class="form__input">
+        <label for="customerName" class="form__label">
+          Customer Name
+          <!-- <span class="form__label--required">*</span> -->
+        </label>
+        <input type="text" id="customerName" formControlName="customerName">
+      </div>
+
+      <div class="form__input">
+        <label for="customerGSTNo" class="form__label">
+          Customer GST No.
+          <!-- <span class="form__label--required">*</span> -->
+        </label>
+        <input type="text" id="customerGSTNo" formControlName="customerGSTNo">
+      </div>
+
+      <div class="form__input">
+        <label for="customerCINNo" class="form__label">
+          Customer CIN No.
+          <!-- <span class="form__label--required">*</span> -->
+        </label>
+        <input type="text" id="customerCINNo" formControlName="customerCINNo">
+      </div>
+
+      <div class="form__input">
+        <label for="customerIECNo" class="form__label">
+          Customer IEC No.
+          <!-- <span class="form__label--required">*</span> -->
+        </label>
+        <input type="text" id="customerIECNo" formControlName="customerIECNo">
+      </div>
+    </div>
+
+    <div class="form__grid form__grid--single-col">
+      <div class="form__input">
+        <label for="customerAddress" class="form__label">
+          Customer Address
+          <!-- <span class="form__label--required">*</span> -->
+        </label> <textarea id="customerAddress" formControlName="customerAddress" name="customerAddress" rows="4"
+          style="resize: none" class="p-4 w-full border border-gray-300 rounded-lg outline-none"></textarea>
       </div>
     </div>
   </form>

@@ -29,6 +29,18 @@ export class AddEditProjectComponent {
       startDate: ['',],
       endDate: ['',],
       description: ['',],
+
+      supplierName: ['', Validators.required],
+      supplierGSTNo: ['', Validators.required],
+      supplierCINNo: ['', Validators.required],
+      supplierIECNo: ['', Validators.required],
+      supplierAddress: ['', Validators.required],
+
+      customerName: ['', Validators.required],
+      customerGSTNo: ['', Validators.required],
+      customerCINNo: ['', Validators.required],
+      customerIECNo: ['', Validators.required],
+      customerAddress: ['', Validators.required],
     });
   }
 
@@ -52,6 +64,18 @@ export class AddEditProjectComponent {
       startDate: this.data.project.startDate ? new Date(this.data.project.startDate) : undefined,
       endDate: this.data.project.endDate ? new Date(this.data.project.endDate) : undefined,
       description: this.data.project.description || '',
+
+      supplierName: this.data.project.supplierName || '',
+      supplierGSTNo: this.data.project.supplierGSTNo || '',
+      supplierCINNo: this.data.project.supplierCINNo || '',
+      supplierIECNo: this.data.project.supplierIECNo || '',
+      supplierAddress: this.data.project.supplierAddress || '',
+
+      customerName: this.data.project.customerName || '',
+      customerGSTNo: this.data.project.customerGSTNo || '',
+      customerCINNo: this.data.project.customerCINNo || '',
+      customerIECNo: this.data.project.customerIECNo || '',
+      customerAddress: this.data.project.customerAddress || '',
     });
   }
 
@@ -67,9 +91,22 @@ export class AddEditProjectComponent {
       "name": this.form.get('projectName')?.value,
       "client_name": this.form.get('clientName')?.value,
       "start_date": this.form.get('startDate')?.value ? this.getEpoch(this.form.get('startDate')?.value) : undefined,
-      "end_date": this.form.get('staend_datertDate')?.value ? this.getEpoch(this.form.get('endDate')?.value) : undefined,
+      "end_date": this.form.get('endDate')?.value ? this.getEpoch(this.form.get('endDate')?.value) : undefined,
       "description": this.form.get('description')?.value,
-      "status": 'ACTIVE'
+      "status": 'ACTIVE',
+
+      "supplier_name": this.form.get('supplierName')?.value,
+      "supplier_gst_number": this.form.get('supplierGSTNo')?.value,
+      "supplier_cin_number": this.form.get('supplierCINNo')?.value,
+      "supplier_iec_number": this.form.get('supplierIECNo')?.value,
+      "supplier_address": this.form.get('supplierAddress')?.value,
+
+      "customer_name": this.form.get('customerName')?.value,
+      "customer_gst_number": this.form.get('customerGSTNo')?.value,
+      "customer_cin_number": this.form.get('customerCINNo')?.value,
+      "customer_iec_number": this.form.get('customerIECNo')?.value,
+      "customer_address": this.form.get('customerAddress')?.value
+
     }
 
     // {expected: "'DRAFT', 'ACTIVE', 'CLOSED' or 'ARCHIVED'"}

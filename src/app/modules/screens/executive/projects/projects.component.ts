@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditProjectComponent } from './add-edit-project/add-edit-project.component';
 import { Router } from '@angular/router';
-import { ADD_OR_EDIT_MODAL_WIDTH, CONFIRM_MODAL_WIDTH, SMALL_MODAL_WIDTH } from 'src/environments/constants';
+import { ADD_OR_EDIT_MODAL_WIDTH, CONFIRM_MODAL_WIDTH, LONG_MODAL_WIDTH, MEDIUM_MODAL_WIDTH, SMALL_MODAL_WIDTH } from 'src/environments/constants';
 import { ApiService } from 'src/app/core/services/api.service';
 import { finalize, map, Observable, of } from 'rxjs';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
@@ -46,7 +46,19 @@ export class ProjectsComponent {
           endDate: project.end_date,
           description: project.description,
           status: project.status,
-          projectId: project.project_id
+          projectId: project.project_id,
+
+          supplierName: project.supplier_name,
+          supplierGSTNo: project.supplier_gst_number,
+          supplierCINNo: project.supplier_cin_number,
+          supplierIECNo: project.supplier_iec_number,
+          supplierAddress: project.supplier_address,
+
+          customerName: project.customer_name,
+          customerGSTNo: project.customer_gst_number,
+          customerCINNo: project.customer_cin_number,
+          customerIECNo: project.customer_iec_number,
+          customerAddress: project.customer_address
         })));
         this.isLoading = false;
       },
@@ -68,7 +80,7 @@ export class ProjectsComponent {
 
   createProject() {
     this.dialog.open(AddEditProjectComponent, {
-      width: SMALL_MODAL_WIDTH
+      width: LONG_MODAL_WIDTH
     }).afterClosed().subscribe((result: boolean) => {
       if (result) this.fetchProjects();
     });
@@ -76,7 +88,7 @@ export class ProjectsComponent {
 
   updateProject(project: any) {
     this.dialog.open(AddEditProjectComponent, {
-      width: ADD_OR_EDIT_MODAL_WIDTH,
+      width: LONG_MODAL_WIDTH,
       data: { action: 'update', project }
     }).afterClosed().subscribe((result: boolean) => {
       if (result) this.fetchProjects();
