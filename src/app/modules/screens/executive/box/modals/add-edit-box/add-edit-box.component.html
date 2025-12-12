@@ -11,7 +11,50 @@
                 </label>
                 <input type="text" id="boxName" formControlName="boxName">
             </div>
+        </div>
 
+        <div class="form__grid">
+
+            <div class="form__input">
+                <label for="invoiceNo" class="form__label">
+                    Invoice No <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="invoiceNo" formControlName="invoiceNo">
+            </div>
+
+
+            <div class="form__input relative">
+                <label for="invoiceDate" class="form__label">
+                    Invoice Date
+                    <span class="form__label--required">*</span>
+                </label>
+
+                <input type="text" aria-label="select-patient" matInput class="border rounded-lg p-2 outline-none"
+                    readonly [matDatepicker]="picker" (click)="picker.open()" formControlName="invoiceDate"
+                    id="invoiceDate" />
+
+                <mat-datepicker-toggle matIconSuffix [for]="picker"
+                    class="absolute right-0 bottom-0"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </div>
+
+            <div class="form__input">
+                <label for="poNo" class="form__label">
+                    PO No. <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="poNo" formControlName="poNo">
+            </div>
+
+            <div class="form__input">
+                <label for="vehicleNo" class="form__label">
+                    Vehicle No. <span class="form__label--required">*</span>
+                </label>
+                <input type="text" id="vehicleNo" formControlName="vehicleNo">
+            </div>
+
+        </div>
+
+        <div class="form__grid form__grid--single-col">
             <div class="form__input mt-4">
                 <label for="description" class="form__label">
                     Description <span class="form__label--required">*</span>

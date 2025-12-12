@@ -25,6 +25,10 @@ export class AddEditBoxComponent {
     this.form = this.fb.group({
       boxName: ['', Validators.required],
       description: [''],
+      invoiceNo: [''],
+      invoiceDate: [''],
+      poNo: [''],
+      vehicleNo: ['']
     });
   }
 
@@ -46,6 +50,11 @@ export class AddEditBoxComponent {
     this.form.patchValue({
       boxName: this.data.box.boxName || '',
       description: this.data.box.description || '',
+
+      invoiceNo: this.data.box.invoiceNo || '',
+      invoiceDate: this.data.box.invoiceDate || '',
+      poNo: this.data.box.poNo || '',
+      vehicleNo: this.data.box.vehicleNo || ''
     });
   }
 
@@ -57,6 +66,12 @@ export class AddEditBoxComponent {
     const boxPayload = {
       "name": this.form.get('boxName')?.value,
       "description": this.form.get('description')?.value,
+
+      "invoice_no": this.form.get('invoiceNo')?.value,
+      "invoice_date": this.form.get('invoiceDate')?.value ? this.form.get('invoiceDate')?.value?.getTime() : undefined,
+      "po_no": this.form.get('poNo')?.value,
+      "vehicle_no": this.form.get('vehicleNo')?.value,
+
       "project_id": this.data?.project?.projectId
     }
 

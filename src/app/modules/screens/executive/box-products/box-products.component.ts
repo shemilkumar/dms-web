@@ -10,6 +10,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
 import { logoBase64 } from 'src/environments/logoBase64';
+import { apiResponseToExportOptions, ExportOptions } from 'src/environments/responseToExportExcelOptions';
 
 // TABLE ROW
 export type PackageRow = {
@@ -20,35 +21,6 @@ export type PackageRow = {
   quantity?: number | string;
   uom?: string;
   remarks?: string;
-};
-
-// ALL EXPORT OPTIONS
-export type ExportOptions = {
-  packageListData: PackageRow[];
-
-  meta?: {
-    companyName?: string;
-    companyAddress?: string;
-    companyLogoDataUri?: string; // base64 image or null
-    showHeaderFooter?: boolean;   // false → skip logo + footer
-  };
-
-  invoice?: {
-    invoiceNo?: string;
-    invoiceDate?: string;
-  };
-
-  customer?: {
-    title?: string;              // Customer Name
-    address?: string;            // Multi-line address
-  };
-
-  poDetails?: {
-    poNo?: string;
-    vehicleNo?: string;
-  };
-
-  fileName?: string;             // Optional override for Excel filename
 };
 
 
@@ -185,6 +157,7 @@ export class BoxProductsComponent {
     this.fetchPackageList();
   }
 
+  packageListResponse: any;
 
   fetchPackageList(searchText: string = '') {
     this.isLoading = true;
@@ -193,24 +166,26 @@ export class BoxProductsComponent {
 
     let url = `stickers/package/${this.box.boxId}/package-list`;
 
-    this.packageList$ = this.api.get(url).pipe(map((res: any) => {
-      const items = res.data?.package_list || [];
+    this.packageList$ = this.api.get(url).pipe(
+      tap((response) => this.packageListResponse = response),
+      map((res: any) => {
+        const items = res.data?.package_list || [];
 
-      const mapped = items.map((item: any) => ({
-        description: item.description,
-        specification: item.specification,
-        moc: item.moc,
-        section: item.section,
-        uom: item.uom,
-        quantity: item.quantity,
-        dispatchedStickers: item.dispatched_stickers,
-        pendingStickers: item.pending_stickers,
-      }));
+        const mapped = items.map((item: any) => ({
+          description: item.description,
+          specification: item.specification,
+          moc: item.moc,
+          section: item.section,
+          uom: item.uom,
+          quantity: item.quantity,
+          dispatchedStickers: item.dispatched_stickers,
+          pendingStickers: item.pending_stickers,
+        }));
 
-      this.packageListData = mapped;
+        this.packageListData = mapped;
 
-      return mapped;
-    }),
+        return mapped;
+      }),
       tap(items => {
         if (items.length === 0) {
           this.config.tableState = TableState.NO_DATA;
@@ -284,7 +259,17 @@ export class BoxProductsComponent {
 
 
   exportToExcel() {
-    this.exportPackageListExcel(this.dummyOptions);
+
+    const options = apiResponseToExportOptions(this.packageListResponse, {
+      fileName: 'package-list-example.xlsx',
+      companyLogoDataUri: logoBase64,
+      showHeaderFooter: true
+    });
+
+    console.log(options);
+
+
+    this.exportPackageListExcel(options);
   }
 
   async exportPackageListExcel(options: ExportOptions) {
@@ -433,14 +418,39 @@ export class BoxProductsComponent {
       const leftCols = 3;               // company address uses cols 1..3
       const rightStart = leftCols + 1;  // meta area starts at col 4 and spans to col 7 (3 columns to the right)
 
-      // Company address: merge currentRow..currentRow+1, cols 1..leftCols
+      // Comapny name & Company address: merge currentRow..currentRow+1, cols 1..leftCols
       sheet.mergeCells(currentRow, 1, currentRow + 1, leftCols);
+
       const leftAddrCell = sheet.getCell(currentRow, 1);
-      leftAddrCell.value = companyAddress || '';
-      leftAddrCell.alignment = { wrapText: true, vertical: 'top', horizontal: 'left' };
-      leftAddrCell.font = { size: 11 };
-      sheet.getRow(currentRow).height = 26;
-      sheet.getRow(currentRow + 1).height = 26;
+
+      // Fallbacks
+      const name = companyName || '';
+      const address = companyAddress || '';
+
+      // Use rich text so name is green & bold, address is black
+      leftAddrCell.value = {
+        richText: [
+          {
+            text: name + '\n\n',
+            font: { bold: true, color: { argb: 'FF008000' }, size: 12 } // green
+          },
+          {
+            text: address,
+            font: { color: { argb: 'FF000000' }, size: 11 } // black normal text
+          }
+        ]
+      };
+
+      leftAddrCell.alignment = {
+        wrapText: true,
+        vertical: 'top',
+        horizontal: 'left'
+      };
+
+      // Increase height for both merged rows
+      sheet.getRow(currentRow).height = 50;
+      sheet.getRow(currentRow + 1).height = 50;
+
 
       // Invoice No: label + merged value (top right)
       const invLabelCell = sheet.getCell(currentRow, rightStart);
@@ -476,7 +486,7 @@ export class BoxProductsComponent {
       custTitleCell.value = customerTitle || '';
       custTitleCell.font = { bold: true, size: 12 };
       custTitleCell.alignment = { horizontal: 'left', vertical: 'middle' };
-      sheet.getRow(currentRow).height = 20;
+      sheet.getRow(currentRow).height = 30;
       currentRow++;
 
       // 5) Customer address (left) vertically merged two rows; PO No and Vehicle No each have their own row/format on the right
@@ -486,8 +496,8 @@ export class BoxProductsComponent {
       const custAddrCell = sheet.getCell(currentRow, 1);
       custAddrCell.value = customerAddress || '';
       custAddrCell.alignment = { wrapText: true, vertical: 'top', horizontal: 'left' };
-      sheet.getRow(currentRow).height = 30;
-      sheet.getRow(currentRow + 1).height = 30;
+      sheet.getRow(currentRow).height = 50;
+      sheet.getRow(currentRow + 1).height = 50;
 
       // Right side: we will place PO No (label + merged value) at currentRow
       // and Vehicle No (label + merged value) at currentRow + 1, mirroring invoice format.
@@ -589,11 +599,39 @@ export class BoxProductsComponent {
       // Signature area - tall
       sheet.mergeCells(currentRow, 1, currentRow, totalCols);
       const signCell = sheet.getCell(currentRow, 1);
-      signCell.value = `For ${companyName || ''}\n\nAuthorised Signatory`;
-      signCell.alignment = { horizontal: 'right', vertical: 'middle', wrapText: true };
-      signCell.font = { bold: true };
+
+      signCell.value = {
+        richText: [
+          // Line 1: "For <company>" in GREEN
+          {
+            text: 'For ',
+            font: { bold: true, color: { argb: 'FF000000' }, size: 12 }
+          },
+          {
+            text: companyName || '',
+            font: { bold: true, color: { argb: 'FF008000' }, size: 12 } // green
+          },
+          // New line spacer
+          { text: '\n\n' },
+          // Line 3: Authorised Signatory (black)
+          {
+            text: 'Authorised Signatory',
+            font: { bold: true, color: { argb: 'FF000000' }, size: 12 }
+          }
+        ]
+      };
+
+      signCell.alignment = {
+        horizontal: 'right',
+        vertical: 'middle',
+        wrapText: true
+      };
+
+      // Give proper height for signature space
       sheet.getRow(currentRow).height = 96;
+
       currentRow++;
+
 
       // Footer address small centered text in 2 lines
       sheet.mergeCells(currentRow, 1, currentRow, totalCols);
