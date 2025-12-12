@@ -98,8 +98,10 @@ export class UserManagementComponent {
   ];
 
   users$: Observable<any> = of([]);
+  role: string = '';
 
   ngOnInit() {
+    this.role = localStorage.getItem('role') || '';
     this.fetchUsers();
   }
 

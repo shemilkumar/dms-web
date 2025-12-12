@@ -36,8 +36,10 @@ export class BoxComponent {
   headerData = {}
   project: any;
   boxes$: Observable<any> = of([]);
+  role: string = '';
 
   ngOnInit() {
+    this.role = localStorage.getItem('role') || '';
 
     if (!this.project) {
       const project = localStorage.getItem('project');

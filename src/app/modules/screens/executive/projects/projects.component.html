@@ -116,7 +116,8 @@
               <img src="assets/icons/edit.svg" alt="Edit"
                 class="icon icon__medium cursor-pointer hover:scale-125 transition-transform">
             </div>
-            <div class="p-2" (click)=" deleteProject(project); $event.stopPropagation()">
+            <div class="p-2" (click)=" deleteProject(project); $event.stopPropagation()"
+              *ngIf="['ADM', 'SA'].includes(role)">
               <img src="assets/icons/delete.svg" alt="Delete"
                 class="icon icon__large cursor-pointer hover:scale-125 transition-transform">
             </div>

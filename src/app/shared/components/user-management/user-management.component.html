@@ -51,7 +51,7 @@
                         (onClick)="updateUser(row)" />
 
                     <app-button [variant]="'outline-icon-error'" type="icon" iconSrc="assets/icons/delete.svg"
-                        (onClick)="deleteUser(row)" />
+                        (onClick)="deleteUser(row)" *ngIf="['ADM', 'SA'].includes(role)" />
                 </div>
             </ng-template>
         </pp-table>

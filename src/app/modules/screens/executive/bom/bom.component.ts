@@ -161,8 +161,11 @@ export class BomComponent {
 
 
   headerData: any = {};
+  role: string = '';
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.role = localStorage.getItem('role') || '';
+
     if (!this.project) {
       const project = localStorage.getItem('project');
       if (project) this.project = JSON.parse(project);
@@ -253,6 +256,32 @@ export class BomComponent {
             .subscribe({
               next: (response: any) => {
                 this.snackbar.openSnackbar('Product Deleted successfully', 'success');
+                this.fetchProducts();
+              },
+              error: (error) => {
+                console.log(error);
+                this.snackbar.openSnackbar(error.message, 'error');
+              }
+            })
+        }
+        else { }
+      });
+  }
+
+  deleteAllProducts() {
+    const confirmModalData = {
+      title: `Confirm Delete All Product`,
+      message: `Are you sure you want to Delete All Product?`
+    }
+
+    this.dialog.open(ConfirmDialogComponent, { data: confirmModalData, width: CONFIRM_MODAL_WIDTH })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.api.put(`boms/bom/project/${this.project.projectId}/status`, {}).pipe()
+            .subscribe({
+              next: (response: any) => {
+                this.snackbar.openSnackbar('Products Deleted successfully', 'success');
                 this.fetchProducts();
               },
               error: (error) => {

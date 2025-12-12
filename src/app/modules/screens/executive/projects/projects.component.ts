@@ -20,13 +20,13 @@ export class ProjectsComponent {
   ) { }
 
   isLoading = false;
-
+  role: string = '';
   projects$: Observable<any> = of([]);
 
   ngOnInit() {
+    this.role = localStorage.getItem('role') || '';
     this.fetchProjects();
   }
-
 
   fetchProjects(searchText: string = '') {
     this.isLoading = true;

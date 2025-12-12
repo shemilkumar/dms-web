@@ -69,7 +69,7 @@
                                             <img src="assets/icons/edit.svg" alt="Edit"
                                                 class="icon icon__medium cursor-pointer hover:scale-125 transition-transform">
                                         </div>
-                                        <div class="p-2"
+                                        <div class="p-2" *ngIf="['ADM', 'SA'].includes(role)"
                                             (click)="changeBoxStatus(box, 'DELETED'); $event.stopPropagation()">
                                             <img src="assets/icons/delete.svg" alt="Delete"
                                                 class="icon icon__large cursor-pointer hover:scale-125 transition-transform">

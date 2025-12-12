@@ -47,7 +47,7 @@ export class LoginComponent {
 
           localStorage.setItem('access_token', accessToken);
           localStorage.setItem('refresh_token', refreshToken);
-          // localStorage.setItem('userId', response.data.user_id);
+          localStorage.setItem('role', response.data.role);
 
           this.getUserRights();
 
