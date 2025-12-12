@@ -27,7 +27,7 @@ interface Sticker {
 })
 export class StickerPageComponent implements OnInit {
 
-  stickerPerPage = 24;
+  stickerPerPage = 48;
   stickers: any[] = [];
   pagedStickers: any[][] = [];
   products: any;
@@ -68,11 +68,7 @@ export class StickerPageComponent implements OnInit {
     //   qrData: `STK-${i + 1}`
     // }));
 
-    console.log(this.stickers);
-
     // this.pagedStickers = this.chunkArray(this.stickers, this.stickerPerPage);
-
-    console.log(this.pagedStickers);
 
   }
 
@@ -86,11 +82,9 @@ export class StickerPageComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this.generateStickers(response.data?.all_stickers);
-          console.log(this.stickers);
           this.pagedStickers = this.chunkArray(this.stickers, this.stickerPerPage);
         },
         error: (error) => {
-          console.log(error);
         }
       });
   }
@@ -129,7 +123,7 @@ export class StickerPageComponent implements OnInit {
     const pdf = new jsPDF('p', 'mm', 'a4');
 
     // Hide toolbar during capture
-    document.body.classList.add('print-mode');
+    // document.body.classList.add('print-mode');
 
     for (let i = 0; i < sheets.length; i++) {
       const sheetEl = sheets[i].nativeElement;
@@ -144,9 +138,7 @@ export class StickerPageComponent implements OnInit {
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
 
-      if (i > 0) {
-        pdf.addPage();
-      }
+      if (i > 0) pdf.addPage();
 
       pdf.addImage(
         imgData,
@@ -158,11 +150,11 @@ export class StickerPageComponent implements OnInit {
       );
     }
 
-    document.body.classList.remove('print-mode');
+    // document.body.classList.remove('print-mode');
 
     await this.savePdfAsync(pdf, 'stickers.pdf');
 
-    this.isDownloading = false; // hide loader
+    this.isDownloading = false;
 
     this.markAsPrinted();
   }

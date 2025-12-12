@@ -1,48 +1,46 @@
 <app-header [data]="headerData" />
-<!-- app-stickers.component.html -->
-<div class="h-screen overflow-y-auto bg-slate-100 pb-4">
 
-    <div *ngIf="!isStickerGenerating">
+<div class="h-screen  bg-slate-100 pb-4">
 
-        <!-- Toolbar (stays at top) -->
-        <div class="sticky top-0 z-10 bg-slate-100 p-2 flex justify-end">
-            <!-- <button class="px-4 py-2 rounded bg-blue-600 text-white" (click)="downloadStickersPdf()">
-            🖨 Download Stickers PDF
-        </button> -->
+    <div *ngIf="!isStickerGenerating" class="h-full overflow-auto">
+
+        <div class="sticky top-0 z-10 bg-transparent p-2 flex justify-end">
             <app-button type="with-icon" label="Download" iconSrc="assets/icons/pdf.svg"
                 (onClick)="downloadStickersPdf()" [loading]="isDownloading" />
         </div>
 
         <!-- This is what jsPDF will capture -->
-        <div id="" #printContainer class="py-4 space-y-6">
+        <div id="" #printContainer class="py-4 mb-32 h-full overflow-y-auto">
 
             <!-- One array = one A4 page -->
-            <div *ngFor="let pageSticker of pagedStickers; let pageIndex = index"
-                class="mx-auto bg-white shadow w-[210mm] min-h-[297mm] p-6 flex flex-col page sheet"
+            <div *ngFor="let pageSticker of pagedStickers; let pageIndex = index" class="sheet"
                 [class.page-break]="pageIndex < pagedStickers.length - 1" #sheetRef>
-                <!-- <div class="font-bold mb-2">
-                Page {{ pageIndex + 1 }}
-            </div> -->
 
                 <!-- Each sticker -->
-                <div class="grid grid-cols-3 gap-x-2 gap-y-4">
+                <div class="grid grid-cols-4 gap-x-1 gap-y-2">
                     <div *ngFor="let sticker of pageSticker"
-                        class="flex justify-between items-center border border-dashed rounded border-green-500 px-3 py-2 text-xs">
-                        <div class="">
-                            <div class="font-semibold text-sm">{{ sticker.projectName }}</div>
-                            <div class="text-[0.65rem]">DESC: {{ sticker.description }}</div>
-                            <div class="text-[0.65rem]">SPEC: {{ sticker.specification }}</div>
-                            <div class="text-[0.65rem]">SEC: {{ sticker.section }}</div>
-                            <div class="text-[0.65rem]">MOC: {{ sticker.moc }}</div>
-                            <!-- <div class="text-[0.65rem]">QTY: {{ sticker.quantity }}</div> -->
-                            <div class="text-[0.65rem]">SEQ: {{ sticker.seqLabel }}</div>
-                        </div>
+                        class="border border-dashed rounded border-green-500 pl-2 pr-1 pb-2 pt-0.5 text-xs">
+                        <div class="flex flex-col">
+                            <div class="text-[2mm] leading-[2.6mm] font-semibold text-[#008000]">
+                                GREENBAY TECH PRIVATE LTD.
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex flex-col gap-0">
+                                    <div class="text-[1.9mm] leading-[2.6mm]">PROJECT: {{ sticker.projectName }}</div>
+                                    <div class="text-[1.9mm] leading-[2.6mm]">DESC: {{ sticker.description }}</div>
+                                    <div class="text-[1.9mm] leading-[2.6mm]">SPEC: {{ sticker.specification }}</div>
+                                    <div class="text-[1.9mm] leading-[2.6mm]">SEC: {{ sticker.section }}</div>
+                                    <div class="text-[1.9mm] leading-[2.6mm]">SEQ: {{ sticker.seqLabel }}</div>
+                                </div>
 
-                        <div class="flex items-center justify-center ml-4">
-                            <qrcode [qrdata]="sticker.qrData" [width]="70" [errorCorrectionLevel]="'M'" [margin]="2"
-                                [elementType]="'canvas'"></qrcode>
+                                <div class="flex items-center justify-center ml-4">
+                                    <qrcode [qrdata]="sticker.qrData" [width]="60" [errorCorrectionLevel]="'M'"
+                                        [margin]="2" [elementType]="'canvas'"></qrcode>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
