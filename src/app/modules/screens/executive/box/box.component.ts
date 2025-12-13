@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { map, Observable, of, tap } from 'rxjs';
+import { finalize, map, Observable, of, tap } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { AddEditBoxComponent } from './modals/add-edit-box/add-edit-box.component';
 import { CONFIRM_MODAL_WIDTH, SMALL_MODAL_WIDTH, SMALL_SINGLE_COL_MODAL_WIDTH } from 'src/environments/constants';
@@ -37,6 +37,7 @@ export class BoxComponent {
   project: any;
   boxes$: Observable<any> = of([]);
   role: string = '';
+  isBoxesLoading: boolean = false
 
   ngOnInit() {
     this.role = localStorage.getItem('role') || '';
@@ -60,6 +61,7 @@ export class BoxComponent {
 
   fetchBoxes(searchText: string = '') {
     this.isLoading = true;
+    this.isBoxesLoading = true;
 
     if (searchText === '') this.searchQuery = '';
     else this.searchQuery = searchText;
@@ -76,7 +78,9 @@ export class BoxComponent {
       }))),
       tap(items => {
         console.log(items);
-
+      }),
+      finalize(() => {
+        this.isBoxesLoading = false;
       })
     );
   }

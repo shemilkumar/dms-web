@@ -20,7 +20,7 @@
             <div class="">
 
                 <ng-container *ngIf="boxes$ | async as boxes">
-                    <div *ngIf="boxes.length; else emptyState"
+                    <div *ngIf="!isBoxesLoading &&boxes.length; else emptyState"
                         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         <!-- Glass Box Cards -->
                         <article *ngFor="let box of boxes" class="relative group cursor-pointer overflow-hidden rounded-2xl
@@ -153,6 +153,10 @@
                         Box not Found
                     </div>
                 </ng-template>
+            </div>
+
+            <div *ngIf="isBoxesLoading" class="flex justify-center items-center mt-20">
+                <mat-spinner diameter="40" class="spinner" color="primary" />
             </div>
 
         </main>

@@ -22,6 +22,7 @@ export class ProjectsComponent {
   isLoading = false;
   role: string = '';
   projects$: Observable<any> = of([]);
+  isProjectsLoading: boolean = false;
 
   ngOnInit() {
     this.role = localStorage.getItem('role') || '';
@@ -30,6 +31,7 @@ export class ProjectsComponent {
 
   fetchProjects(searchText: string = '') {
     this.isLoading = true;
+    this.isProjectsLoading = true;
     let url;
 
     console.log(searchText);
@@ -37,32 +39,33 @@ export class ProjectsComponent {
     if (this.selectedStatus && this.selectedStatus !== 'ALL') url = `projects?search=${searchText}&status_filter=${this.selectedStatus}`;
     else url = `projects?search=${searchText}`;
 
-    this.api.get(url).subscribe({
-      next: (projects: any) => {
-        this.projects$ = of(projects.data?.items?.map((project: any) => ({
-          projectName: project.name,
-          clientName: project.client_name,
-          startDate: project.start_date,
-          endDate: project.end_date,
-          description: project.description,
-          status: project.status,
-          projectId: project.project_id,
+    this.api.get(url).pipe((finalize(() => this.isProjectsLoading = false)))
+      .subscribe({
+        next: (projects: any) => {
+          this.projects$ = of(projects.data?.items?.map((project: any) => ({
+            projectName: project.name,
+            clientName: project.client_name,
+            startDate: project.start_date,
+            endDate: project.end_date,
+            description: project.description,
+            status: project.status,
+            projectId: project.project_id,
 
-          supplierName: project.supplier_name,
-          supplierGSTNo: project.supplier_gst_number,
-          supplierCINNo: project.supplier_cin_number,
-          supplierIECNo: project.supplier_iec_number,
-          supplierAddress: project.supplier_address,
+            supplierName: project.supplier_name,
+            supplierGSTNo: project.supplier_gst_number,
+            supplierCINNo: project.supplier_cin_number,
+            supplierIECNo: project.supplier_iec_number,
+            supplierAddress: project.supplier_address,
 
-          customerName: project.customer_name,
-          customerGSTNo: project.customer_gst_number,
-          customerCINNo: project.customer_cin_number,
-          customerIECNo: project.customer_iec_number,
-          customerAddress: project.customer_address
-        })));
-        this.isLoading = false;
-      },
-    })
+            customerName: project.customer_name,
+            customerGSTNo: project.customer_gst_number,
+            customerCINNo: project.customer_cin_number,
+            customerIECNo: project.customer_iec_number,
+            customerAddress: project.customer_address
+          })));
+          this.isLoading = false;
+        },
+      })
 
 
     // .pipe(

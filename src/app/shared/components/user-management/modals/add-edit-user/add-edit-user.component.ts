@@ -36,7 +36,10 @@ export class AddEditUserComponent {
     confirmButtonText: this.data?.action === 'update' ? 'Update' : 'Submit',
   }
 
+  role: string = '';
+
   ngOnInit() {
+    this.role = localStorage.getItem('role') || '';
     this.populatData();
   }
 
@@ -99,7 +102,28 @@ export class AddEditUserComponent {
 
   getRole(role: string) {
     if (role === 'Admin') return 'ADM'
-    else if (role === 'Executive') return 'EX'
+    else if (role === 'Executive') return 'EX';
+    else if (role === 'Scanner') return 'SC';
     else return 'User'
   }
+
+  validPhoneNumberCharacters = (event: KeyboardEvent): boolean => {
+    const allowedPattern = /^[0-9]$/; // Allow digits only
+    const inputElement = event.target as HTMLInputElement; // Get the input element
+    const key = event.key;
+
+    // Prevent invalid keys (non-digits and special keys except backspace/delete)
+    if (!allowedPattern.test(key) && key !== "Backspace" && key !== "Delete") {
+      event.preventDefault();
+      return false;
+    }
+
+    // Prevent typing if length exceeds 10
+    if (inputElement.value.length >= 10 && key !== "Backspace" && key !== "Delete") {
+      event.preventDefault();
+      return false;
+    }
+
+    return true;
+  };
 }

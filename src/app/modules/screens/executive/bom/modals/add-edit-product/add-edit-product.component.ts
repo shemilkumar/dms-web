@@ -27,6 +27,8 @@ export class AddEditProductComponent {
       // slNo: ['', Validators.required],
       description: ['', Validators.required],
       specification: ['', Validators.required],
+      drawingNo: ['', Validators.required],
+
       moc: ['',],
       quantity: ['', Validators.required],
       uom: ['',],
@@ -53,6 +55,7 @@ export class AddEditProductComponent {
     this.form.patchValue({
       description: this.data.product.description || '',
       specification: this.data.product.specification || '',
+      drawingNo: this.data.product.drawingNo || '',
       moc: this.data.product.moc || '',
       quantity: this.data.product.quantity || '',
       uom: this.data.product.uom || '',
@@ -75,6 +78,7 @@ export class AddEditProductComponent {
       "description": this.form.get('description')?.value,
       "dispatched_quantity": 0,
       // "etching_mark": this.form.get('etchingMark')?.value,
+      "drawing_no": this.form.get('drawingNo')?.value,
       "moc": this.form.get('moc')?.value,
       "page_no": this.form.get('pageNo')?.value,
       "project_id": this.data?.project?.projectId,

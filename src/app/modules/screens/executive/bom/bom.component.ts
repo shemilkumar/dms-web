@@ -213,6 +213,7 @@ export class BomComponent {
       map((products: any) => products.data?.items?.map((product: any) => ({
         description: product.description,
         specification: product.specification,
+        drawingNo: product.drawing_no,
         moc: product.moc,
         quantity: product.quantity,
         uom: product.uom,

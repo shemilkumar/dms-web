@@ -25,7 +25,8 @@
   </div>
 
   <!-- Cards grid -->
-  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-8  border-red-500 max-h-[600px] overflow-y-auto">
+  <div *ngIf="!isProjectsLoading"
+    class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-8  border-red-500 max-h-[600px] overflow-y-auto">
 
     <!-- Project cards -->
     <div *ngFor="let project of projects" class="group relative overflow-hidden rounded-2xl
@@ -156,14 +157,7 @@
 
   </div>
 
-  <!-- EMPTY -->
-  <!-- <div *ngIf="projects?.length === 0" class="border-dashed flex justify-center items-center flex-col
-           border-2 border-gray-200 rounded-lg p-8 text-center text-gray-500 mt-8">
-    <img src="assets/images/no-card.svg" alt="No Projects" class="empty-image mb-4" />
-    <div class="text-2xl mb-2">No Projects yet</div>
-    <p class="mb-4">
-      Create your first project — it will appear here as a card.
-    </p>
-    <app-button type="normal" label="Create Project" (onClick)="createProject()" />
-  </div> -->
+  <div *ngIf="isProjectsLoading" class="flex justify-center items-center mt-20">
+    <mat-spinner diameter="40" class="spinner" color="primary" />
+  </div>
 </div>

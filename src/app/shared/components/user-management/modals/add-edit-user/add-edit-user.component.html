@@ -17,8 +17,9 @@
                     Role <span class="form__label--required">*</span>
                 </label>
                 <mat-select id="role" formControlName="role">
-                    <mat-option value="ADM">Admin</mat-option>
+                    <mat-option value="ADM" *ngIf="role === 'SA'">Admin</mat-option>
                     <mat-option value="EX">Executive</mat-option>
+                    <mat-option value="SC">Scanner</mat-option>
                 </mat-select>
             </div>
 
@@ -36,14 +37,14 @@
                 <label for="phoneNumber" class="form__label">
                     Phone Number <span class="form__label--required">*</span>
                 </label>
-                <input type="text" id="phoneNumber" formControlName="phoneNumber" [disabled]="data?.phoneNumber"
+                <input type="text" id="phoneNumber" formControlName="phoneNumber"
+                    (keypress)="validPhoneNumberCharacters($event)" [disabled]="data?.phoneNumber"
                     [readOnly]="data?.phoneNumber">
                 <small
                     *ngIf="form.get('phoneNumber')?.hasError('invalidPhoneNumber') && form.get('phoneNumber')?.touched">
                     Phone number must be at least 10 characters long
                 </small>
             </div>
-            <!-- (keypress)="validPhoneNumberCharacters($event)" -->
 
             <div class="form__input" *ngIf="data?.action !== 'update'">
                 <label for="passcode" class="form__label">

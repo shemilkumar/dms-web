@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
 import { ADD_OR_EDIT_MODAL_WIDTH, CONFIRM_MODAL_WIDTH } from 'src/environments/constants';
@@ -107,9 +107,12 @@ export class UserManagementComponent {
 
   fetchUsers(searchText: string = '') {
 
+    this.config.tableState = TableState.LOADING
+
     let url = `users/all?search=${searchText}`;
 
     this.users$ = this.api.get(url).pipe(
+      tap((users: any) => this.config.tableState = TableState.SUCCESS),
       map((users: any) => users.data?.items.map((user: any) => ({
         id: user.user_id,
         username: user.username,
@@ -119,7 +122,11 @@ export class UserManagementComponent {
         status: user.status,
         userId: user.user_id
       })))
-    );
+    ),
+      catchError(error => {
+        this.config.tableState = TableState.FAILURE
+        return of([]);
+      });
   }
 
   addUser() {
@@ -190,6 +197,7 @@ export class UserManagementComponent {
   getRole(role: string) {
     if (role === 'EX') return 'Executive'
     else if (role === 'ADM') return 'Admin'
+    else if (role === 'SC') return 'Scanner'
     else return 'User'
   }
 

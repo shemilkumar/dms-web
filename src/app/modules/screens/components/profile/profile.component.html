@@ -1,195 +1,201 @@
-<!-- profile.component.html -->
-<div class="flex px-6 gap-1 items-center italic cursor-pointer" routerLink="/home">
-    <img src="assets/icons/chevron-left.svg" alt="" class="icon icon__small">
-    <span class="text-lg text-gray-600 hover:text-green-600">Home</span>
-</div>
+<div *ngIf="!isProfileLoading">
+    <!-- profile.component.html -->
+    <div class="flex px-6 gap-1 items-center italic cursor-pointer" routerLink="/home">
+        <img src="assets/icons/chevron-left.svg" alt="" class="icon icon__small">
+        <span class="text-lg text-gray-600 hover:text-green-600">Home</span>
+    </div>
 
-<div class="px-4 py-10 flex h-full gap-10">
+    <div class="px-4 py-10 flex h-full gap-10">
 
-    <!-- ================= PROFILE CARD ================= -->
-    <div class="max-w-3xl border-rose-500 w-full h-full">
-        <div class="relative rounded-3xl  border border-green-500 shadow-2xl backdrop-blur-xl overflow-hidden">
-            <!-- gradient top bar -->
-            <div class="h-1 bg-gradient-to-r from-sky-400 via-emerald-400 to-violet-500"></div>
+        <!-- ================= PROFILE CARD ================= -->
+        <div class="max-w-3xl border-rose-500 w-full h-full">
+            <div class="relative rounded-3xl  border border-green-500 shadow-2xl backdrop-blur-xl overflow-hidden">
+                <!-- gradient top bar -->
+                <div class="h-1 bg-gradient-to-r from-sky-400 via-emerald-400 to-violet-500"></div>
 
-            <div class="p-6 sm:p-8 space-y-6">
+                <div class="p-6 sm:p-8 space-y-6">
 
-                <!-- Header -->
-                <div class="flex items-start gap-5">
-                    <!-- Avatar -->
-                    <div class="h-20 w-20 rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 
+                    <!-- Header -->
+                    <div class="flex items-start gap-5">
+                        <!-- Avatar -->
+                        <div class="h-20 w-20 rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-500 
                    flex items-center justify-center text-white text-3xl font-semibold shadow-lg">
-                        {{ avatarInitial }}
-                    </div>
+                            {{ avatarInitial }}
+                        </div>
 
-                    <!-- Name + badges -->
-                    <div class="flex-1">
-                        <div class="flex flex-wrap items-center justify-between gap-3">
-                            <div class="flex items-center gap-4">
-                                <div>
-                                    <h1 class="text-2xl font-semibold text-gray-700">
-                                        {{ displayName }}
-                                    </h1>
-                                    <p class="text-sm text-slate-500 mt-0.5">
-                                        {{ user.email }}
-                                    </p>
+                        <!-- Name + badges -->
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center justify-between gap-3">
+                                <div class="flex items-center gap-4">
+                                    <div>
+                                        <h1 class="text-2xl font-semibold text-gray-700">
+                                            {{ displayName }}
+                                        </h1>
+                                        <p class="text-sm text-slate-500 mt-0.5">
+                                            {{ user.email }}
+                                        </p>
+                                    </div>
+                                    <img src="assets/icons/edit.svg" class="icon icon__small cursor-pointer"
+                                        (click)="enableEdit()" />
                                 </div>
-                                <img src="assets/icons/edit.svg" class="icon icon__small cursor-pointer"
-                                    (click)="enableEdit()" />
-                            </div>
 
-                            <div class="flex gap-2">
-                                <!-- Role badge -->
-                                <span
-                                    class="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium"
-                                    [ngClass]="roleBadgeClass">
-                                    <span class="h-1.5 w-1.5 rounded-full bg-current"></span>
-                                    {{ roleLabel }}
-                                </span>
+                                <div class="flex gap-2">
+                                    <!-- Role badge -->
+                                    <span
+                                        class="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium"
+                                        [ngClass]="roleBadgeClass">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-current"></span>
+                                        {{ roleLabel }}
+                                    </span>
 
-                                <!-- Status badge -->
-                                <span
-                                    class="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium"
-                                    [ngClass]="statusBadgeClass">
-                                    <span class="h-2 w-2 rounded-full" [ngClass]="{
+                                    <!-- Status badge -->
+                                    <span
+                                        class="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium"
+                                        [ngClass]="statusBadgeClass">
+                                        <span class="h-2 w-2 rounded-full" [ngClass]="{
                       'bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.35)]': user.status === 'ACTIVE',
                       'bg-slate-400': user.status === 'INACTIVE',
                       'bg-red-500': user.status === 'BLOCKED'
                     }"></span>
-                                    {{ statusLabel }}
-                                </span>
+                                        {{ statusLabel }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="h-px bg-slate-700/60"></div>
+                    <div class="h-px bg-slate-700/60"></div>
 
-                <!-- Details -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                    <!-- Details -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
 
-                    <!-- USERNAME -->
-                    <div>
-                        <p class="text-xs text-slate-500 uppercase">Username</p>
+                        <!-- USERNAME -->
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase">Username</p>
 
-                        <ng-container *ngIf="!isEditMode; else editUsername">
-                            <div class="flex items-center gap-4">
-                                <p class="font-medium break-all">{{ user.username }}</p>
-                                <!-- <img src="assets/icons/edit.svg" class="icon icon__extra-small cursor-pointer"
+                            <ng-container *ngIf="!isEditMode; else editUsername">
+                                <div class="flex items-center gap-4">
+                                    <p class="font-medium break-all">{{ user.username }}</p>
+                                    <!-- <img src="assets/icons/edit.svg" class="icon icon__extra-small cursor-pointer"
                                     (click)="enableEdit()" /> -->
-                            </div>
-                        </ng-container>
+                                </div>
+                            </ng-container>
 
-                        <ng-template #editUsername>
-                            <input type="text" [(ngModel)]="editedUser.username"
-                                class="w-full border rounded px-2 py-2.5" />
-                        </ng-template>
-                    </div>
+                            <ng-template #editUsername>
+                                <input type="text" [(ngModel)]="editedUser.username"
+                                    class="w-full border rounded px-2 py-2.5" />
+                            </ng-template>
+                        </div>
 
-                    <!-- EMAIL -->
-                    <div>
-                        <p class="text-xs text-slate-500 uppercase">Email</p>
+                        <!-- EMAIL -->
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase">Email</p>
 
-                        <ng-container *ngIf="!isEditMode; else editEmail">
-                            <div class="flex items-center gap-4">
-                                <p class="font-medium break-all">{{ user.email }}</p>
-                                <!-- <img src="assets/icons/edit.svg" class="icon icon__extra-small cursor-pointer"
+                            <ng-container *ngIf="!isEditMode; else editEmail">
+                                <div class="flex items-center gap-4">
+                                    <p class="font-medium break-all">{{ user.email }}</p>
+                                    <!-- <img src="assets/icons/edit.svg" class="icon icon__extra-small cursor-pointer"
                                     (click)="enableEdit()" /> -->
-                            </div>
-                        </ng-container>
+                                </div>
+                            </ng-container>
 
-                        <ng-template #editEmail>
-                            <input type="email" [(ngModel)]="editedUser.email"
-                                class="w-full border rounded px-2 py-2.5" />
-                        </ng-template>
-                    </div>
+                            <ng-template #editEmail>
+                                <input type="email" [(ngModel)]="editedUser.email"
+                                    class="w-full border rounded px-2 py-2.5" />
+                            </ng-template>
+                        </div>
 
-                    <!-- PHONE -->
-                    <div>
-                        <p class="text-xs text-slate-500 uppercase">Phone</p>
+                        <!-- PHONE -->
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase">Phone</p>
 
-                        <ng-container *ngIf="!isEditMode; else editPhone">
-                            <div class="flex items-center gap-4">
-                                <p class="font-medium">+91 {{ user.phone_number }}</p>
-                                <!-- <img src="assets/icons/edit.svg" class="icon icon__extra-small cursor-pointer"
+                            <ng-container *ngIf="!isEditMode; else editPhone">
+                                <div class="flex items-center gap-4">
+                                    <p class="font-medium">+91 {{ user.phone_number }}</p>
+                                    <!-- <img src="assets/icons/edit.svg" class="icon icon__extra-small cursor-pointer"
                                     (click)="enableEdit()" /> -->
-                            </div>
-                        </ng-container>
+                                </div>
+                            </ng-container>
 
-                        <ng-template #editPhone>
-                            <input type="text" [(ngModel)]="editedUser.phone_number"
-                                class="w-full border rounded px-2 py-2.5" />
-                        </ng-template>
+                            <ng-template #editPhone>
+                                <input type="text" [(ngModel)]="editedUser.phone_number"
+                                    class="w-full border rounded px-2 py-2.5" />
+                            </ng-template>
+                        </div>
+
+                        <!-- ROLE (READONLY) -->
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase">Role</p>
+                            <p class="font-medium">{{ roleLabel }}</p>
+                        </div>
                     </div>
 
-                    <!-- ROLE (READONLY) -->
-                    <div>
-                        <p class="text-xs text-slate-500 uppercase">Role</p>
-                        <p class="font-medium">{{ roleLabel }}</p>
+                    <!-- ACTIONS -->
+                    <div *ngIf="isEditMode" class="mt-4 flex justify-end gap-2">
+                        <button class="px-8 py-2.5 font-semibold text-sm bg-[#008000] text-white rounded"
+                            (click)="saveChanges()">Save</button>
+
+                        <button class="px-6 py-1 bg-gray-300 rounded" (click)="cancelEdit()">Cancel</button>
                     </div>
+
                 </div>
-
-                <!-- ACTIONS -->
-                <div *ngIf="isEditMode" class="mt-4 flex justify-end gap-2">
-                    <button class="px-8 py-2.5 font-semibold text-sm bg-[#008000] text-white rounded"
-                        (click)="saveChanges()">Save</button>
-
-                    <button class="px-6 py-1 bg-gray-300 rounded" (click)="cancelEdit()">Cancel</button>
-                </div>
-
             </div>
         </div>
-    </div>
 
-    <!-- ================= CHANGE PASSWORD ================= -->
-    <div class="max-w-3xl border-green-500 w-full">
-        <div class="rounded-3xl border border-green-500 shadow-xl backdrop-blur-xl p-6 sm:p-8">
-            <h2 class="text-lg font-semibold text-gray-700 mb-1">Change password</h2>
-            <p class="text-xs text-slate-700 mb-6">
-                Password must be at least 8 characters and contain letters & numbers.
-            </p>
-
-            <form [formGroup]="changePasswordForm" class="space-y-4">
-
-                <!-- New Password -->
-                <div>
-                    <label class="block text-xs text-slate-600 mb-1.5">New password</label>
-                    <input type="password" formControlName="newPassword" class="w-full rounded-xl  border border-slate-300 px-3 py-2.5
-                   text-sm  focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none mb-2" />
-                    <p *ngIf="f['newPassword'].touched && f['newPassword'].errors"
-                        class="text-xs text-red-500 mt-1 font-semibold">
-                        Password must be at least 8 characters and contain letters & numbers.
-                    </p>
-                </div>
-
-                <!-- Confirm Password -->
-                <div>
-                    <label class="block text-xs text-slate-600 mb-1.5">Confirm new password</label>
-                    <input type="password" formControlName="confirmPassword" class="w-full rounded-xl  border border-slate-300 px-3 py-2.5
-                   text-sm  focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none mb-2" />
-
-                    <p *ngIf="changePasswordForm.errors?.['passwordsMismatch'] && f['confirmPassword'].touched"
-                        class="text-xs text-red-500 mt-1 font-semibold">
-                        Passwords do not match.
-                    </p>
-                </div>
-
-                <!-- Messages -->
-                <p *ngIf="passwordChangeSuccess" class="text-xs text-emerald-400">
-                    ✅ Password updated successfully
+        <!-- ================= CHANGE PASSWORD ================= -->
+        <div class="max-w-3xl border-green-500 w-full">
+            <div class="rounded-3xl border border-green-500 shadow-xl backdrop-blur-xl p-6 sm:p-8">
+                <h2 class="text-lg font-semibold text-gray-700 mb-1">Change password</h2>
+                <p class="text-xs text-slate-700 mb-6">
+                    Password must be at least 8 characters and contain letters & numbers.
                 </p>
 
-                <p *ngIf="passwordChangeError" class="text-xs text-red-500 mt-2 font-semibold">
-                    {{ passwordChangeError }}
-                </p>
+                <form [formGroup]="changePasswordForm" class="space-y-4">
 
-                <!-- Submit -->
-                <div class="flex justify-end pt-2">
-                    <app-button label="Update Password" type="normal" (onClick)="changePassword()"
-                        [disabled]="changePasswordForm.invalid && isPasswordChange" />
-                </div>
-            </form>
+                    <!-- New Password -->
+                    <div>
+                        <label class="block text-xs text-slate-600 mb-1.5">New password</label>
+                        <input type="password" formControlName="newPassword" class="w-full rounded-xl  border border-slate-300 px-3 py-2.5
+                   text-sm  focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none mb-2" />
+                        <p *ngIf="f['newPassword'].touched && f['newPassword'].errors"
+                            class="text-xs text-red-500 mt-1 font-semibold">
+                            Password must be at least 8 characters and contain letters & numbers.
+                        </p>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label class="block text-xs text-slate-600 mb-1.5">Confirm new password</label>
+                        <input type="password" formControlName="confirmPassword" class="w-full rounded-xl  border border-slate-300 px-3 py-2.5
+                   text-sm  focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none mb-2" />
+
+                        <p *ngIf="changePasswordForm.errors?.['passwordsMismatch'] && f['confirmPassword'].touched"
+                            class="text-xs text-red-500 mt-1 font-semibold">
+                            Passwords do not match.
+                        </p>
+                    </div>
+
+                    <!-- Messages -->
+                    <p *ngIf="passwordChangeSuccess" class="text-xs text-emerald-400">
+                        ✅ Password updated successfully
+                    </p>
+
+                    <p *ngIf="passwordChangeError" class="text-xs text-red-500 mt-2 font-semibold">
+                        {{ passwordChangeError }}
+                    </p>
+
+                    <!-- Submit -->
+                    <div class="flex justify-end pt-2">
+                        <app-button label="Update Password" type="normal" (onClick)="changePassword()"
+                            [disabled]="changePasswordForm.invalid && isPasswordChange" />
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
+    </div>
+</div>
+
+<div *ngIf="isProfileLoading" class="flex justify-center items-center mt-20">
+    <mat-spinner diameter="40" class="spinner" color="primary" />
 </div>

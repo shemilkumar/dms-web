@@ -30,17 +30,17 @@ export class AddEditProjectComponent {
       endDate: ['',],
       description: ['',],
 
-      supplierName: ['', Validators.required],
-      supplierGSTNo: ['', Validators.required],
-      supplierCINNo: ['', Validators.required],
-      supplierIECNo: ['', Validators.required],
-      supplierAddress: ['', Validators.required],
+      supplierName: ['',],
+      supplierGSTNo: ['',],
+      supplierCINNo: ['',],
+      supplierIECNo: ['',],
+      supplierAddress: ['',],
 
-      customerName: ['', Validators.required],
-      customerGSTNo: ['', Validators.required],
-      customerCINNo: ['', Validators.required],
-      customerIECNo: ['', Validators.required],
-      customerAddress: ['', Validators.required],
+      customerName: ['',],
+      customerGSTNo: ['',],
+      customerCINNo: ['',],
+      customerIECNo: ['',],
+      customerAddress: ['',],
     });
   }
 

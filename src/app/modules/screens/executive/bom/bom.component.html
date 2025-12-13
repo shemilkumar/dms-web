@@ -51,16 +51,17 @@
                     shrinkMessage:30 }}</span>
             </ng-template>
 
+
+            <ng-template ppWidgetName="drawingNo" let-row>
+                <span [matTooltip]="row.drawingNo" matTooltipPosition="below" class="truncate block">{{row.drawingNo |
+                    shrinkMessage:30 }}</span>
+            </ng-template>
+
             <ng-template ppWidgetName="moc" let-row>
                 <span [matTooltip]="row.moc" matTooltipPosition="below" class="truncate block">{{row.moc |
                     shrinkMessage:20}}</span>
             </ng-template>
 
-            <ng-template ppWidgetName="etchingMark" let-row>
-                <span [matTooltip]="row.etchingMark" matTooltipPosition="below" class="truncate block">{{row.etchingMark
-                    |
-                    shrinkMessage:20}}</span>
-            </ng-template>
 
             <ng-template ppWidgetName="pageNo" let-row>
                 <span [matTooltip]="row.pageNo" matTooltipPosition="below" class="truncate block">{{row.pageNo |

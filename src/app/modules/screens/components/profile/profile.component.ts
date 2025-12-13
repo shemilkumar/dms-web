@@ -31,6 +31,8 @@ export class ProfileComponent {
   passwordChangeSuccess = false;
   passwordChangeError: string | null = null;
 
+  isProfileLoading: boolean = false;
+
   role: string = ''
 
   ngOnInit() {
@@ -66,7 +68,9 @@ export class ProfileComponent {
   user: any = {};
 
   fetchUserProfile() {
-    this.api.get('users').pipe(finalize(() => this.isLoading = false)).subscribe({
+    this.isProfileLoading = true;
+
+    this.api.get('users').pipe(finalize(() => this.isProfileLoading = false)).subscribe({
       next: (response: any) => {
         console.log(response);
         this.user = response.data;
