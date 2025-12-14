@@ -220,34 +220,44 @@ export class BoxProductsComponent {
     this.exportPackageListExcel(options);
   }
 
+
   async exportPackageListExcel(options: ExportOptions) {
     const {
       packageListData,
-
       meta: {
         companyName = '',
         companyAddress = '',
         companyLogoDataUri = '',
         showHeaderFooter = true,
       } = {},
-
-      invoice: {
-        invoiceNo = '',
-        invoiceDate = '',
-      } = {},
-
-      customer: {
-        title: customerTitle = '',
-        address: customerAddress = '',
-      } = {},
-
-      poDetails: {
-        poNo = '',
-        vehicleNo = '',
-      } = {},
-
+      invoice: { invoiceNo = '', invoiceDate = '' } = {},
+      customer: { title: customerTitle = '', address: customerAddress = '' } = {},
+      poDetails: { poNo = '', vehicleNo = '' } = {},
       fileName = `package-list-${new Date().toISOString().slice(0, 10)}.xlsx`,
     } = options;
+
+    const thinBorder: Partial<ExcelJS.Borders> = {
+      top: { style: 'thin' },
+      left: { style: 'thin' },
+      bottom: { style: 'thin' },
+      right: { style: 'thin' },
+    };
+
+    function applyBorder(
+      sheet: ExcelJS.Worksheet,
+      startRow: number,
+      startCol: number,
+      endRow: number,
+      endCol: number,
+      border: Partial<ExcelJS.Borders>
+    ) {
+      for (let r = startRow; r <= endRow; r++) {
+        for (let c = startCol; c <= endCol; c++) {
+          sheet.getCell(r, c).border = border;
+        }
+      }
+    }
+
 
     if (!packageListData?.length) return;
 
@@ -287,6 +297,7 @@ export class BoxProductsComponent {
 
     /* ================= TITLE ================= */
     sheet.mergeCells(currentRow, 1, currentRow, columns.length);
+    applyBorder(sheet, currentRow, 1, currentRow, columns.length, thinBorder);
     sheet.getCell(currentRow, 1).value = 'PACKING LIST';
     sheet.getCell(currentRow, 1).font = { bold: true, size: 16 };
     sheet.getCell(currentRow, 1).alignment = { horizontal: 'center' };
@@ -295,9 +306,11 @@ export class BoxProductsComponent {
 
     /* ================= COMPANY + INVOICE ================= */
     sheet.mergeCells(currentRow, 1, currentRow + 1, 3);
+    applyBorder(sheet, currentRow, 1, currentRow + 1, 3, thinBorder);
+
     sheet.getCell(currentRow, 1).value = {
       richText: [
-        { text: companyName + '\n\n', font: { size: 12, bold: true, color: { argb: 'FF008000' } } },
+        { text: companyName + '\n\n', font: { bold: true, size: 12, color: { argb: 'FF008000' } } },
         { text: companyAddress, font: { size: 11 } },
       ],
     };
@@ -307,21 +320,23 @@ export class BoxProductsComponent {
 
     sheet.getCell(currentRow, 4).value = 'Invoice No';
     sheet.getCell(currentRow, 4).font = { bold: true };
-    sheet.getCell(currentRow, 4).alignment = { vertical: 'middle', horizontal: 'center' };
+    sheet.getCell(currentRow, 4).alignment = { horizontal: 'center', vertical: 'middle' };
     sheet.mergeCells(currentRow, 5, currentRow, columns.length);
+    applyBorder(sheet, currentRow, 4, currentRow, columns.length, thinBorder);
+
     sheet.getCell(currentRow, 5).value = invoiceNo;
     sheet.getCell(currentRow, 5).font = { bold: true };
-    sheet.getCell(currentRow, 5).alignment = { vertical: 'middle', horizontal: 'center' };
-
+    sheet.getCell(currentRow, 5).alignment = { horizontal: 'center', vertical: 'middle' };
 
     sheet.getCell(currentRow + 1, 4).value = 'Invoice Date';
     sheet.getCell(currentRow + 1, 4).font = { bold: true };
-    sheet.getCell(currentRow + 1, 4).alignment = { vertical: 'middle', horizontal: 'center' };
+    sheet.getCell(currentRow + 1, 4).alignment = { horizontal: 'center', vertical: 'middle' };
     sheet.mergeCells(currentRow + 1, 5, currentRow + 1, columns.length);
+    applyBorder(sheet, currentRow + 1, 4, currentRow + 1, columns.length, thinBorder);
+
     sheet.getCell(currentRow + 1, 5).value = invoiceDate;
     sheet.getCell(currentRow + 1, 5).font = { bold: true };
-    sheet.getCell(currentRow + 1, 5).alignment = { vertical: 'middle', horizontal: 'center' };
-
+    sheet.getCell(currentRow + 1, 5).alignment = { horizontal: 'center', vertical: 'middle' };
 
     currentRow += 2;
 
@@ -334,6 +349,8 @@ export class BoxProductsComponent {
     currentRow++;
 
     sheet.mergeCells(currentRow, 1, currentRow + 1, 3);
+    applyBorder(sheet, currentRow, 1, currentRow + 1, 3, thinBorder);
+
     sheet.getCell(currentRow, 1).value = `${customerTitle}\n${customerAddress}`;
     sheet.getCell(currentRow, 1).alignment = { wrapText: true, vertical: 'top' };
     sheet.getRow(currentRow).height = 50;
@@ -341,56 +358,76 @@ export class BoxProductsComponent {
 
     sheet.getCell(currentRow, 4).value = 'PO No';
     sheet.getCell(currentRow, 4).font = { bold: true };
-    sheet.getCell(currentRow, 4).alignment = { vertical: 'middle', horizontal: 'center' };
+    sheet.getCell(currentRow, 4).alignment = { horizontal: 'center', vertical: 'middle' };
     sheet.mergeCells(currentRow, 5, currentRow, columns.length);
+    applyBorder(sheet, currentRow, 4, currentRow, columns.length, thinBorder);
+
     sheet.getCell(currentRow, 5).value = poNo || 'NA';
     sheet.getCell(currentRow, 5).font = { bold: true };
-    sheet.getCell(currentRow, 5).alignment = { vertical: 'middle', horizontal: 'center' };
-
+    sheet.getCell(currentRow, 5).alignment = { horizontal: 'center', vertical: 'middle' };
 
     sheet.getCell(currentRow + 1, 4).value = 'Vehicle No';
     sheet.getCell(currentRow + 1, 4).font = { bold: true };
-    sheet.getCell(currentRow + 1, 4).alignment = { vertical: 'middle', horizontal: 'center' };
+    sheet.getCell(currentRow + 1, 4).alignment = { horizontal: 'center', vertical: 'middle' };
     sheet.mergeCells(currentRow + 1, 5, currentRow + 1, columns.length);
+    applyBorder(sheet, currentRow + 1, 4, currentRow + 1, columns.length, thinBorder);
+
     sheet.getCell(currentRow + 1, 5).value = vehicleNo;
     sheet.getCell(currentRow + 1, 5).font = { bold: true };
-    sheet.getCell(currentRow + 1, 5).alignment = { vertical: 'middle', horizontal: 'center' };
-
+    sheet.getCell(currentRow + 1, 5).alignment = { horizontal: 'center', vertical: 'middle' };
 
     currentRow += 2;
 
     /* ================= TABLE HEADER ================= */
     currentRow++;
+    const headerRowIndex = currentRow;
     const headers = ['', 'Description', 'Specification', 'MOC', 'Qty', 'UOM', 'Remarks'];
+
     headers.forEach((h, i) => {
-      const c = sheet.getRow(currentRow).getCell(i + 1);
+      const c = sheet.getRow(headerRowIndex).getCell(i + 1);
       c.value = h;
       c.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-      c.alignment = { horizontal: 'center' };
+      c.alignment = { horizontal: 'center', vertical: 'middle' };
       c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF008000' } };
+      c.border = thinBorder;
     });
-    sheet.getRow(currentRow).height = 24;
+
+    sheet.getRow(headerRowIndex).height = 24;
     currentRow++;
 
     /* ================= TABLE BODY ================= */
     packageListData.forEach((row, i) => {
-      const r = sheet.getRow(currentRow + i);
-      r.values = [
-        i + 1,
-        row.description,
-        row.specification,
-        row.moc,
-        row.quantity,
-        row.uom,
-        row.remarks,
-      ];
-      r.height = 20;
+      const excelRow = sheet.getRow(currentRow + i);
+
+      excelRow.getCell(1).value = i + 1;
+      excelRow.getCell(2).value = row.description || '';
+      excelRow.getCell(3).value = row.specification || '';
+      excelRow.getCell(4).value = row.moc || '';
+      excelRow.getCell(5).value = row.quantity ?? '';
+      excelRow.getCell(6).value = row.uom || '';
+      excelRow.getCell(7).value = row.remarks || '';
+
+      // 🔥 APPLY STYLE TO EACH CELL
+      for (let col = 1; col <= columns.length; col++) {
+        const cell = excelRow.getCell(col);
+
+        cell.border = thinBorder;
+        cell.alignment = {
+          wrapText: true,
+          vertical: 'top',
+          horizontal: col === 2 || col === 3 ? 'left' : 'center',
+        };
+      }
+
+      // Good print height
+      excelRow.height = 22;
     });
 
     currentRow += packageListData.length + 1;
 
     /* ================= SIGNATURE ================= */
     sheet.mergeCells(currentRow, 1, currentRow, columns.length);
+    applyBorder(sheet, currentRow, 1, currentRow, columns.length, thinBorder);
     sheet.getCell(currentRow, 1).value = {
       richText: [
         { text: 'For ', font: { bold: true } },
@@ -405,15 +442,44 @@ export class BoxProductsComponent {
     /* ================= FOOTER ADDRESS (OPTIONAL) ================= */
     if (showHeaderFooter) {
       sheet.mergeCells(currentRow, 1, currentRow, columns.length);
+      applyBorder(sheet, currentRow, 1, currentRow, columns.length, thinBorder);
+
       sheet.getCell(currentRow, 1).value = companyAddress;
       sheet.getCell(currentRow, 1).font = { size: 8 };
       sheet.getCell(currentRow, 1).alignment = { horizontal: 'center', wrapText: true };
       sheet.getRow(currentRow).height = 40;
     }
 
+    /* ================= PRINT SETUP (CRITICAL) ================= */
+    (sheet as any).pageSetup = {
+      paperSize: 9,        // A4
+      orientation: 'landscape',
+      fitToPage: true,
+      fitToWidth: 1,
+      fitToHeight: 0,
+    };
+
+    // (sheet as any).pageSetup = {
+    //   paperSize: 9,
+    //   orientation: 'landscape',
+    //   scale: 90,
+    // };
+
+    (sheet as any).pageMargins = {
+      left: 0.5,
+      right: 0.5,
+      top: 0.75,
+      bottom: 0.75,
+      header: 0.3,
+      footer: 0.3,
+    };
+
+    (sheet as any).printTitlesRow = `${headerRowIndex}:${headerRowIndex}`;
+
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), fileName);
   }
+
 
 
   open = false;
