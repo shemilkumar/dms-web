@@ -5,8 +5,42 @@
     <main class="flex-1 rounded-xl shadow-sm p-6 h-full">
 
         <div class="flex justify-end items-center mb-4 gap-4">
-            <app-button label="Print" type="with-icon" iconSrc="assets/icons/print-white.svg"
-                (onClick)="exportToExcel()" [loading]="isExporting" />
+            <!-- <app-button label="Print" type="with-icon" iconSrc="assets/icons/print-white.svg"
+                (onClick)="exportToExcel()" [loading]="isExporting" /> -->
+
+            <div class="export-wrapper">
+
+                <button class="export-btn" (click)="toggle()">
+                    <span class="label">Export Excel</span>
+
+                    <!-- <svg class="chevron" viewBox="0 0 24 24">
+                        <path d="M7 10l5 5 5-5" />
+                    </svg> -->
+
+                    <img src="assets/icons/export.svg" alt="" class="icon icon__small">
+                </button>
+
+                <div class="export-menu" *ngIf="open">
+                    <button class="menu-item" (click)="exportToExcel('direct')">
+                        <span class="item-icon box">📦</span>
+                        <div class="text">
+                            <div class="title">Direct Package List</div>
+                            <div class="sub">Without customer details</div>
+                        </div>
+                    </button>
+
+                    <button class="menu-item" (click)="exportToExcel('customer')">
+                        <span class="item-icon user">👤</span>
+                        <div class="text">
+                            <div class="title">Customer Package List</div>
+                            <div class="sub">Includes customer details</div>
+                        </div>
+                    </button>
+                </div>
+
+            </div>
+
+
         </div>
 
         <div id="print-container">

@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { PPTableConfig, TableState } from 'src/app/modules/base/pp/_models/pp-column.model';
 import { Router } from '@angular/router';
@@ -258,16 +258,15 @@ export class BoxProductsComponent {
   };
 
 
-  exportToExcel() {
+  exportToExcel(from: 'direct' | 'customer') {
+
+    this.close();
 
     const options = apiResponseToExportOptions(this.packageListResponse, {
       fileName: 'package-list-example.xlsx',
       companyLogoDataUri: logoBase64,
-      showHeaderFooter: true
+      showHeaderFooter: from === 'direct'
     });
-
-    console.log(options);
-
 
     this.exportPackageListExcel(options);
   }
@@ -307,14 +306,24 @@ export class BoxProductsComponent {
     }
 
     // Columns definition (7 columns) - adjusted widths: description/spec expanded, right meta area wider
+    // const columns = [
+    //   { header: '', key: 'sl', width: 6 },                // keep header blank
+    //   { header: 'Description', key: 'description', width: 50 },
+    //   { header: 'Specification', key: 'specification', width: 34 },
+    //   { header: 'MOC', key: 'moc', width: 20 },
+    //   { header: 'Qty', key: 'quantity', width: 10 },
+    //   { header: 'UOM', key: 'uom', width: 8 },
+    //   { header: 'Remarks', key: 'remarks', width: 28 },
+    // ];
+
     const columns = [
-      { header: '', key: 'sl', width: 6 },                // keep header blank
-      { header: 'Description', key: 'description', width: 50 },
-      { header: 'Specification', key: 'specification', width: 34 },
-      { header: 'MOC', key: 'moc', width: 20 },
-      { header: 'Qty', key: 'quantity', width: 10 },
-      { header: 'UOM', key: 'uom', width: 8 },
-      { header: 'Remarks', key: 'remarks', width: 28 },
+      { key: 'sl', width: 6 },
+      { key: 'description', width: 50 },
+      { key: 'specification', width: 34 },
+      { key: 'moc', width: 20 },
+      { key: 'quantity', width: 10 },
+      { key: 'uom', width: 8 },
+      { key: 'remarks', width: 28 },
     ];
 
     const workbook = new ExcelJS.Workbook();
@@ -324,7 +333,7 @@ export class BoxProductsComponent {
     });
 
     sheet.properties.defaultRowHeight = 20;
-    sheet.columns = columns;
+    // sheet.columns = columns;
 
     // helper to parse image extension
     function imageExtensionFromDataUri(dataUri?: string): 'png' | 'jpeg' | 'gif' {
@@ -538,28 +547,27 @@ export class BoxProductsComponent {
       currentRow = 2;
     }
 
+    sheet.columns = columns;
+
     // === TABLE HEADER ===
     const headerRowIndex = currentRow;
     const headerRow = sheet.getRow(headerRowIndex);
 
+    const headers = ['', 'Description', 'Specification', 'MOC', 'Qty', 'UOM', 'Remarks'];
+
     // Explicitly write each header cell
-    for (let i = 0; i < columns.length; i++) {
-      const colIndex = i + 1;
-      const cell = headerRow.getCell(colIndex);
-      cell.value = columns[i].header;
-      if (colIndex === 1) {
-        // intentionally blank first header so it doesn't visually clash with logo
-        cell.value = '';
-      }
+    headers.forEach((text, i) => {
+      const cell = headerRow.getCell(i + 1);
+      cell.value = text;
       cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-      cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
         fgColor: { argb: 'FF008000' },
       };
-      // cell.border = thinBorder;
-    }
+    });
+
     sheet.getRow(headerRowIndex).height = 24;
     currentRow++;
 
@@ -660,5 +668,34 @@ export class BoxProductsComponent {
   }
 
 
+  open = false;
+
+  toggle() {
+    this.open = !this.open;
+  }
+
+  close() {
+    this.open = false;
+  }
+
+  exportDirect() {
+    this.close();
+    console.log('Export: Direct Package List (Excel)');
+    // exportPackageListExcel({ directPackageList: true })
+  }
+
+  exportCustomer() {
+    this.close();
+    console.log('Export: Customer Package List (Excel)');
+    // exportPackageListExcel({ directPackageList: false })
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocClick(event: MouseEvent) {
+    const el = event.target as HTMLElement;
+    if (!el.closest('.export-wrapper')) {
+      this.close();
+    }
+  }
 
 }
