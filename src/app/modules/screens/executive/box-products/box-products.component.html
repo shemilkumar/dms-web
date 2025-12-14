@@ -25,7 +25,7 @@
                         <span class="item-icon box">📦</span>
                         <div class="text">
                             <div class="title">Direct Package List</div>
-                            <div class="sub">Without customer details</div>
+                            <div class="sub">Includes Company details</div>
                         </div>
                     </button>
 
@@ -33,7 +33,7 @@
                         <span class="item-icon user">👤</span>
                         <div class="text">
                             <div class="title">Customer Package List</div>
-                            <div class="sub">Includes customer details</div>
+                            <div class="sub">Without Company details</div>
                         </div>
                     </button>
                 </div>
@@ -45,7 +45,7 @@
 
         <div id="print-container">
 
-            <pp-table [columns]="columns" [data]="(packageList$ | async)" [config]="config" tableHeight="650">
+            <pp-table [columns]="columns" [data]="(packageList$ | async)" [config]="config" tableHeight="700">
 
                 <ng-template ppWidgetName="description" let-row>
                     <span [matTooltip]="row.description" matTooltipPosition="below"

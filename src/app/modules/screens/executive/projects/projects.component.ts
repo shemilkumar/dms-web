@@ -52,6 +52,7 @@ export class ProjectsComponent {
             description: project.description,
             status: project.status,
             projectId: project.project_id,
+            createdAt: project.created_at,
 
             supplierName: project.supplier_name,
             supplierGSTNo: project.supplier_gst_number,
