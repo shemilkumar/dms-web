@@ -305,7 +305,6 @@ export class BoxProductsComponent {
     currentRow++;
 
     /* ================= COMPANY + INVOICE ================= */
-    /* ================= COMPANY + INVOICE ================= */
 
     // -------- COMPANY NAME & ADDRESS (COL 1 → 4, TWO ROWS) --------
     sheet.mergeCells(currentRow, 1, currentRow + 1, 4);
@@ -330,14 +329,14 @@ export class BoxProductsComponent {
       horizontal: 'left'
     };
 
-    sheet.getRow(currentRow).height = 50;
-    sheet.getRow(currentRow + 1).height = 50;
+    sheet.getRow(currentRow).height = 40;
+    sheet.getRow(currentRow + 1).height = 40;
 
     // -------- INVOICE NO (ROW 1) --------
     sheet.mergeCells(currentRow, 5, currentRow, 6);
     applyBorder(sheet, currentRow, 5, currentRow, 6, thinBorder);
 
-    sheet.getCell(currentRow, 5).value = invoiceNo || '';
+    sheet.getCell(currentRow, 5).value = 'Invoice No';
     sheet.getCell(currentRow, 5).font = { bold: true };
     sheet.getCell(currentRow, 5).alignment = {
       horizontal: 'center',
@@ -345,7 +344,7 @@ export class BoxProductsComponent {
     };
 
     // Label (LAST COLUMN)
-    sheet.getCell(currentRow, 7).value = 'Invoice No';
+    sheet.getCell(currentRow, 7).value = invoiceNo || 'NA';
     sheet.getCell(currentRow, 7).font = { bold: true };
     sheet.getCell(currentRow, 7).alignment = {
       horizontal: 'center',
@@ -357,7 +356,7 @@ export class BoxProductsComponent {
     sheet.mergeCells(currentRow + 1, 5, currentRow + 1, 6);
     applyBorder(sheet, currentRow + 1, 5, currentRow + 1, 6, thinBorder);
 
-    sheet.getCell(currentRow + 1, 5).value = invoiceDate || '';
+    sheet.getCell(currentRow + 1, 5).value = 'Invoice Date';
     sheet.getCell(currentRow + 1, 5).font = { bold: true };
     sheet.getCell(currentRow + 1, 5).alignment = {
       horizontal: 'center',
@@ -365,7 +364,7 @@ export class BoxProductsComponent {
     };
 
     // Label (LAST COLUMN)
-    sheet.getCell(currentRow + 1, 7).value = 'Invoice Date';
+    sheet.getCell(currentRow + 1, 7).value = invoiceDate || 'NA';
     sheet.getCell(currentRow + 1, 7).font = { bold: true };
     sheet.getCell(currentRow + 1, 7).alignment = {
       horizontal: 'center',
@@ -383,7 +382,7 @@ export class BoxProductsComponent {
     sheet.getCell(currentRow, 1).value = 'CUSTOMER NAME & ADDRESS';
     sheet.getCell(currentRow, 1).alignment = { vertical: 'middle' };
     sheet.getCell(currentRow, 1).font = { bold: true, size: 10 };
-    sheet.getRow(currentRow).height = 30;
+    sheet.getRow(currentRow).height = 20;
     applyBorder(sheet, currentRow, 1, currentRow, columns.length, thinBorder);
     currentRow++;
 
@@ -398,14 +397,14 @@ export class BoxProductsComponent {
       horizontal: 'left'
     };
 
-    sheet.getRow(currentRow).height = 50;
-    sheet.getRow(currentRow + 1).height = 50;
+    sheet.getRow(currentRow).height = 40;
+    sheet.getRow(currentRow + 1).height = 40;
 
     // -------- PO NO (ROW 1) --------
     sheet.mergeCells(currentRow, 5, currentRow, 6);
     applyBorder(sheet, currentRow, 5, currentRow, 6, thinBorder);
 
-    sheet.getCell(currentRow, 5).value = poNo || 'NA';
+    sheet.getCell(currentRow, 5).value = 'PO No';
     sheet.getCell(currentRow, 5).font = { bold: true };
     sheet.getCell(currentRow, 5).alignment = {
       horizontal: 'center',
@@ -413,7 +412,7 @@ export class BoxProductsComponent {
     };
 
     // PO label (LAST COLUMN)
-    sheet.getCell(currentRow, 7).value = 'PO No';
+    sheet.getCell(currentRow, 7).value = poNo || 'NA';
     sheet.getCell(currentRow, 7).font = { bold: true };
     sheet.getCell(currentRow, 7).alignment = {
       horizontal: 'center',
@@ -425,7 +424,7 @@ export class BoxProductsComponent {
     sheet.mergeCells(currentRow + 1, 5, currentRow + 1, 6);
     applyBorder(sheet, currentRow + 1, 5, currentRow + 1, 6, thinBorder);
 
-    sheet.getCell(currentRow + 1, 5).value = vehicleNo || '';
+    sheet.getCell(currentRow + 1, 5).value = 'Vehicle No';
     sheet.getCell(currentRow + 1, 5).font = { bold: true };
     sheet.getCell(currentRow + 1, 5).alignment = {
       horizontal: 'center',
@@ -433,7 +432,7 @@ export class BoxProductsComponent {
     };
 
     // Vehicle label (LAST COLUMN)
-    sheet.getCell(currentRow + 1, 7).value = 'Vehicle No';
+    sheet.getCell(currentRow + 1, 7).value = vehicleNo || 'NA';
     sheet.getCell(currentRow + 1, 7).font = { bold: true };
     sheet.getCell(currentRow + 1, 7).alignment = {
       horizontal: 'center',
@@ -446,6 +445,7 @@ export class BoxProductsComponent {
 
     /* ================= TABLE HEADER ================= */
     currentRow++;
+
     const headerRowIndex = currentRow;
     const headers = ['', 'Description', 'Specification', 'MOC', 'Qty', 'UOM', 'Remarks'];
 
@@ -502,7 +502,7 @@ export class BoxProductsComponent {
       ],
     };
     sheet.getCell(currentRow, 1).alignment = { horizontal: 'right', wrapText: true };
-    sheet.getRow(currentRow).height = 96;
+    sheet.getRow(currentRow).height = 60;
     currentRow++;
 
     /* ================= FOOTER ADDRESS (OPTIONAL) ================= */
@@ -523,7 +523,7 @@ export class BoxProductsComponent {
       row.eachCell({ includeEmpty: true }, (cell) => {
         // do not override cells where you explicitly set a different size
         if (!cell.font?.size) {
-          cell.font = { ...(cell.font || {}), size: 10 };
+          cell.font = { ...(cell.font || {}), size: 9 };
         }
       });
     });
@@ -531,7 +531,7 @@ export class BoxProductsComponent {
     /* ================= PRINT SETUP (CRITICAL) ================= */
     (sheet as any).pageSetup = {
       paperSize: 9,        // A4
-      orientation: 'landscape',
+      orientation: 'portrait',
       fitToPage: true,
       fitToWidth: 1,
       fitToHeight: 0,
