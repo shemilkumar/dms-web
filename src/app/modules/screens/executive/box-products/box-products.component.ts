@@ -206,57 +206,6 @@ export class BoxProductsComponent {
   companyTagline: string = 'COMPANY TAGLINE';
   companyAddress: string = 'COMPANY ADDRESS';
 
-  dummyOptions: ExportOptions = {
-    packageListData: [
-      {
-        slNo: 1,
-        description: "Straight Pipe",
-        specification: "Ø80 × 1250H × 0.8 thk",
-        moc: "GI",
-        quantity: 2,
-        uom: "NOS",
-        remarks: "Quick Release Ring",
-      },
-      {
-        slNo: 2,
-        description: "Flexible Hose",
-        specification: "2m Length",
-        moc: "Rubber",
-        quantity: 1,
-        uom: "NOS",
-        remarks: "",
-      },
-    ],
-
-    meta: {
-      companyName: "GreenBay Tech Private Limited",
-      companyAddress:
-        "Survey No. 18/2B1D, 18/1C4B & 18/1C5, Begepalli Road,\n" +
-        "Anumepalli Village, Zuzuvadi, Sipcot I, Hosur – 635126, Tamil Nadu\n" +
-        "GSTIN: 33AAECG8839Q1ZV, CIN: U28100TZ2012PTC018663",
-      companyLogoDataUri: logoBase64,
-      showHeaderFooter: true,
-    },
-
-    invoice: {
-      invoiceNo: "37339739",
-      invoiceDate: "10/10/2025",
-    },
-
-    customer: {
-      title: "ABC Manufacturing Pvt Ltd",
-      address:
-        "45 Industrial Layout,\nWhitefield, Bengaluru – 560066,\nKarnataka",
-    },
-
-    poDetails: {
-      poNo: "NA",
-      vehicleNo: "TN5863",
-    },
-
-    fileName: "package-list.xlsx",
-  };
-
 
   exportToExcel() {
 

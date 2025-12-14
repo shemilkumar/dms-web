@@ -20,6 +20,7 @@ export class ProjectsComponent {
   ) { }
 
   isLoading = false;
+  isError: boolean = false;
   role: string = '';
   projects$: Observable<any> = of([]);
   isProjectsLoading: boolean = false;
@@ -42,6 +43,7 @@ export class ProjectsComponent {
     this.api.get(url).pipe((finalize(() => this.isProjectsLoading = false)))
       .subscribe({
         next: (projects: any) => {
+          this.isError = false
           this.projects$ = of(projects.data?.items?.map((project: any) => ({
             projectName: project.name,
             clientName: project.client_name,
@@ -65,20 +67,11 @@ export class ProjectsComponent {
           })));
           this.isLoading = false;
         },
+        error: (error) => {
+          this.isError = true;
+        }
       })
 
-
-    // .pipe(
-    // map((projects: any) => projects.data?.items?.map((project: any) => ({
-    //   projectName: project.name,
-    //   clientName: project.client_name,
-    //   startDate: project.start_date,
-    //   endDate: project.end_date,
-    //   description: project.description,
-    //   status: project.status,
-    //   projectId: project.project_id
-    // })))
-    // );
   }
 
   createProject() {

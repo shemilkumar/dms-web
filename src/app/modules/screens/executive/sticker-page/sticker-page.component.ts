@@ -46,6 +46,7 @@ export class StickerPageComponent implements OnInit {
 
   headerData = {};
   bomIds: any[] = [];
+  isError: boolean = false
 
   ngOnInit(): void {
 
@@ -81,10 +82,12 @@ export class StickerPageComponent implements OnInit {
       .pipe(finalize(() => { this.isStickerGenerating = false }))
       .subscribe({
         next: (response: any) => {
+          this.isError = false;
           this.generateStickers(response.data?.all_stickers);
           this.pagedStickers = this.chunkArray(this.stickers, this.stickerPerPage);
         },
         error: (error) => {
+          this.isError = true;
         }
       });
   }

@@ -2,7 +2,7 @@
 
 <div class="h-screen  bg-slate-100 pb-4">
 
-    <div *ngIf="!isStickerGenerating" class="h-full overflow-auto">
+    <div *ngIf="!isStickerGenerating && !isError" class="h-full overflow-auto">
 
         <div class="sticky top-0 z-10 bg-transparent p-2 flex justify-end">
             <app-button type="with-icon" label="Download" iconSrc="assets/icons/pdf.svg"
@@ -50,5 +50,9 @@
 
     <div *ngIf="isStickerGenerating" class="flex items-center justify-center w-full h-96">
         <mat-spinner diameter="70" class="spinner" color="primary" />
+    </div>
+
+    <div *ngIf="isError" class="flex justify-center items-center pt-20">
+        <span class="text-red-500 font-semibold">Something went wrong. Try Again.</span>
     </div>
 </div>

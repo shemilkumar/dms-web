@@ -25,6 +25,11 @@
   </div>
 
   <!-- Cards grid -->
+
+  <div *ngIf="isError" class="flex justify-center items-center mt-20">
+    <span class="text-red-500 font-semibold">Something went wrong. Try Again.</span>
+  </div>
+
   <div *ngIf="!isProjectsLoading"
     class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-8  border-red-500 max-h-[600px] overflow-y-auto">
 
