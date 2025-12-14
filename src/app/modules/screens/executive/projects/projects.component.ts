@@ -20,6 +20,7 @@ export class ProjectsComponent {
   ) { }
 
   isLoading = false;
+  isError: boolean = false;
   role: string = '';
   projects$: Observable<any> = of([]);
   isProjectsLoading: boolean = false;
@@ -42,6 +43,7 @@ export class ProjectsComponent {
     this.api.get(url).pipe((finalize(() => this.isProjectsLoading = false)))
       .subscribe({
         next: (projects: any) => {
+          this.isError = false
           this.projects$ = of(projects.data?.items?.map((project: any) => ({
             projectName: project.name,
             clientName: project.client_name,
@@ -65,20 +67,11 @@ export class ProjectsComponent {
           })));
           this.isLoading = false;
         },
+        error: (error) => {
+          this.isError = true;
+        }
       })
 
-
-    // .pipe(
-    // map((projects: any) => projects.data?.items?.map((project: any) => ({
-    //   projectName: project.name,
-    //   clientName: project.client_name,
-    //   startDate: project.start_date,
-    //   endDate: project.end_date,
-    //   description: project.description,
-    //   status: project.status,
-    //   projectId: project.project_id
-    // })))
-    // );
   }
 
   createProject() {
@@ -98,37 +91,65 @@ export class ProjectsComponent {
     });
   }
 
-  changeProjectStatus(project: any, status: string) {
+  changeProjectStatus(project: any, status: 'ACTIVE' | 'CLOSED' | 'DRAFT') {
 
-    const cofirmStatus = status === 'CLOSED' ? 'Close' : 'Re-open';
+    const config = this.projectStatusConfig[status];
 
-    const confirmModalData = {
-      title: `Confirm ${cofirmStatus} Project`,
-      message: `Are you sure you want to ${cofirmStatus} this project?`
+    if (!config) {
+      console.warn('Unhandled project status:', status);
+      return;
     }
 
-    this.dialog.open(ConfirmDialogComponent, { data: confirmModalData, width: CONFIRM_MODAL_WIDTH })
+    const confirmModalData = {
+      title: `Confirm ${config.action} Project`,
+      message: `Are you sure you want to ${config.action.toLowerCase()} this project?`
+    };
+
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: confirmModalData,
+        width: CONFIRM_MODAL_WIDTH
+      })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
-        if (confirmed) {
-          this.api.put(`projects/${project.projectId}`, { status }).pipe()
-            .subscribe({
-              next: (response: any) => {
-                const message = status === 'CLOSED' ? 'Project Closed successfully' : 'Project Re-opened successfully';
-                this.snackbar.openSnackbar(message, 'success');
-                this.fetchProjects();
-              },
-              error: (error) => {
-                console.log(error);
-                this.snackbar.openSnackbar(error.message, 'error');
-              }
-            })
-        }
-        else { }
+        if (!confirmed) return;
+
+        this.api.put(`projects/${project.projectId}`, { status })
+          .subscribe({
+            next: () => {
+              this.snackbar.openSnackbar(config.successMessage, 'success');
+              this.fetchProjects();
+            },
+            error: (error) => {
+              console.error(error);
+              this.snackbar.openSnackbar(
+                error?.error?.message || 'Failed to update project status',
+                'error'
+              );
+            }
+          });
       });
-
-
   }
+
+
+  private projectStatusConfig: Record<string, {
+    action: string;
+    successMessage: string;
+  }> = {
+      CLOSED: {
+        action: 'Close',
+        successMessage: 'Project closed successfully',
+      },
+      ACTIVE: {
+        action: 'Re-open',
+        successMessage: 'Project re-opened successfully',
+      },
+      DRAFT: {
+        action: 'Put on hold',
+        successMessage: 'Project put on hold successfully',
+      },
+    };
+
 
   deleteProject(project: any) {
 

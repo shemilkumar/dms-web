@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { finalize, map, Observable, of, tap } from 'rxjs';
+import { catchError, finalize, map, Observable, of, tap } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
 import { AddEditBoxComponent } from './modals/add-edit-box/add-edit-box.component';
 import { CONFIRM_MODAL_WIDTH, SMALL_MODAL_WIDTH, SMALL_SINGLE_COL_MODAL_WIDTH } from 'src/environments/constants';
@@ -33,6 +33,7 @@ export class BoxComponent {
   }
 
   isLoading: boolean = false;
+  isError: boolean = false
   headerData = {}
   project: any;
   boxes$: Observable<any> = of([]);
@@ -69,6 +70,7 @@ export class BoxComponent {
     let url = `boxes/project/${this.project.projectId}?search=${searchText}`;
 
     this.boxes$ = this.api.get(url).pipe(
+      tap(() => this.isError = false),
       map((boxes: any) => boxes.data?.items?.map((box: any) => ({
         boxName: box.name,
         description: box.description,
@@ -80,8 +82,9 @@ export class BoxComponent {
         poNo: box.po_no,
         vehicleNo: box.vehicle_no
       }))),
-      tap(items => {
-        console.log(items);
+      catchError(error => {
+        this.isError = true;
+        return of([]);
       }),
       finalize(() => {
         this.isBoxesLoading = false;

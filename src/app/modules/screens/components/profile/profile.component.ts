@@ -26,6 +26,7 @@ export class ProfileComponent {
   }
 
   isLoading = false;
+  isError: boolean = false;
   changePasswordForm!: FormGroup;
   isSubmitting = false;
   passwordChangeSuccess = false;
@@ -72,11 +73,11 @@ export class ProfileComponent {
 
     this.api.get('users').pipe(finalize(() => this.isProfileLoading = false)).subscribe({
       next: (response: any) => {
-        console.log(response);
+        this.isError = false;
         this.user = response.data;
       },
       error: (error) => {
-        console.log(error);
+        this.isError = true;
         this.snackbar.openSnackbar(error.message, 'error');
       }
     })

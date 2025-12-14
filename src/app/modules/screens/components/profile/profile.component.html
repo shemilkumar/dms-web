@@ -1,4 +1,4 @@
-<div *ngIf="!isProfileLoading">
+<div *ngIf="!isProfileLoading && !isError">
     <!-- profile.component.html -->
     <div class="flex px-6 gap-1 items-center italic cursor-pointer" routerLink="/home">
         <img src="assets/icons/chevron-left.svg" alt="" class="icon icon__small">
@@ -198,4 +198,8 @@
 
 <div *ngIf="isProfileLoading" class="flex justify-center items-center mt-20">
     <mat-spinner diameter="40" class="spinner" color="primary" />
+</div>
+
+<div *ngIf="isError" class="flex justify-center items-center mt-20">
+    <span class="text-red-500 font-semibold">Something went wrong. Try Again.</span>
 </div>

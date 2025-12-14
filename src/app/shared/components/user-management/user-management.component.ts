@@ -121,12 +121,12 @@ export class UserManagementComponent {
         role: this.getRole(user.role),
         status: user.status,
         userId: user.user_id
-      })))
-    ),
+      }))),
       catchError(error => {
         this.config.tableState = TableState.FAILURE
         return of([]);
-      });
+      })
+    )
   }
 
   addUser() {

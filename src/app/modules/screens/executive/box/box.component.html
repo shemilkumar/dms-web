@@ -19,101 +19,107 @@
 
             <div class="">
 
+                <div *ngIf="isError" class="flex justify-center items-center my-20">
+                    <span class="text-red-500 font-semibold">Something went wrong. Try Again.</span>
+                </div>
+
                 <ng-container *ngIf="boxes$ | async as boxes">
-                    <div *ngIf="!isBoxesLoading &&boxes.length; else emptyState"
-                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <!-- Glass Box Cards -->
-                        <article *ngFor="let box of boxes" class="relative group cursor-pointer overflow-hidden rounded-2xl
+                    <div class=" h-[75vh] overflow-y-auto">
+                        <div *ngIf="!isError && !isBoxesLoading &&boxes.length; else emptyState"
+                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <!-- Glass Box Cards -->
+                            <article *ngFor="let box of boxes" class="relative group cursor-pointer overflow-hidden rounded-2xl
          border border-emerald-100/80 bg-white/60
          backdrop-blur-xl backdrop-saturate-150
          shadow-[0_10px_30px_rgba(16,185,129,0.15)]
          hover:shadow-[0_18px_45px_rgba(16,185,129,0.25)]
          hover:bg-white/70 hover:-translate-y-1 transition-all p-4 flex flex-col" (click)="openBox(box)"
-                            [ngClass]="{ 'box-closed': box.status === 'CLOSED' }" role="button" tabindex="0"
-                            (keydown.enter)="openBox(box)">
+                                [ngClass]="{ 'box-closed': box.status === 'CLOSED' }" role="button" tabindex="0"
+                                (keydown.enter)="openBox(box)">
 
-                            <!-- Closed pill (always visible when closed) -->
-                            <div *ngIf="box.status === 'CLOSED'" class="absolute z-30 left-3 top-2">
-                                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold
+                                <!-- Closed pill (always visible when closed) -->
+                                <div *ngIf="box.status === 'CLOSED'" class="absolute z-30 left-3 top-2">
+                                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold
              bg-rose-200/95 text-red-500 shadow-sm">
-                                    <!-- <span aria-hidden>🔒</span> -->
-                                    <span>Closed</span>
-                                </span>
-                            </div>
-
-
-                            <!-- Content -->
-                            <div class="relative z-10 flex flex-col h-full gap-3">
-                                <!-- Top row: badge + name + actions -->
-                                <div class="flex items-start justify-between gap-3">
-                                    <div class="flex items-start gap-2">
-                                        <!-- Small badge with first letter -->
-                                        <div *ngIf="box.status !== 'CLOSED'" class="flex h-8 w-8 items-center justify-center rounded-xl
-                    bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-semibold">
-                                            {{ box.boxName?.[0] || 'B' }}
-                                        </div>
-                                        <div class="flex flex-col">
-                                            <span
-                                                class="text-xs uppercase tracking-wide text-emerald-500 font-semibold">Box</span>
-                                            <span class="mt-0.5 text-base font-semibold text-slate-900"
-                                                [ngClass]=" { ' text-rose-600 opacity-90' : box.status==='CLOSED' }">
-                                                {{ box.boxName }}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Edit/Delete actions (still available) -->
-                                    <div class="flex-shrink-0 flex items-center gap-2">
-                                        <div class="p-2" *ngIf="box.status !== 'CLOSED'"
-                                            (click)="updateBox(box); $event.stopPropagation()">
-                                            <img src="assets/icons/edit.svg" alt="Edit"
-                                                class="icon icon__medium cursor-pointer hover:scale-125 transition-transform">
-                                        </div>
-                                        <div class="p-2" *ngIf="['ADM', 'SA'].includes(role)"
-                                            (click)="changeBoxStatus(box, 'DELETED'); $event.stopPropagation()">
-                                            <img src="assets/icons/delete.svg" alt="Delete"
-                                                class="icon icon__large cursor-pointer hover:scale-125 transition-transform">
-                                        </div>
-                                    </div>
+                                        <!-- <span aria-hidden>🔒</span> -->
+                                        <span>Closed</span>
+                                    </span>
                                 </div>
 
-                                <!-- Divider -->
-                                <div class="h-px bg-gradient-to-r from-emerald-100 via-emerald-50 to-transparent"></div>
 
-                                <!-- Spacer -->
-                                <div class="flex-1"></div>
+                                <!-- Content -->
+                                <div class="relative z-10 flex flex-col h-full gap-3">
+                                    <!-- Top row: badge + name + actions -->
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="flex items-start gap-2">
+                                            <!-- Small badge with first letter -->
+                                            <div *ngIf="box.status !== 'CLOSED'" class="flex h-8 w-8 items-center justify-center rounded-xl
+                    bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-semibold">
+                                                {{ box.boxName?.[0] || 'B' }}
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <span
+                                                    class="text-xs uppercase tracking-wide text-emerald-500 font-semibold">Box</span>
+                                                <span class="mt-0.5 text-base font-semibold text-slate-900"
+                                                    [ngClass]=" { ' text-rose-600 opacity-90' : box.status==='CLOSED' }">
+                                                    {{ box.boxName }}
+                                                </span>
+                                            </div>
+                                        </div>
 
-                                <!-- Footer -->
-                                <div class="flex items-center justify-between text-xs">
-                                    <div class="flex items-center gap-1 text-amber-600/90 font-semibold italic">
-                                        <span class="w-1 h-1 rounded-full bg-amber-400"></span>
-                                        <span>{{ box?.createdAt | epochConverter:'date' }}</span>
+                                        <!-- Edit/Delete actions (still available) -->
+                                        <div class="flex-shrink-0 flex items-center gap-2">
+                                            <div class="p-2" *ngIf="box.status !== 'CLOSED'"
+                                                (click)="updateBox(box); $event.stopPropagation()">
+                                                <img src="assets/icons/edit.svg" alt="Edit"
+                                                    class="icon icon__medium cursor-pointer hover:scale-125 transition-transform">
+                                            </div>
+                                            <div class="p-2" *ngIf="['ADM', 'SA'].includes(role)"
+                                                (click)="changeBoxStatus(box, 'DELETED'); $event.stopPropagation()">
+                                                <img src="assets/icons/delete.svg" alt="Delete"
+                                                    class="icon icon__large cursor-pointer hover:scale-125 transition-transform">
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <button *ngIf="box.status !== 'CLOSED'" class="px-2.5 py-1 rounded-full text-[11px] font-semibold
+                                    <!-- Divider -->
+                                    <div class="h-px bg-gradient-to-r from-emerald-100 via-emerald-50 to-transparent">
+                                    </div>
+
+                                    <!-- Spacer -->
+                                    <div class="flex-1"></div>
+
+                                    <!-- Footer -->
+                                    <div class="flex items-center justify-between text-xs">
+                                        <div class="flex items-center gap-1 text-amber-600/90 font-semibold italic">
+                                            <span class="w-1 h-1 rounded-full bg-amber-400"></span>
+                                            <span>{{ box?.createdAt | epochConverter:'date' }}</span>
+                                        </div>
+
+                                        <button *ngIf="box.status !== 'CLOSED'" class="px-2.5 py-1 rounded-full text-[11px] font-semibold
                      bg-rose-50/90 text-rose-700 border border-rose-200 opacity-100
                      transition-all duration-150 hover:bg-rose-100 hover:border-rose-300"
-                                        (click)="changeBoxStatus(box, 'CLOSED'); $event.stopPropagation()"
-                                        matTooltip="Close this Box" matTooltipPosition="below">
-                                        ✕ Close
-                                    </button>
+                                            (click)="changeBoxStatus(box, 'CLOSED'); $event.stopPropagation()"
+                                            matTooltip="Close this Box" matTooltipPosition="below">
+                                            ✕ Close
+                                        </button>
 
-                                    <button *ngIf="box.status === 'CLOSED'"
-                                        class="
+                                        <button *ngIf="box.status === 'CLOSED'"
+                                            class="
                                     px-2.5 py-1 rounded-full text-[11px] font-semibold opacity-100
                      transition-all duration-150  hover:bg-emarald-100 hover:border-emerald-400 items-center gap-2  text-xs  bg-emerald-50 text-emerald-700 border border-emerald-200"
-                                        (click)="changeBoxStatus(box, 'ACTIVE'); $event.stopPropagation()"
-                                        matTooltip="Re-open this Box" matTooltipPosition="below"
-                                        aria-label="Re-open box">
-                                        ↺ Re-open
-                                    </button>
+                                            (click)="changeBoxStatus(box, 'ACTIVE'); $event.stopPropagation()"
+                                            matTooltip="Re-open this Box" matTooltipPosition="below"
+                                            aria-label="Re-open box">
+                                            ↺ Re-open
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </article>
+                            </article>
 
 
-                        <!-- Dashed + Add Box Card -->
-                        <article class="flex flex-col items-center justify-center
+                            <!-- Dashed + Add Box Card -->
+                            <article class="flex flex-col items-center justify-center
                             rounded-2xl
                             border-2 border-dashed border-emerald-300/80
                             bg-white/50 backdrop-blur-lg
@@ -123,19 +129,20 @@
                             cursor-pointer transition-all
                             shadow-[0_6px_20px_rgba(16,185,129,0.18)]
                             hover:shadow-[0_12px_30px_rgba(16,185,129,0.28)]" (click)="createBox()">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-full
+                                <div class="flex h-12 w-12 items-center justify-center rounded-full
                             bg-emerald-50 text-emerald-700 mb-3
                             border border-emerald-200">
-                                <span class="text-3xl leading-none">+</span>
-                            </div>
-                            <div class="text-sm font-semibold text-slate-800">
-                                Create new box
-                            </div>
-                            <p class="mt-1 text-xs text-gray-500 px-4">
-                                Add a new box to organize your inventory.
-                            </p>
-                        </article>
+                                    <span class="text-3xl leading-none">+</span>
+                                </div>
+                                <div class="text-sm font-semibold text-slate-800">
+                                    Create new box
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500 px-4">
+                                    Add a new box to organize your inventory.
+                                </p>
+                            </article>
 
+                        </div>
                     </div>
                 </ng-container>
 
