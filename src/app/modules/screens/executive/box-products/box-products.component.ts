@@ -300,21 +300,7 @@ export class BoxProductsComponent {
       fileName = `package-list-${new Date().toISOString().slice(0, 10)}.xlsx`,
     } = options;
 
-    if (!packageListData || !packageListData.length) {
-      console.warn('No data to export');
-      return;
-    }
-
-    // Columns definition (7 columns) - adjusted widths: description/spec expanded, right meta area wider
-    // const columns = [
-    //   { header: '', key: 'sl', width: 6 },                // keep header blank
-    //   { header: 'Description', key: 'description', width: 50 },
-    //   { header: 'Specification', key: 'specification', width: 34 },
-    //   { header: 'MOC', key: 'moc', width: 20 },
-    //   { header: 'Qty', key: 'quantity', width: 10 },
-    //   { header: 'UOM', key: 'uom', width: 8 },
-    //   { header: 'Remarks', key: 'remarks', width: 28 },
-    // ];
+    if (!packageListData?.length) return;
 
     const columns = [
       { key: 'sl', width: 6 },
@@ -327,344 +313,157 @@ export class BoxProductsComponent {
     ];
 
     const workbook = new ExcelJS.Workbook();
-    workbook.creator = companyName || 'Company';
-    const sheet = workbook.addWorksheet('Packing List', {
-      views: [{ state: 'frozen', ySplit: 0 }],
-    });
-
-    sheet.properties.defaultRowHeight = 20;
-    // sheet.columns = columns;
-
-    // helper to parse image extension
-    function imageExtensionFromDataUri(dataUri?: string): 'png' | 'jpeg' | 'gif' {
-      if (!dataUri) return 'png';
-      try {
-        const mime = dataUri.split(';')[0].split(':')[1]; // e.g. image/png
-        const ext = (mime?.split('/')?.pop() || '').toLowerCase();
-        if (ext === 'png') return 'png';
-        if (ext === 'jpg' || ext === 'jpeg') return 'jpeg';
-        if (ext === 'gif') return 'gif';
-        return 'png';
-      } catch {
-        return 'png';
-      }
-    }
-
-    const totalCols = columns.length;
-    // const thinBorder = {
-    //   top: { style: 'thin', color: { argb: 'FFCCCCCC' } },
-    //   left: { style: 'thin', color: { argb: 'FFCCCCCC' } },
-    //   bottom: { style: 'thin', color: { argb: 'FFCCCCCC' } },
-    //   right: { style: 'thin', color: { argb: 'FFCCCCCC' } },
-    // };
+    const sheet = workbook.addWorksheet('Packing List');
+    sheet.columns = columns;
 
     let currentRow = 1;
 
-    // === HEADER ZONE ===
-    if (showHeaderFooter) {
-      // 1) Logo row (reserve height)
-      if (companyLogoDataUri) {
-
-        // const ext = imageExtensionFromDataUri(companyLogoDataUri);
-        // const imageId = workbook.addImage({
-        //   base64: companyLogoDataUri,
-        //   extension: ext,
-        // });
-        // sheet.mergeCells(currentRow, 1, currentRow, totalCols);
-        // sheet.getRow(currentRow).height = 80;
-        // sheet.addImage(imageId, {
-        //   tl: { col: 0.2, row: currentRow - 1 + 0.05 },
-        //   ext: { width: 520, height: 72 },
-        // } as any);
-
-        const ext = imageExtensionFromDataUri(companyLogoDataUri);
-        const imageId = workbook.addImage({
-          base64: companyLogoDataUri,
-          extension: ext,
-        });
-
-        // Merge A..G row fully
-        sheet.mergeCells(currentRow, 1, currentRow, totalCols);
-        const row = sheet.getRow(currentRow);
-        row.height = 100;  // increase height for bigger logo
-
-        // ==== Calculate centering ====
-        const targetWidth = 650;   // increase for a larger logo
-        const targetHeight = 90;   // increase height
-        const rowStartCol = 0;
-        const rowEndCol = totalCols;
-
-        // For horizontal centering: put col offset in middle
-        const centerCol = (rowEndCol - rowStartCol) / 2 - (targetWidth / 120) / 2;
-
-        sheet.addImage(imageId, {
-          tl: { col: centerCol, row: currentRow - 1 + 0.25 },
-          ext: { width: targetWidth, height: targetHeight }
-        } as any);
-
-
-      } else {
-        sheet.mergeCells(currentRow, 1, currentRow, totalCols);
-        const c = sheet.getCell(currentRow, 1);
-        c.value = companyName || '';
-        c.alignment = { horizontal: 'center', vertical: 'middle' };
-        c.font = { size: 14, bold: true };
-        sheet.getRow(currentRow).height = 36;
-      }
-      currentRow++;
-
-      // 2) Title (Packing List)
-      sheet.mergeCells(currentRow, 1, currentRow, totalCols);
-      const titleCell = sheet.getCell(currentRow, 1);
-      titleCell.value = 'PACKING LIST';
-      titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
-      titleCell.font = { size: 16, bold: true };
-      sheet.getRow(currentRow).height = 28;
-      currentRow++;
-
-      // 3) Company address left (2 rows tall) and Invoice meta on right (invoice & invoice date)
-      // We'll give the right meta more horizontal room by making left area narrower (first 3 columns).
-      const leftCols = 3;               // company address uses cols 1..3
-      const rightStart = leftCols + 1;  // meta area starts at col 4 and spans to col 7 (3 columns to the right)
-
-      // Comapny name & Company address: merge currentRow..currentRow+1, cols 1..leftCols
-      sheet.mergeCells(currentRow, 1, currentRow + 1, leftCols);
-
-      const leftAddrCell = sheet.getCell(currentRow, 1);
-
-      // Fallbacks
-      const name = companyName || '';
-      const address = companyAddress || '';
-
-      // Use rich text so name is green & bold, address is black
-      leftAddrCell.value = {
-        richText: [
-          {
-            text: name + '\n\n',
-            font: { bold: true, color: { argb: 'FF008000' }, size: 12 } // green
-          },
-          {
-            text: address,
-            font: { color: { argb: 'FF000000' }, size: 11 } // black normal text
-          }
-        ]
-      };
-
-      leftAddrCell.alignment = {
-        wrapText: true,
-        vertical: 'top',
-        horizontal: 'left'
-      };
-
-      // Increase height for both merged rows
-      sheet.getRow(currentRow).height = 50;
-      sheet.getRow(currentRow + 1).height = 50;
-
-
-      // Invoice No: label + merged value (top right)
-      const invLabelCell = sheet.getCell(currentRow, rightStart);
-      invLabelCell.value = 'Invoice No';
-      invLabelCell.font = { size: 11, bold: true };
-      invLabelCell.alignment = { horizontal: 'center', vertical: 'middle', };
-
-      // Merge columns rightStart+1 .. totalCols for invoice value (gives more width)
-      sheet.mergeCells(currentRow, rightStart + 1, currentRow, totalCols);
-      const invValueCell = sheet.getCell(currentRow, rightStart + 1);
-      invValueCell.value = invoiceNo || '';
-      invValueCell.font = { size: 11, bold: true };
-      invValueCell.alignment = { horizontal: 'center', vertical: 'middle', };
-
-      // Invoice Date: same layout on next row
-      const invDateLabel = sheet.getCell(currentRow + 1, rightStart);
-      invDateLabel.value = 'Invoice Date';
-      invDateLabel.font = { size: 11, bold: true };
-      invDateLabel.alignment = { horizontal: 'center', vertical: 'middle', };
-
-      sheet.mergeCells(currentRow + 1, rightStart + 1, currentRow + 1, totalCols);
-      const invDateValue = sheet.getCell(currentRow + 1, rightStart + 1);
-      invDateValue.value = invoiceDate || '';
-      invDateValue.font = { size: 11, bold: true };
-      invDateValue.alignment = { horizontal: 'center', vertical: 'middle', };
-
-      // Move down two rows (we consumed currentRow and currentRow+1)
-      currentRow += 2;
-
-      // 4) Customer title (full width)
-      sheet.mergeCells(currentRow, 1, currentRow, totalCols);
-      const custTitleCell = sheet.getCell(currentRow, 1);
-      custTitleCell.value = customerTitle || '';
-      custTitleCell.font = { bold: true, size: 12 };
-      custTitleCell.alignment = { horizontal: 'left', vertical: 'middle' };
-      sheet.getRow(currentRow).height = 30;
-      currentRow++;
-
-      // 5) Customer address (left) vertically merged two rows; PO No and Vehicle No each have their own row/format on the right
-      const leftColsCustomer = 3; // wider area for customer address
-      // Customer address spans currentRow..currentRow+1 columns 1..leftColsCustomer
-      sheet.mergeCells(currentRow, 1, currentRow + 1, leftColsCustomer);
-      const custAddrCell = sheet.getCell(currentRow, 1);
-      custAddrCell.value = customerAddress || '';
-      custAddrCell.alignment = { wrapText: true, vertical: 'top', horizontal: 'left' };
-      sheet.getRow(currentRow).height = 50;
-      sheet.getRow(currentRow + 1).height = 50;
-
-      // Right side: we will place PO No (label + merged value) at currentRow
-      // and Vehicle No (label + merged value) at currentRow + 1, mirroring invoice format.
-      const metaStart = leftColsCustomer + 1; // e.g., 5
-      // PO No label
-      const poLabelCell = sheet.getCell(currentRow, metaStart);
-      poLabelCell.value = 'PO No';
-      poLabelCell.font = { bold: true, size: 11 };
-      poLabelCell.alignment = { horizontal: 'center', vertical: 'middle' };
-
-      // PO value merged across remaining right columns for width
-      sheet.mergeCells(currentRow, metaStart + 1, currentRow, totalCols);
-      const poValueCell = sheet.getCell(currentRow, metaStart + 1);
-      poValueCell.value = poNo || 'NA';
-      poValueCell.font = { bold: true, size: 11 };
-      poValueCell.alignment = { horizontal: 'center', vertical: 'middle' };
-
-      // Vehicle No on next row: label + merged val
-      const vehLabelCell = sheet.getCell(currentRow + 1, metaStart);
-      vehLabelCell.value = 'Vehicle No';
-      vehLabelCell.font = { bold: true, size: 11 };
-      vehLabelCell.alignment = { horizontal: 'center', vertical: 'middle' };
-
-      sheet.mergeCells(currentRow + 1, metaStart + 1, currentRow + 1, totalCols);
-      const vehValueCell = sheet.getCell(currentRow + 1, metaStart + 1);
-      vehValueCell.value = vehicleNo || '';
-      vehValueCell.font = { bold: true, size: 11 };
-      vehValueCell.alignment = { horizontal: 'center', vertical: 'middle' };
-
-      // Advance past the two lines we used for customer address
-      currentRow += 2;
-
-      // one blank row before table header
-      currentRow++;
-    } else {
-      // directPackageList - start lower
-      sheet.getRow(currentRow).height = 8;
-      currentRow = 2;
-    }
-
-    sheet.columns = columns;
-
-    // === TABLE HEADER ===
-    const headerRowIndex = currentRow;
-    const headerRow = sheet.getRow(headerRowIndex);
-
-    const headers = ['', 'Description', 'Specification', 'MOC', 'Qty', 'UOM', 'Remarks'];
-
-    // Explicitly write each header cell
-    headers.forEach((text, i) => {
-      const cell = headerRow.getCell(i + 1);
-      cell.value = text;
-      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-      cell.alignment = { horizontal: 'center', vertical: 'middle' };
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FF008000' },
-      };
-    });
-
-    sheet.getRow(headerRowIndex).height = 24;
-    currentRow++;
-
-    // === TABLE BODY ===
-    for (let i = 0; i < packageListData.length; i++) {
-      const row = packageListData[i];
-      const excelRow = sheet.getRow(currentRow + i);
-      excelRow.getCell(1).value = i + 1;
-      excelRow.getCell(2).value = row.description || '';
-      excelRow.getCell(3).value = row.specification || '';
-      excelRow.getCell(4).value = row.moc || '';
-      excelRow.getCell(5).value = row.quantity != null ? row.quantity : '';
-      excelRow.getCell(6).value = row.uom || '';
-      excelRow.getCell(7).value = row.remarks || '';
-
-      for (let c = 1; c <= totalCols; c++) {
-        const cell = excelRow.getCell(c);
-        cell.alignment = {
-          vertical: 'top',
-          horizontal: c === 2 || c === 3 ? 'left' : 'center',
-          wrapText: true,
-        };
-        // cell.border = thinBorder;
-      }
-      excelRow.height = Math.max(18, excelRow.height || 18);
-    }
-
-    currentRow += packageListData.length;
-
-    // spacer
-    currentRow++;
-    sheet.getRow(currentRow).height = 12;
-    // currentRow++;
-
-    // === FOOTER ===
-    if (showHeaderFooter) {
-      // Signature area - tall
-      sheet.mergeCells(currentRow, 1, currentRow, totalCols);
-      const signCell = sheet.getCell(currentRow, 1);
-
-      signCell.value = {
-        richText: [
-          // Line 1: "For <company>" in GREEN
-          {
-            text: 'For ',
-            font: { bold: true, color: { argb: 'FF000000' }, size: 12 }
-          },
-          {
-            text: companyName || '',
-            font: { bold: true, color: { argb: 'FF008000' }, size: 12 } // green
-          },
-          // New line spacer
-          { text: '\n\n' },
-          // Line 3: Authorised Signatory (black)
-          {
-            text: 'Authorised Signatory',
-            font: { bold: true, color: { argb: 'FF000000' }, size: 12 }
-          }
-        ]
-      };
-
-      signCell.alignment = {
-        horizontal: 'right',
-        vertical: 'middle',
-        wrapText: true
-      };
-
-      // Give proper height for signature space
-      sheet.getRow(currentRow).height = 96;
-
-      currentRow++;
-
-
-      // Footer address small centered text in 2 lines
-      sheet.mergeCells(currentRow, 1, currentRow, totalCols);
-      const companyAddrFooter = sheet.getCell(currentRow, 1);
-      companyAddrFooter.value = companyAddress || '';
-      companyAddrFooter.alignment = { wrapText: true, horizontal: 'center', vertical: 'middle' };
-      companyAddrFooter.font = { size: 8 };
-      sheet.getRow(currentRow).height = 40;
-      currentRow++;
-    }
-
-    // Ensure wrapped rows have minimum height
-    sheet.eachRow((r) => {
-      r.eachCell((cell) => {
-        if (cell.alignment?.wrapText) {
-          r.height = Math.max(r.height || 15, 20);
-        }
+    /* ================= LOGO (OPTIONAL) ================= */
+    if (showHeaderFooter && companyLogoDataUri) {
+      const imageId = workbook.addImage({
+        base64: companyLogoDataUri,
+        extension: 'png',
       });
+
+      sheet.mergeCells(currentRow, 1, currentRow, columns.length);
+      sheet.getRow(currentRow).height = 100;
+
+      sheet.addImage(imageId, {
+        tl: { col: 1.8, row: currentRow - 1 },
+        ext: { width: 650, height: 90 },
+      } as any);
+
+      currentRow++;
+    }
+
+    /* ================= TITLE ================= */
+    sheet.mergeCells(currentRow, 1, currentRow, columns.length);
+    sheet.getCell(currentRow, 1).value = 'PACKING LIST';
+    sheet.getCell(currentRow, 1).font = { bold: true, size: 16 };
+    sheet.getCell(currentRow, 1).alignment = { horizontal: 'center' };
+    sheet.getRow(currentRow).height = 28;
+    currentRow++;
+
+    /* ================= COMPANY + INVOICE ================= */
+    sheet.mergeCells(currentRow, 1, currentRow + 1, 3);
+    sheet.getCell(currentRow, 1).value = {
+      richText: [
+        { text: companyName + '\n\n', font: { size: 12, bold: true, color: { argb: 'FF008000' } } },
+        { text: companyAddress, font: { size: 11 } },
+      ],
+    };
+    sheet.getCell(currentRow, 1).alignment = { wrapText: true, vertical: 'top' };
+    sheet.getRow(currentRow).height = 50;
+    sheet.getRow(currentRow + 1).height = 50;
+
+    sheet.getCell(currentRow, 4).value = 'Invoice No';
+    sheet.getCell(currentRow, 4).font = { bold: true };
+    sheet.getCell(currentRow, 4).alignment = { vertical: 'middle', horizontal: 'center' };
+    sheet.mergeCells(currentRow, 5, currentRow, columns.length);
+    sheet.getCell(currentRow, 5).value = invoiceNo;
+    sheet.getCell(currentRow, 5).font = { bold: true };
+    sheet.getCell(currentRow, 5).alignment = { vertical: 'middle', horizontal: 'center' };
+
+
+    sheet.getCell(currentRow + 1, 4).value = 'Invoice Date';
+    sheet.getCell(currentRow + 1, 4).font = { bold: true };
+    sheet.getCell(currentRow + 1, 4).alignment = { vertical: 'middle', horizontal: 'center' };
+    sheet.mergeCells(currentRow + 1, 5, currentRow + 1, columns.length);
+    sheet.getCell(currentRow + 1, 5).value = invoiceDate;
+    sheet.getCell(currentRow + 1, 5).font = { bold: true };
+    sheet.getCell(currentRow + 1, 5).alignment = { vertical: 'middle', horizontal: 'center' };
+
+
+    currentRow += 2;
+
+    /* ================= CUSTOMER ================= */
+    sheet.mergeCells(currentRow, 1, currentRow, columns.length);
+    sheet.getCell(currentRow, 1).value = 'CUSTOMER NAME & ADDRESS';
+    sheet.getCell(currentRow, 1).alignment = { vertical: 'middle' };
+    sheet.getCell(currentRow, 1).font = { bold: true, size: 10 };
+    sheet.getRow(currentRow).height = 30;
+    currentRow++;
+
+    sheet.mergeCells(currentRow, 1, currentRow + 1, 3);
+    sheet.getCell(currentRow, 1).value = `${customerTitle}\n${customerAddress}`;
+    sheet.getCell(currentRow, 1).alignment = { wrapText: true, vertical: 'top' };
+    sheet.getRow(currentRow).height = 50;
+    sheet.getRow(currentRow + 1).height = 50;
+
+    sheet.getCell(currentRow, 4).value = 'PO No';
+    sheet.getCell(currentRow, 4).font = { bold: true };
+    sheet.getCell(currentRow, 4).alignment = { vertical: 'middle', horizontal: 'center' };
+    sheet.mergeCells(currentRow, 5, currentRow, columns.length);
+    sheet.getCell(currentRow, 5).value = poNo || 'NA';
+    sheet.getCell(currentRow, 5).font = { bold: true };
+    sheet.getCell(currentRow, 5).alignment = { vertical: 'middle', horizontal: 'center' };
+
+
+    sheet.getCell(currentRow + 1, 4).value = 'Vehicle No';
+    sheet.getCell(currentRow + 1, 4).font = { bold: true };
+    sheet.getCell(currentRow + 1, 4).alignment = { vertical: 'middle', horizontal: 'center' };
+    sheet.mergeCells(currentRow + 1, 5, currentRow + 1, columns.length);
+    sheet.getCell(currentRow + 1, 5).value = vehicleNo;
+    sheet.getCell(currentRow + 1, 5).font = { bold: true };
+    sheet.getCell(currentRow + 1, 5).alignment = { vertical: 'middle', horizontal: 'center' };
+
+
+    currentRow += 2;
+
+    /* ================= TABLE HEADER ================= */
+    currentRow++;
+    const headers = ['', 'Description', 'Specification', 'MOC', 'Qty', 'UOM', 'Remarks'];
+    headers.forEach((h, i) => {
+      const c = sheet.getRow(currentRow).getCell(i + 1);
+      c.value = h;
+      c.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+      c.alignment = { horizontal: 'center' };
+      c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF008000' } };
+    });
+    sheet.getRow(currentRow).height = 24;
+    currentRow++;
+
+    /* ================= TABLE BODY ================= */
+    packageListData.forEach((row, i) => {
+      const r = sheet.getRow(currentRow + i);
+      r.values = [
+        i + 1,
+        row.description,
+        row.specification,
+        row.moc,
+        row.quantity,
+        row.uom,
+        row.remarks,
+      ];
+      r.height = 20;
     });
 
-    // write file and save
-    const buf = await workbook.xlsx.writeBuffer();
-    const outFileName = fileName || `package-list-${new Date().toISOString().slice(0, 10)}.xlsx`;
-    const blob = new Blob([buf], { type: 'application/octet-stream' });
-    saveAs(blob, outFileName);
+    currentRow += packageListData.length + 1;
+
+    /* ================= SIGNATURE ================= */
+    sheet.mergeCells(currentRow, 1, currentRow, columns.length);
+    sheet.getCell(currentRow, 1).value = {
+      richText: [
+        { text: 'For ', font: { bold: true } },
+        { text: companyName, font: { bold: true, color: { argb: 'FF008000' } } },
+        { text: '\n\nAuthorised Signatory', font: { bold: true } },
+      ],
+    };
+    sheet.getCell(currentRow, 1).alignment = { horizontal: 'right', wrapText: true };
+    sheet.getRow(currentRow).height = 96;
+    currentRow++;
+
+    /* ================= FOOTER ADDRESS (OPTIONAL) ================= */
+    if (showHeaderFooter) {
+      sheet.mergeCells(currentRow, 1, currentRow, columns.length);
+      sheet.getCell(currentRow, 1).value = companyAddress;
+      sheet.getCell(currentRow, 1).font = { size: 8 };
+      sheet.getCell(currentRow, 1).alignment = { horizontal: 'center', wrapText: true };
+      sheet.getRow(currentRow).height = 40;
+    }
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), fileName);
   }
 
 

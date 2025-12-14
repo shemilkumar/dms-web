@@ -74,7 +74,11 @@ export class BoxComponent {
         description: box.description,
         boxId: box.box_id,
         createdAt: box?.audit_log[0]?.created_at,
-        status: box.status
+        status: box.status,
+        invoiceNo: box.invoice_no,
+        invoiceDate: box.invoice_date ? new Date(box.invoice_date) : undefined,
+        poNo: box.po_no,
+        vehicleNo: box.vehicle_no
       }))),
       tap(items => {
         console.log(items);
