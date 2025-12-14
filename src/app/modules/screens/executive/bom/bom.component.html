@@ -8,8 +8,10 @@
         <div class="flex justify-between items-center mb-4 gap-4">
 
             <div class="w-fit flex gap-4 items-center">
-                <app-button type="with-icon" label="Print" iconSrc="assets/icons/print-white.svg"
-                    (onClick)="printProduct()" [disabled]="false" *ngIf="selectedBOMs.selected.length" />
+                <div class="w-56 h-full" *ngIf="selectedBOMs.selected.length">
+                    <app-button type="with-icon" label="Print" iconSrc="assets/icons/print-white.svg"
+                        (onClick)="printProduct()" [disabled]="false" [fullWidth]="true" />
+                </div>
 
                 <app-search-box (onChange)="onSearchChange($event)" id="searchProducts"
                     placeholder="Search products..." />
@@ -24,7 +26,7 @@
             <div class="flex justify-end items-center gap-4">
 
                 <app-button type="with-icon" iconSrc="assets/icons/delete.svg" variant="outline-with-icon-error"
-                    label="Delete" (onClick)="deleteAllProducts()" [loading]=""
+                    label="Delete All" (onClick)="deleteAllProducts()" [loading]=""
                     *ngIf="config.page!.length && ['ADM', 'SA'].includes(role)" />
 
                 <app-button type="with-icon" iconSrc="assets/icons/upload.svg" variant="outline-with-icon-success"
@@ -53,7 +55,8 @@
 
 
             <ng-template ppWidgetName="drawingNo" let-row>
-                <span [matTooltip]="row.drawingNo" matTooltipPosition="below" class="truncate block">{{row.drawingNo |
+                <span [matTooltip]="row.drawingNo" matTooltipPosition="below" class="truncate block">{{row.drawingNo
+                    |
                     shrinkMessage:30 }}</span>
             </ng-template>
 
