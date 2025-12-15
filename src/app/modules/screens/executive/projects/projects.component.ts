@@ -56,14 +56,14 @@ export class ProjectsComponent {
 
             supplierName: project.supplier_name,
             supplierGSTNo: project.supplier_gst_number,
-            supplierCINNo: project.supplier_cin_number,
-            supplierIECNo: project.supplier_iec_number,
+            // supplierCINNo: project.supplier_cin_number,
+            // supplierIECNo: project.supplier_iec_number,
             supplierAddress: project.supplier_address,
 
             customerName: project.customer_name,
             customerGSTNo: project.customer_gst_number,
-            customerCINNo: project.customer_cin_number,
-            customerIECNo: project.customer_iec_number,
+            // customerCINNo: project.customer_cin_number,
+            // customerIECNo: project.customer_iec_number,
             customerAddress: project.customer_address
           })));
           this.isLoading = false;

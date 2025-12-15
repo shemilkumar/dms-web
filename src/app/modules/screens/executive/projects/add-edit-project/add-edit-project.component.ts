@@ -32,14 +32,14 @@ export class AddEditProjectComponent {
 
       supplierName: ['',],
       supplierGSTNo: ['',],
-      supplierCINNo: ['',],
-      supplierIECNo: ['',],
+      // supplierCINNo: ['',],
+      // supplierIECNo: ['',],
       supplierAddress: ['',],
 
       customerName: ['',],
       customerGSTNo: ['',],
-      customerCINNo: ['',],
-      customerIECNo: ['',],
+      // customerCINNo: ['',],
+      // customerIECNo: ['',],
       customerAddress: ['',],
     });
   }
@@ -67,14 +67,14 @@ export class AddEditProjectComponent {
 
       supplierName: this.data.project.supplierName || '',
       supplierGSTNo: this.data.project.supplierGSTNo || '',
-      supplierCINNo: this.data.project.supplierCINNo || '',
-      supplierIECNo: this.data.project.supplierIECNo || '',
+      // supplierCINNo: this.data.project.supplierCINNo || '',
+      // supplierIECNo: this.data.project.supplierIECNo || '',
       supplierAddress: this.data.project.supplierAddress || '',
 
       customerName: this.data.project.customerName || '',
       customerGSTNo: this.data.project.customerGSTNo || '',
-      customerCINNo: this.data.project.customerCINNo || '',
-      customerIECNo: this.data.project.customerIECNo || '',
+      // customerCINNo: this.data.project.customerCINNo || '',
+      // customerIECNo: this.data.project.customerIECNo || '',
       customerAddress: this.data.project.customerAddress || '',
     });
   }
@@ -97,14 +97,14 @@ export class AddEditProjectComponent {
 
       "supplier_name": this.form.get('supplierName')?.value,
       "supplier_gst_number": this.form.get('supplierGSTNo')?.value,
-      "supplier_cin_number": this.form.get('supplierCINNo')?.value,
-      "supplier_iec_number": this.form.get('supplierIECNo')?.value,
+      // "supplier_cin_number": this.form.get('supplierCINNo')?.value,
+      // "supplier_iec_number": this.form.get('supplierIECNo')?.value,
       "supplier_address": this.form.get('supplierAddress')?.value,
 
       "customer_name": this.form.get('customerName')?.value,
       "customer_gst_number": this.form.get('customerGSTNo')?.value,
-      "customer_cin_number": this.form.get('customerCINNo')?.value,
-      "customer_iec_number": this.form.get('customerIECNo')?.value,
+      // "customer_cin_number": this.form.get('customerCINNo')?.value,
+      // "customer_iec_number": this.form.get('customerIECNo')?.value,
       "customer_address": this.form.get('customerAddress')?.value
 
     }
