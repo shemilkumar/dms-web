@@ -157,6 +157,11 @@ export class BoxProductsComponent {
     this.fetchPackageList();
   }
 
+  onSearchChange(searchText: string) {
+    this.config.page!.pageIndex = 0;
+    this.fetchPackageList(searchText);
+  }
+
   packageListResponse: any;
 
   fetchPackageList(searchText: string = '') {
@@ -164,7 +169,7 @@ export class BoxProductsComponent {
 
     this.config.tableState = TableState.LOADING;
 
-    let url = `stickers/package/${this.box.boxId}/package-list`;
+    let url = `stickers/package/${this.box.boxId}/package-list?search=${encodeURIComponent(searchText)}`;
 
     this.packageList$ = this.api.get(url).pipe(
       tap((response) => this.packageListResponse = response),

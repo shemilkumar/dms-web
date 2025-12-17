@@ -2,11 +2,11 @@
     <!-- Main content -->
     <app-header [data]="headerData" />
 
-    <main class="flex-1 rounded-xl shadow-sm h-full">
+    <main class="flex-1 rounded-xl px-2 shadow-sm h-full">
 
-        <div class="flex justify-end items-center mb-4 gap-4">
-            <!-- <app-button label="Print" type="with-icon" iconSrc="assets/icons/print-white.svg"
-                (onClick)="exportToExcel()" [loading]="isExporting" /> -->
+        <div class="flex justify-between items-center mb-4 gap-4">
+
+            <app-search-box (onChange)="onSearchChange($event)" id="searchProducts" placeholder="Search products..." />
 
             <div class="export-wrapper">
 
