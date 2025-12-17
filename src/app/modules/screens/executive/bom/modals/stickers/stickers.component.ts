@@ -18,10 +18,7 @@ export class StickersComponent {
     public dialogRef: MatDialogRef<StickersComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private api: ApiService,
-    private snackbar: SnackbarService,
-  ) {
-  }
-
+  ) { }
 
   modalData = {
     title: this.data?.action === 'update' ? 'Update Product' : 'Add Product',

@@ -48,7 +48,13 @@ export class StickerPageComponent implements OnInit {
   bomIds: any[] = [];
   isError: boolean = false
 
+  project: any;
+
   ngOnInit(): void {
+
+    const projectData = localStorage.getItem('project');
+    this.project = projectData ? JSON.parse(projectData) : undefined;
+    if (!this.project) this.router.navigateByUrl('/home');
 
     this.bomIds = this.products?.map((product: any) => product.bomId);
     this.fetchStickers(this.bomIds);
@@ -58,19 +64,6 @@ export class StickerPageComponent implements OnInit {
       showBackButton: true,
       backButtonLink: 'home/bom'
     }
-    // Demo data: 40 items
-    // this.stickers = Array.from({ length: 40 }).map((_, i) => ({
-    //   projectName: `Project ${i + 1}`,
-    //   description: `Desc ${i + 1}`,
-    //   specification: `SPEC-${i + 1}`,
-    //   section: `Section ${Math.floor(i / 5) + 1}`,
-    //   moc: i % 2 === 0 ? 'GI' : 'SS',
-    //   quantity: Math.ceil(Math.random() * 5),
-    //   qrData: `STK-${i + 1}`
-    // }));
-
-    // this.pagedStickers = this.chunkArray(this.stickers, this.stickerPerPage);
-
   }
 
   isStickerGenerating: boolean = true;
