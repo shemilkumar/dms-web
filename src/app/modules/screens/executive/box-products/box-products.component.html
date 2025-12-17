@@ -2,7 +2,7 @@
     <!-- Main content -->
     <app-header [data]="headerData" />
 
-    <main class="flex-1 rounded-xl shadow-sm p-6 h-full">
+    <main class="flex-1 rounded-xl shadow-sm h-full">
 
         <div class="flex justify-end items-center mb-4 gap-4">
             <!-- <app-button label="Print" type="with-icon" iconSrc="assets/icons/print-white.svg"
@@ -45,7 +45,7 @@
 
         <div id="print-container">
 
-            <pp-table [columns]="columns" [data]="(packageList$ | async)" [config]="config" tableHeight="700">
+            <pp-table [columns]="columns" [data]="(packageList$ | async)" [config]="config" tableHeight="730">
 
                 <ng-template ppWidgetName="description" let-row>
                     <span [matTooltip]="row.description" matTooltipPosition="below"
