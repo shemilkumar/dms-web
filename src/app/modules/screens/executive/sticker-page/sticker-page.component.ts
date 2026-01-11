@@ -111,7 +111,13 @@ export class StickerPageComponent implements OnInit {
   isDownloading: boolean = false;
 
   async downloadStickersPdf(): Promise<void> {
+    if (this.isDownloading) return;
     this.isDownloading = true;
+
+    // Small delay to allow Angular change detection to update the UI
+    // and show the loading spinner before the heavy processing begins.
+    await new Promise(resolve => setTimeout(resolve, 100));
+
 
     try {
       const sheets = this.sheetRefs.toArray();
