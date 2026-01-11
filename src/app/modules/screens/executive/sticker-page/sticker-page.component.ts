@@ -113,52 +113,76 @@ export class StickerPageComponent implements OnInit {
   async downloadStickersPdf(): Promise<void> {
     this.isDownloading = true;
 
-    const sheets = this.sheetRefs.toArray();
-    if (!sheets.length) return;
+    try {
+      const sheets = this.sheetRefs.toArray();
+      if (!sheets.length) return;
 
-    const pdf = new jsPDF('p', 'mm', 'a4');
-
-    // Hide toolbar during capture
-    // document.body.classList.add('print-mode');
-
-    for (let i = 0; i < sheets.length; i++) {
-      const sheetEl = sheets[i].nativeElement;
-
-      const canvas = await html2canvas(sheetEl, {
-        scale: 2,          // sharp output
-        backgroundColor: '#ffffff',
-        useCORS: true
+      // Use compress: true to reduce internal PDF size
+      const pdf = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        compress: true
       });
 
-      const imgData = canvas.toDataURL('image/png');
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
 
-      if (i > 0) pdf.addPage();
+      for (let i = 0; i < sheets.length; i++) {
+        const sheetEl = sheets[i].nativeElement;
 
-      pdf.addImage(
-        imgData,
-        'PNG',
-        0,
-        0,
-        pageWidth,
-        pageHeight
-      );
+        // html2canvas is memory intensive. Scale 1.5 is a good balance for quality and performance
+        const canvas = await html2canvas(sheetEl, {
+          scale: 1.5,
+          backgroundColor: '#ffffff',
+          useCORS: true,
+          logging: false, // Disable logging to save some resources
+          removeContainer: true
+        });
+
+        // Use JPEG instead of PNG for significantly smaller file size
+        // 0.75-0.80 quality is usually plenty for QR codes and text
+        const imgData = canvas.toDataURL('image/jpeg', 0.75);
+
+        if (i > 0) pdf.addPage();
+
+        pdf.addImage(
+          imgData,
+          'JPEG',
+          0,
+          0,
+          pageWidth,
+          pageHeight,
+          undefined,
+          'FAST'
+        );
+
+        // Memory cleanup: help garbage collector by clearing references
+        // We can't explicitly force GC, but clearing references helps
+        canvas.width = 0;
+        canvas.height = 0;
+
+        // Give the browser a moment to breathe every few pages to prevent UI freezing
+        // and allow memory management to take place
+        if (i % 3 === 0) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      }
+
+      await this.savePdfAsync(pdf, 'stickers.pdf');
+      this.markAsPrinted();
+    } catch (error) {
+      console.error('PDF Generation Error:', error);
+    } finally {
+      this.isDownloading = false;
     }
-
-    // document.body.classList.remove('print-mode');
-
-    await this.savePdfAsync(pdf, 'stickers.pdf');
-
-    this.isDownloading = false;
-
-    this.markAsPrinted();
   }
 
   private savePdfAsync(pdf: jsPDF, filename: string): Promise<void> {
     return new Promise((resolve) => {
       pdf.save(filename);
-      setTimeout(() => resolve(), 300);
+      // Wait a bit to ensure the save process is initiated before resolving
+      setTimeout(() => resolve(), 500);
     });
   }
 
