@@ -170,8 +170,8 @@ export class StickerPageComponent implements OnInit {
 
         // Give the browser a moment to breathe every few pages to prevent UI freezing
         // and allow memory management to take place
-        if (i % 3 === 0) {
-          await new Promise(resolve => setTimeout(resolve, 100));
+        if (i % 2 === 0) {
+          await new Promise(resolve => setTimeout(resolve, 50));
         }
       }
 
