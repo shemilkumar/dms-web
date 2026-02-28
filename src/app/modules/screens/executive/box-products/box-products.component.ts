@@ -474,7 +474,7 @@ export class BoxProductsComponent {
       excelRow.getCell(2).value = row.description || '';
       excelRow.getCell(3).value = row.specification || '';
       excelRow.getCell(4).value = row.moc || '';
-      excelRow.getCell(5).value = row.quantity ?? '';
+      excelRow.getCell(5).value = row.dispatchedStickers ?? '';
       excelRow.getCell(6).value = row.uom || '';
       excelRow.getCell(7).value = row.remarks || '';
 

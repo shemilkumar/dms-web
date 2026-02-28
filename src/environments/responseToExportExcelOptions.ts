@@ -5,6 +5,7 @@ type PackageRow = {
     specification?: string;
     moc?: string;
     quantity?: number | string;
+    dispatchedStickers?: number | string;
     uom?: string;
     remarks?: string;
 };
@@ -79,6 +80,7 @@ function apiResponseToExportOptions(apiResponse: any, opts?: { fileName?: string
         specification: r.specification ?? '',
         moc: r.moc ?? '',
         quantity: typeof r.quantity !== 'undefined' ? r.quantity : '',
+        dispatchedStickers: typeof r.dispatched_stickers !== 'undefined' ? r.dispatched_stickers : '',
         uom: r.uom ?? '',
         remarks: r.remarks ?? r.remark ?? '', // fallback if backend uses different key
     }));
